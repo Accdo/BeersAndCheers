@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "BeerAndCheer.sln"
+    "dotnet.defaultSolution": "BeerAndCheer.sln",
+    "dotnet.preferCSharpExtension": true
 }
