@@ -20,11 +20,9 @@ public class SeatManager : MonoBehaviour
     }
     void Start()
     {
-        // 게임 시작 시점에 대기열에 있는 손님들이 바로 앉을 수 있도록 확인
-        //TrySeatWaitingCustomers();
     }
 
-    // 팀 단위로 빈 테이블(SeatGroup) 반환 (우선순위 적용)
+    // 팀 단위로 빈 테이블(SeatGroup) 반환
     public SeatGroup GetAvailableSeatGroup(int teamSize)
     {
         foreach (var group in allSeatGroups)
@@ -53,14 +51,12 @@ public class SeatManager : MonoBehaviour
             var seats = group.ReserveSeats(customer.teamSize);
             if (seats.Count > 0)
             {
-                Debug.Log($"[SeatManager] Assigning seats to customer {customer.name}");
                 customer.AssignSeats(seats);
                 waitingQueue.RemoveAt(i);
                 i--;
             }
             else
             {
-                Debug.LogWarning("[SeatManager] ReserveSeats returned empty list!");
             }
         }
     }

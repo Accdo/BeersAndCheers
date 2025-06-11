@@ -16,7 +16,7 @@ public class Seat : MonoBehaviour
 
     public Transform SitPoint; // 앉는 위치
 
-    private bool isSeated = false;
+    //private bool isSeated = false;
 
    
 }

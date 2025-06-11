@@ -1,42 +1,43 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class CustomerExit : CustomerState
 {
-    private CustomerAI ai;
-    private UnityEngine.AI.NavMeshAgent agent;
+
     private bool isExiting = false;
 
-    public override void EnterState(CustomerStateMachine machine)
+    public CustomerExit(CustomerAI _ai, string _animName, CustomerStateMachine _stateMachine, NavMeshAgent _agent) : base(_ai, _animName, _stateMachine, _agent)
     {
-        base.EnterState(machine);
+    }
 
+    public override void EnterState()
+    {
+        base.EnterState();
         // 좌석 비우기
-        ai = GetComponent<CustomerAI>();
         foreach (var seat in ai.mySeats)
             seat.Vacate();
         ai.mySeats.Clear();
         ai.isSeated = false;
 
-        // 걷기 상태로 전이 후 ExitPos로 이동, 도착 시 삭제
-        var walkState = machine.walkState;
         if (SeatManager.Instance.exitPoint != null)
         {
-            machine.ChangeState(walkState);
-            walkState.WalkTo(SeatManager.Instance.exitPoint.position, () => {
-                Destroy(ai.gameObject);
-            });
+            // 걷기 애니메이션 재생
+            ai.agent.enabled = true;
+            ai.agent.SetDestination(SeatManager.Instance.exitPoint.position);
+            isExiting = true;
         }
         else
         {
-            Destroy(ai.gameObject);
+            ai.DestroyCustomer();
         }
     }
 
     public override void StateUpdate()
     {
-        if (isExiting && agent.enabled && !agent.pathPending && agent.remainingDistance < 0.3f)
+        if (isExiting && ai.agent.enabled && !ai.agent.pathPending && ai.agent.remainingDistance < 0.3f)
         {
-            GameObject.Destroy(ai.gameObject);
+            ai.DestroyCustomer();
+            isExiting = false;
         }
     }
 }

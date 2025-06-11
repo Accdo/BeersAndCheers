@@ -4,16 +4,12 @@ using System;
 
 public class CustomerWalk : CustomerState
 {
-    private CustomerAI ai;
-    private NavMeshAgent agent;
     private Vector3 targetPosition;
     private Action onArriveCallback;
     private bool isWalking = false;
 
-    void Awake()
+    public CustomerWalk(CustomerAI _ai, string _animName, CustomerStateMachine _stateMachine, NavMeshAgent _agent) : base(_ai, _animName, _stateMachine, _agent)
     {
-        ai = GetComponent<CustomerAI>();
-        agent = GetComponent<NavMeshAgent>();
     }
 
     public void WalkTo(Vector3 destination, Action onArrive = null)
@@ -28,11 +24,10 @@ public class CustomerWalk : CustomerState
             agent.SetDestination(destination);
     }
 
-    public override void EnterState(CustomerStateMachine machine)
+    public override void EnterState( )
     {
-        base.EnterState(machine);
+        base.EnterState();
         // CustomerAI에 저장된 목적지와 콜백을 사용
-        var ai = GetComponent<CustomerAI>();
         WalkTo(ai.nextDestination, ai.onArriveCallback);
     }
 
@@ -40,7 +35,7 @@ public class CustomerWalk : CustomerState
     {
         if (isWalking && agent.enabled && !agent.pathPending)
         {
-            float dist = Vector3.Distance(transform.position, targetPosition);
+            float dist = Vector3.Distance(ai.transform.position, targetPosition);
             // remainingDistance가 유효하지 않을 때도 도착 처리
             if ((agent.remainingDistance <= 0.3f && !agent.pathPending) || dist < 0.3f)
             {
