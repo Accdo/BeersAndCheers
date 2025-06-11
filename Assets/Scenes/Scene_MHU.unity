@@ -445,7 +445,7 @@ MonoBehaviour:
     m_Bits: 2048
   redMaterial: {fileID: 2100000, guid: 51e67b157e1b14349aaf45af72e0e184, type: 2}
   greenMaterial: {fileID: 2100000, guid: 4f2c250453f76bc48908a9ca6e827a93, type: 2}
-  offset: {x: 0, y: 1.2, z: 0}
+  offset: {x: 0, y: 0.6, z: 0}
   minRayDistance: 3
   maxRayDistance: 6
 --- !u!1 &510089811
@@ -598,7 +598,7 @@ GameObject:
   - component: {fileID: 918081123}
   - component: {fileID: 918081122}
   - component: {fileID: 918081126}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
