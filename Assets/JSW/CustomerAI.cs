@@ -7,13 +7,20 @@ public class CustomerAI : MonoBehaviour
 {
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public int teamSize = 1;
-    [HideInInspector] public List<Seat> mySeats = new List<Seat>();
-    [HideInInspector] public bool isSeated = false;
-    [HideInInspector] public int queueIndex = -1;
+    public CustomerGroup myGroup;
+    public List<Seat> mySeats = new List<Seat>();
+    public bool isSeated = false;
+    public int queueIndex = -1;
     public Animator anim;
     private CustomerStateMachine stateMachine;
     public Vector3 nextDestination;
     public Action onArriveCallback;
+
+    #region 만족도
+    public float satisfactionScore = 100;
+    public float waitingTime = 0f; // 대기 시간
+    public float maxWaitingTime = 60f; // 최대 대기 시간
+    #endregion
 
     #region 주문 UI
     public GameObject orderBubblePrefab;
@@ -48,8 +55,23 @@ public class CustomerAI : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState?.StateUpdate();
+
+        //음식 받기전 까지 대기 시간 증가
+        //
+        WatingMenu();
     }
 
+    private void WatingMenu()
+    {
+        if (waitingTime <= maxWaitingTime)
+        {
+            waitingTime += Time.deltaTime;
+            SatisfactionScoreUpDown(waitingTime / 10f);
+
+        }
+    }
+
+    #region 이동
     // 좌석 배정 시 상태머신에서 호출
     public void AssignSeats(List<Seat> seats)
     {
@@ -83,6 +105,9 @@ public class CustomerAI : MonoBehaviour
                 agent.SetDestination(queuePoints[queuePoints.Count - 1].position);
         }
     }
+    #endregion
+
+    #region Customer UI
     public void ShowOrderBubble()
     {
         if (orderBubblePrefab != null)
@@ -93,14 +118,61 @@ public class CustomerAI : MonoBehaviour
         if (orderBubblePrefab != null)
             orderBubblePrefab.SetActive(false);
     }
+    #endregion
+
+    #region 만족도
+    public void SatisfactionScoreUpDown(float amount)
+    {
+        satisfactionScore += amount;
+        satisfactionScore = Mathf.Clamp(satisfactionScore, 0, 100);
+        if (satisfactionScore <= 0)
+        {
+            // 만족도가 0 이하가 되면 퇴장 상태로 전이
+            RequestExit();
+        }
+
+    }
+
+    //만족도 결과에 따라 서 결과처리
+    public void ResultOfStisfaciton()
+    {
+        if (satisfactionScore >= 90)
+        {
+            //팁주기 로직
+            // ex) 20% 팁 주기
+
+        }
+        else if (satisfactionScore >= 70)
+        {
+            //팁주기 로직
+            // ex) 10% 팁 주기
+        }
+        else if (satisfactionScore >= 30)
+        {
+            // 음식가격만 지불하기
+
+        }
+        else
+        {
+            //디메리트 주기
+            // ex) 음식 가격 안주기
+
+        }
+
+    }
+    #endregion
 
     public void RequestExit()
     {
         stateMachine.ChangeState(exitState);
     }
 
-    public void DestroyCustomer()
+    public void DestroyCustomer(int time = 0)
     {
-        Destroy(this.gameObject);
+        Destroy(this.gameObject, time);
     }
+
+   
+
+
 }
