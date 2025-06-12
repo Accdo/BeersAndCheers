@@ -442,12 +442,12 @@ MonoBehaviour:
   sphereRadius: 1
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 0
   redMaterial: {fileID: 2100000, guid: 51e67b157e1b14349aaf45af72e0e184, type: 2}
   greenMaterial: {fileID: 2100000, guid: 4f2c250453f76bc48908a9ca6e827a93, type: 2}
   offset: {x: 0, y: 0.6, z: 0}
-  minRayDistance: 3
-  maxRayDistance: 6
+  minRayDistance: 2
+  maxRayDistance: 3
 --- !u!1 &510089811
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,8 +734,8 @@ GameObject:
   - component: {fileID: 1357962859}
   - component: {fileID: 1357962858}
   m_Layer: 0
-  m_Name: Plane
-  m_TagString: Ground
+  m_Name: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
