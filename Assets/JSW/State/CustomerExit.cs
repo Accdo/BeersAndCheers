@@ -19,12 +19,15 @@ public class CustomerExit : CustomerState
         ai.mySeats.Clear();
         ai.isSeated = false;
 
+        ai.ResultOfStisfaciton();
+
         if (SeatManager.Instance.exitPoint != null)
         {
             // 걷기 애니메이션 재생
             ai.agent.enabled = true;
             ai.agent.SetDestination(SeatManager.Instance.exitPoint.position);
             isExiting = true;
+            ai.DestroyCustomer(5);
         }
         else
         {
@@ -40,4 +43,6 @@ public class CustomerExit : CustomerState
             isExiting = false;
         }
     }
+
+    
 }

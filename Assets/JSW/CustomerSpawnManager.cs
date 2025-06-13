@@ -24,7 +24,11 @@ public class CustomerSpawnManager : MonoBehaviour
             // 확률적으로 생성
             if (Random.value < spawnProbability)
             {
-                SpawnRandomCustomer();
+                int teamSize = Random.Range(1, 2); // 현재는 1명 고정
+                if (SeatManager.Instance.CanAcceptNewCustomer(1))
+                {
+                    SpawnRandomCustomer();
+                }
             }
         }
     }
@@ -35,4 +39,20 @@ public class CustomerSpawnManager : MonoBehaviour
         int idx = Random.Range(0, customerPrefabs.Count);
         GameObject obj = Instantiate(customerPrefabs[idx], spawnPoint.position, spawnPoint.rotation);
     }
+
+    //void SpawnCustomerGroup(int teamSize)
+    //{
+    //    CustomerGroup group = new CustomerGroup();
+    //    group.members = new List<CustomerAI>();
+    //    for (int i = 0; i < teamSize; i++)
+    //    {
+    //        int idx = Random.Range(0, customerPrefabs.Count);
+    //        GameObject obj = Instantiate(customerPrefabs[idx], spawnPoint.position, spawnPoint.rotation);
+    //        CustomerAI ai = obj.GetComponent<CustomerAI>();
+    //        ai.myGroup = group; // CustomerAI에 myGroup 필드 필요
+    //        group.members.Add(ai);
+    //    }
+    //    SeatManager.Instance.AddGroupToQueue(group);
+    //}
+
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SeatGroup : MonoBehaviour
@@ -27,4 +28,6 @@ public class SeatGroup : MonoBehaviour
         }
         return reserved;
     }
+
+   
 }
