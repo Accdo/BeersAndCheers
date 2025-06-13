@@ -46,6 +46,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   customerPrefabs:
   - {fileID: 1577763961614279994, guid: a2e83428b399ed740bf707162e58bea7, type: 3}
+  - {fileID: 8633575925932552067, guid: 874808da045a86b4d92ef5cb28bfb897, type: 3}
+  - {fileID: 6724613860512084458, guid: f0288e250d44e054589bc61b7745041d, type: 3}
+  - {fileID: 7878362480072207809, guid: b6804c92e7fb2df43ac4a77b50fd7143, type: 3}
+  - {fileID: 5257807956500853356, guid: 59028aa77bc2447479b200e28a72f34f, type: 3}
+  - {fileID: 4616589558519347396, guid: 5b179f7181e6a5241944c2ae373bbfe2, type: 3}
+  - {fileID: 3568371454409552331, guid: 0aa1cd1bd2b42fe4b9b73ef4d29e5a15, type: 3}
+  - {fileID: 4991214221219745348, guid: bb0cee6a731c70549a26d8adec38876a, type: 3}
   spawnPoint: {fileID: 0}
   spawnInterval: 1
   spawnProbability: 1
