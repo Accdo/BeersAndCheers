@@ -1,33 +1,52 @@
+using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class Player_MYJ : MonoBehaviour
 {
-    #region ìƒìˆ˜
+    #region »ó¼ö
     private const float GROUND_CHECK_LEEWAY = 0.1f;
     #endregion
+    [SerializeField, Tooltip("±âº»°ª 100")] private float maxHealth;
+    private float currentHealth;
+    public float CurrentHealth
+    {
+        get => currentHealth;
+        private set
+        {
+            currentHealth = value;
+            // EventManager.Instance.TriggerEvent("PlayerHealthChanged", currentHealth);
+            // uiÇÊ¿äÇÔ
+            if (currentHealth <= 0)
+            {
+                // EventManager.Instance.TriggerEvent("PlayerDied");
+                // uiÇÊ¿äÇÔ
+            }
+        }
+    }
 
-    [Header("ì´ë™ ì†ë„")]
-    [SerializeField, Tooltip("ê¸°ë³¸ê°’ 5")] private float walkSpeed;
-    [SerializeField, Tooltip("ê¸°ë³¸ê°’ 15")] private float runSpeed;
+    [Header("ÀÌµ¿ ¼Óµµ")]
+    [SerializeField, Tooltip("±âº»°ª 5")] private float walkSpeed;
+    [SerializeField, Tooltip("±âº»°ª 15")] private float runSpeed;
     private float appliedSpeed;
 
-    [Header("ì í”„ë ¥")]
-    [SerializeField, Tooltip("ê¸°ë³¸ê°’ 4")] private float jumpForce;
+    [Header("Á¡ÇÁ·Â")]
+    [SerializeField, Tooltip("±âº»°ª 4")] private float jumpForce;
 
-    #region ë™ì‘ ìƒíƒœ
+    #region µ¿ÀÛ »óÅÂ
     private bool isGrounded;
     private bool isRun;
-    private bool doOtherWork;
+    private bool doingOtherWork;
+    Coroutine currentOtherWork;
     [HideInInspector] public bool IsRun => isRun;
     #endregion
 
-    [Header("ì¹´ë©”ë¼")]
-    [SerializeField, Tooltip("ê¸°ë³¸ê°’ 2")] private float camSensitivityVertical;
-    [SerializeField, Tooltip("ê¸°ë³¸ê°’ 3")] private float camSensitivityHorizontal;
-    [SerializeField, Tooltip("ê¸°ë³¸ê°’ 45")] private float camRotationLimit;
+    [Header("Ä«¸Ş¶ó")]
+    [SerializeField, Tooltip("±âº»°ª 2")] private float camSensitivityVertical;
+    [SerializeField, Tooltip("±âº»°ª 3")] private float camSensitivityHorizontal;
+    [SerializeField, Tooltip("±âº»°ª 45")] private float camRotationLimit;
     private float currentCamRotationX;
 
-    #region ì»´í¬ë„ŒíŠ¸
+    #region ÄÄÆ÷³ÍÆ®
     private Rigidbody rb;
     private CapsuleCollider coll;
     private Camera cam;
@@ -61,9 +80,9 @@ public class PlayerController : MonoBehaviour
         Move();
     }
 
-    private void RotateCam() // ìƒí•˜
+    private void RotateCam() // »óÇÏ
     {
-        if (doOtherWork) { return; }
+        if (doingOtherWork) { return; }
         float rotationX = Input.GetAxisRaw("Mouse Y");
 
         float camRotX = rotationX * camSensitivityVertical;
@@ -73,9 +92,9 @@ public class PlayerController : MonoBehaviour
         cam.transform.localEulerAngles = new Vector3(currentCamRotationX, 0f, 0f);
     }
 
-    private void RotatePlayer() // ì¢Œìš°
+    private void RotatePlayer() // ÁÂ¿ì
     {
-        if (doOtherWork) { return; }
+        if (doingOtherWork) { return; }
         float rotationY = Input.GetAxisRaw("Mouse X");
         Vector3 characterRotationY = new Vector3(0f, rotationY, 0f) * camSensitivityHorizontal;
         rb.MoveRotation(rb.rotation * Quaternion.Euler(characterRotationY));
@@ -88,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryJump()
     {
-        if (doOtherWork) { return; }
+        if (doingOtherWork) { return; }
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = transform.up * jumpForce;
@@ -97,7 +116,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryRun()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && !doOtherWork) // ê³µì¤‘ì—ì„œë„ ëŒ€ì‰¬ì†ë„ ë‚˜ì˜¤ê²Œ í• ì§€ë§ì§€
+        if (Input.GetKey(KeyCode.LeftShift) && !doingOtherWork) // °øÁß¿¡¼­µµ ´ë½¬¼Óµµ ³ª¿À°Ô ÇÒÁö¸»Áö
         {
             isRun = true;
             appliedSpeed = runSpeed;
@@ -111,7 +130,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (doOtherWork) { return; }
+        if (doingOtherWork) { return; }
 
         float moveDirX = Input.GetAxisRaw("Horizontal");
         float moveDirZ = Input.GetAxisRaw("Vertical");
@@ -124,4 +143,44 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector3(moveVel.x, rb.linearVelocity.y, moveVel.z);
     }
 
+
+    #region ´Ù¸¥ÀÏ ÄÁÆ®·Ñ (¿òÁ÷ÀÓ ¹× ¸¶¿ì½º Á¦¾î)
+
+    public void StartOtherWorkForTime(float time = 0f)
+    {
+        if (currentOtherWork != null)
+        {
+            StopCoroutine(currentOtherWork);
+        }
+
+        currentOtherWork = StartCoroutine(nameof(OtherWorkCoroutine), time);
+    }
+
+    IEnumerator OtherWorkCoroutine(float time)
+    {
+        doingOtherWork = true;
+
+        yield return new WaitForSeconds(time);
+
+        doingOtherWork = false;
+        currentOtherWork = null;
+    }
+
+    public void StartOtherWork()
+    {
+        doingOtherWork = true;
+    }
+
+    public void EndOtherWork()
+    {
+        if (currentOtherWork != null)
+        {
+            StopCoroutine(currentOtherWork);
+        }
+        doingOtherWork = false;
+        currentOtherWork = null;
+    }
+
+    #endregion
 }
+
