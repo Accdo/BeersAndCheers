@@ -3,6 +3,12 @@ using UnityEngine.UI;
 
 public class InteractionUI : MonoBehaviour
 {
+    [Header("UI")]
+    public GameObject crosshairUI;
+    public GameObject CursorUI;
+    public GameObject GaugeUI;
+    public GameObject timingBarUI;
+
     [Header("Cursor")]
     public Image cursorImage;
     public Sprite TreeCursor;
@@ -24,9 +30,18 @@ public class InteractionUI : MonoBehaviour
                 break;
         }
     }
-    public void SetCursorVisible(bool visible)
+
+    public void ShowCursor()
     {
-        cursorImage.enabled = visible;
+        CursorUI.SetActive(true);
+    }
+
+    public void ShowGauge()
+    {
+        crosshairUI.SetActive(false);
+        CursorUI.SetActive(true);
+        GaugeUI.SetActive(true);
+        timingBarUI.SetActive(false);
     }
 
     public void UpdateGauge(float amount)
@@ -34,16 +49,19 @@ public class InteractionUI : MonoBehaviour
         gaugeImage.fillAmount = Mathf.Clamp01(amount);
     }
 
-    public void ShowGauge(bool show)
+    public void ShowTimingBar()
     {
-        gaugeImage.enabled = show;
-        gaugeUnfilledImage.enabled = show;
+        crosshairUI.SetActive(false);
+        CursorUI.SetActive(false);
+        GaugeUI.SetActive(false);
+        timingBarUI.SetActive(true);
     }
 
     public void ResetUI()
     {
-        SetCursorVisible(true);
-        UpdateGauge(0f);
-        ShowGauge(false);
+        crosshairUI.SetActive(true);
+        CursorUI.SetActive(false);
+        GaugeUI.SetActive(false);
+        timingBarUI.SetActive(false);
     }
 }
