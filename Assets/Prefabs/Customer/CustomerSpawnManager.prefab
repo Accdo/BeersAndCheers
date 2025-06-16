@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5789967266833066530
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1261093182368906242}
+  - component: {fileID: 6619475096669425828}
+  m_Layer: 0
+  m_Name: CustomerSpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1261093182368906242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789967266833066530}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6619475096669425828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789967266833066530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a7f8d8e166464b4596ce24f916c3259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customerPrefabs:
+  - {fileID: 1577763961614279994, guid: a2e83428b399ed740bf707162e58bea7, type: 3}
+  - {fileID: 8633575925932552067, guid: 874808da045a86b4d92ef5cb28bfb897, type: 3}
+  - {fileID: 6724613860512084458, guid: f0288e250d44e054589bc61b7745041d, type: 3}
+  - {fileID: 7878362480072207809, guid: b6804c92e7fb2df43ac4a77b50fd7143, type: 3}
+  - {fileID: 5257807956500853356, guid: 59028aa77bc2447479b200e28a72f34f, type: 3}
+  - {fileID: 4616589558519347396, guid: 5b179f7181e6a5241944c2ae373bbfe2, type: 3}
+  - {fileID: 3568371454409552331, guid: 0aa1cd1bd2b42fe4b9b73ef4d29e5a15, type: 3}
+  - {fileID: 4991214221219745348, guid: bb0cee6a731c70549a26d8adec38876a, type: 3}
+  spawnPoint: {fileID: 0}
+  spawnInterval: 1
+  spawnProbability: 1
