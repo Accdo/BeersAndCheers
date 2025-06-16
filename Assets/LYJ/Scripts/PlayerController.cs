@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
 
     private void RotateCam() // 상하
     {
-        if(doOtherWork) { return; }
+        if (doOtherWork) { return; }
         float rotationX = Input.GetAxisRaw("Mouse Y");
 
         float camRotX = rotationX * camSensitivityVertical;
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayer() // 좌우
     {
-        if(doOtherWork) { return; }
+        if (doOtherWork) { return; }
         float rotationY = Input.GetAxisRaw("Mouse X");
         Vector3 characterRotationY = new Vector3(0f, rotationY, 0f) * camSensitivityHorizontal;
         rb.MoveRotation(rb.rotation * Quaternion.Euler(characterRotationY));
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryJump()
     {
-        if(doOtherWork) { return; }
+        if (doOtherWork) { return; }
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = transform.up * jumpForce;
@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if(doOtherWork) { return; }
+        if (doOtherWork) { return; }
 
         float moveDirX = Input.GetAxisRaw("Horizontal");
         float moveDirZ = Input.GetAxisRaw("Vertical");
