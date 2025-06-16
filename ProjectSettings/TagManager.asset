@@ -29,8 +29,8 @@ TagManager:
   - 
   - Hand
   - Enemy
-  - 
-  - 
+  - Player
+  - TargetFinder
   - 
   - 
   - 

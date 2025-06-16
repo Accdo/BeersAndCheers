@@ -1,10 +1,28 @@
+using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class Player_LYJ : MonoBehaviour
 {
     #region 상수
     private const float GROUND_CHECK_LEEWAY = 0.1f;
     #endregion
+    [SerializeField, Tooltip("기본값 100")] private float maxHealth;
+    private float currentHealth;
+    public float CurrentHealth
+    {
+        get => currentHealth;
+        private set
+        {
+            currentHealth = value;
+            // EventManager.Instance.TriggerEvent("PlayerHealthChanged", currentHealth);
+            // ui필요함
+            if (currentHealth <= 0)
+            {
+                // EventManager.Instance.TriggerEvent("PlayerDied");
+                // ui필요함
+            }
+        }
+    }
 
     [Header("이동 속도")]
     [SerializeField, Tooltip("기본값 5")] private float walkSpeed;
@@ -17,7 +35,8 @@ public class PlayerController : MonoBehaviour
     #region 동작 상태
     private bool isGrounded;
     private bool isRun;
-    private bool doOtherWork;
+    private bool doingOtherWork;
+    Coroutine currentOtherWork;
     [HideInInspector] public bool IsRun => isRun;
     #endregion
 
@@ -63,7 +82,7 @@ public class PlayerController : MonoBehaviour
 
     private void RotateCam() // 상하
     {
-        if(doOtherWork) { return; }
+        if (doingOtherWork) { return; }
         float rotationX = Input.GetAxisRaw("Mouse Y");
 
         float camRotX = rotationX * camSensitivityVertical;
@@ -75,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayer() // 좌우
     {
-        if(doOtherWork) { return; }
+        if (doingOtherWork) { return; }
         float rotationY = Input.GetAxisRaw("Mouse X");
         Vector3 characterRotationY = new Vector3(0f, rotationY, 0f) * camSensitivityHorizontal;
         rb.MoveRotation(rb.rotation * Quaternion.Euler(characterRotationY));
@@ -88,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryJump()
     {
-        if(doOtherWork) { return; }
+        if (doingOtherWork) { return; }
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = transform.up * jumpForce;
@@ -97,7 +116,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryRun()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && !doOtherWork) // 공중에서도 대쉬속도 나오게 할지말지
+        if (Input.GetKey(KeyCode.LeftShift) && !doingOtherWork) // 공중에서도 대쉬속도 나오게 할지말지
         {
             isRun = true;
             appliedSpeed = runSpeed;
@@ -111,7 +130,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if(doOtherWork) { return; }
+        if (doingOtherWork) { return; }
 
         float moveDirX = Input.GetAxisRaw("Horizontal");
         float moveDirZ = Input.GetAxisRaw("Vertical");
@@ -124,4 +143,43 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector3(moveVel.x, rb.linearVelocity.y, moveVel.z);
     }
 
+
+    #region 다른일 컨트롤 (움직임 및 마우스 제어)
+
+    public void StartOtherWorkForTime(float time = 0f)
+    {
+        if (currentOtherWork != null)
+        {
+            StopCoroutine(currentOtherWork);
+        }
+
+        currentOtherWork = StartCoroutine(nameof(OtherWorkCoroutine), time);
+    }
+
+    IEnumerator OtherWorkCoroutine(float time)
+    {
+        doingOtherWork = true;
+
+        yield return new WaitForSeconds(time);
+
+        doingOtherWork = false;
+        currentOtherWork = null;
+    }
+
+    public void StartOtherWork()
+    {
+        doingOtherWork = true;
+    }
+
+    public void EndOtherWork()
+    {
+        if (currentOtherWork != null)
+        {
+            StopCoroutine(currentOtherWork);
+        }
+        doingOtherWork = false;
+        currentOtherWork = null;
+    }
+
+    #endregion
 }
