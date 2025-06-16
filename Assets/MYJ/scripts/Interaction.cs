@@ -6,13 +6,13 @@ public class Interaction : MonoBehaviour
     public InteractionUI interactionUI;
     
     [Header("Interaction Settings")]
-    public float interactRange = 3f; //»óÈ£ÀÛ¿ë °Å¸®
-    public LayerMask interactLayer; // »óÈ£ÀÛ¿ë ¹°Ã¼ È®ÀÎ layer
-    public float holdDuration = 1.5f; //°ÔÀÌÁö Ã¤¿öÁö´Â ½Ã°£
+    public float interactRange = 3f; //ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Å¸ï¿½
+    public LayerMask interactLayer; // ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½ï¿½Ã¼ È®ï¿½ï¿½ layer
+    public float holdDuration = 1.5f; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
 
     [Header("reference")]
     public TimingBar timingBar;
-    public PlayerController playerController;
+    public Player_MYJ playerController;
 
     private Camera cam;
     private float holdTimer = 0f;
@@ -29,7 +29,7 @@ public class Interaction : MonoBehaviour
         letsinteraction();
     }
 
-    public void letsinteraction() //»óÈ£ÀÛ¿ë
+    public void letsinteraction() //ï¿½ï¿½È£ï¿½Û¿ï¿½
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         bool hitSomething = Physics.Raycast(ray, out RaycastHit hit, interactRange, interactLayer);
@@ -39,7 +39,7 @@ public class Interaction : MonoBehaviour
             var interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
             {
-                //¾î¶² ¹°Ã¼¿Í »óÈ£ÀÛ¿ëÇÏ´ÂÁö °Ë»çÇÏ¿© Ä¿¼­ ÀÌ¹ÌÁö¸¦ ´Ù¸£°Ô º¸¿©ÁÜ
+                //ï¿½î¶² ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ï¿ï¿½ Ä¿ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 string cursorType = interactable.GetCursorType();
 
                 interactionUI.ShowGauge();
@@ -74,7 +74,7 @@ public class Interaction : MonoBehaviour
         }
     }
 
-    #region TimingBar(Ã¤Áý)
+    #region TimingBar(Ã¤ï¿½ï¿½)
     public void ShowTimingBar()
     {
         interactionUI.ShowTimingBar();
