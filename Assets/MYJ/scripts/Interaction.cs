@@ -12,7 +12,7 @@ public class Interaction : MonoBehaviour
 
     [Header("reference")]
     public TimingBar timingBar;
-    public PlayerController playerController;
+    public Player_MYJ player_MYJ;
 
     private Camera cam;
     private float holdTimer = 0f;
@@ -79,7 +79,7 @@ public class Interaction : MonoBehaviour
     {
         interactionUI.ShowTimingBar();
 
-        playerController.StartOtherWork();
+        player_MYJ.StartOtherWork();
 
         timingBar?.StartTimingBar(this);
     }
@@ -90,7 +90,7 @@ public class Interaction : MonoBehaviour
         gaugeCompleted = false;
         holdTimer = 0f;
 
-        playerController.EndOtherWork();
+        player_MYJ.EndOtherWork();
     }
     #endregion
 }
