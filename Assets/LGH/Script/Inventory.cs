@@ -14,6 +14,18 @@ public class Inventory
 
         public Sprite icon;
 
+        public ItemData itemData;
+        public GameObject UseItem()
+        {
+            if (itemData is WeaponData weaponData)
+            {
+                return weaponData.weaponPrefab;
+            }
+            
+
+            return null;
+        }
+
         public Slot()
         {
             itemName = "";
@@ -49,6 +61,8 @@ public class Inventory
             this.itemName = item.data.itemName;
             this.icon = item.data.icon;
             count++;
+
+            itemData = item.data;
         }
         public void AddItem(string itemName, Sprite icon, int maxAllowed)
         {
@@ -75,6 +89,7 @@ public class Inventory
     }
 
     public List<Slot> slots = new List<Slot>();
+    public Slot selectedSlot = null;
 
     // 인벤토리 생성자
     public Inventory(int numSlots)
@@ -130,11 +145,11 @@ public class Inventory
     {
         Slot fromSlot = slots[fromIndex];
         Slot toSlot = toInventory.slots[toIndex];
- 
+
         // 이동시켜 놓을 슬롯이 비어있는가, 
         if (toSlot.IsEmpty || toSlot.CanAddItem(fromSlot.itemName))
         {
-            for(int i = 0; i < numToMove; i++)
+            for (int i = 0; i < numToMove; i++)
             {
                 // 아이템이 비어있지 않다면
                 if (!fromSlot.IsEmpty)
@@ -144,6 +159,14 @@ public class Inventory
                     fromSlot.RemoveItem();
                 }
             }
+        }
+    }
+
+    public void SelectSlot(int index)
+    {
+        if (slots != null && slots.Count > 0)
+        {
+            selectedSlot = slots[index];
         }
     }
 }

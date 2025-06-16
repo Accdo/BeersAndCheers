@@ -1,14 +1,14 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+// [RequireComponent(typeof(Rigidbody))]
 public class Item : MonoBehaviour
 {
     public ItemData data;
 
-    [HideInInspector] public Rigidbody rigid;
+    // [HideInInspector] public Rigidbody rigid;
 
-    public void Awake()
-    {
-        rigid = GetComponent<Rigidbody>();
-    }
+    // public void Awake()
+    // {
+    //     rigid = GetComponent<Rigidbody>();
+    // }
 }
