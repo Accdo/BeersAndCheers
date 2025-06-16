@@ -4,25 +4,29 @@ public class GH_Player : MonoBehaviour
 {
     public float speed = 5f;
     public float rotateSpeedX = 180f; // 회전속도
-
     private Rigidbody rigid;
-    public Inventory inventory;
-    public Inventory hotBar;
+
+    public InventoryManager inventory;
+    
 
     private void Awake()
     {
-        inventory = new Inventory(21);
-        hotBar = new Inventory(10);
+        inventory = GetComponent<InventoryManager>();
     }
 
     private void Start()
     {
         rigid = GetComponent<Rigidbody>();
 
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     private void Update()
+    {
+        PlayerControl();
+    }
+
+    private void PlayerControl()
     {
         float inputX = Input.GetAxis("Horizontal");
         float inputZ = Input.GetAxis("Vertical");

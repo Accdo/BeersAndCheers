@@ -5,6 +5,7 @@ public class Hotbar_UI : MonoBehaviour
 {
     [SerializeField] private List<Slot_UI> hotbarSlots = new List<Slot_UI>();
 
+    // 현재 선택한 슬롯
     private Slot_UI selectedSlot;
 
     private void Start()
@@ -17,6 +18,7 @@ public class Hotbar_UI : MonoBehaviour
         CheckAlphaNumbericKeys();
     }
 
+    // 입력한 번호의 슬롯을 선택
     public void SelectSlot(int index)
     {
         if (hotbarSlots.Count == 10)
@@ -30,8 +32,10 @@ public class Hotbar_UI : MonoBehaviour
         }
     }
 
+    // 키 입력에 따른 슬롯 선택 함수 호출
     private void CheckAlphaNumbericKeys()
     {
+        // 1 ~ 9 키
         for (int i = 0; i < 9; i++)
         {
             KeyCode key = (KeyCode)((int)KeyCode.Alpha1 + i);
@@ -40,7 +44,7 @@ public class Hotbar_UI : MonoBehaviour
                 SelectSlot(i);
             }
         }
-
+        // 0 키
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             SelectSlot(9);

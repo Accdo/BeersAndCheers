@@ -11,6 +11,7 @@ public class SeatManager : MonoBehaviour
     public List<Transform> queuePoints = new List<Transform>(); // 대기 위치들
     public List<CustomerAI> waitingQueue = new List<CustomerAI>();
     public Transform exitPoint;
+    public int maxQueueSize; // 원하는 최대 대기열 인원수
 
     private void Awake()
     {
@@ -20,6 +21,9 @@ public class SeatManager : MonoBehaviour
     }
     void Start()
     {
+        if (queuePoints.Count != 0)
+            maxQueueSize = queuePoints.Count;
+
     }
 
     // 팀 단위로 빈 테이블(SeatGroup) 반환
@@ -43,22 +47,30 @@ public class SeatManager : MonoBehaviour
     public void TrySeatWaitingCustomers()
     {
         for (int i = 0; i < waitingQueue.Count; i++)
-    {
-        var customer = waitingQueue[i];
-        var group = GetAvailableSeatGroup(customer.teamSize);
-        if (group != null)
         {
-            var seats = group.ReserveSeats(customer.teamSize);
-            if (seats.Count > 0)
+            var customer = waitingQueue[i];
+            var group = GetAvailableSeatGroup(customer.teamSize);
+            if (group != null)
             {
-                customer.AssignSeats(seats);
-                waitingQueue.RemoveAt(i);
-                i--;
-            }
-            else
-            {
+                var seats = group.ReserveSeats(customer.teamSize);
+                if (seats.Count > 0)
+                {
+                    customer.AssignSeats(seats);
+                    waitingQueue.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+                }
             }
         }
     }
+
+    public bool CanAcceptNewCustomer(int amount)
+    {
+        // 빈 좌석이 있거나, 대기열이 가득 차지 않았으면 true
+        bool hasAvailableSeat = allSeatGroups.Any(g => g.IsAvailable(amount)); // 1명 이상 앉을 수 있는 그룹이 있으면
+        bool queueNotFull = waitingQueue.Count < maxQueueSize;
+        return hasAvailableSeat || queueNotFull;
     }
 }
