@@ -2,11 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// 슬롯 UI를 담은 클래스
 public class Slot_UI : MonoBehaviour
 {
+    public int slotID;
+    public Inventory inventory;
+
     public Image itemIcon;
     public TextMeshProUGUI quantityText;
-
     [SerializeField] private GameObject highlight;
 
     public void SetItem(Inventory.Slot slot)
