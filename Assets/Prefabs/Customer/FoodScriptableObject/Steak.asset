@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 668032b8b49304c488b384c0da6ec106, type: 3}
-  m_Name: Chicken
+  m_Name: Steak
   m_EditorClassIdentifier: 
-  foodName: Chicken
-  price: 100
-  foodImage: {fileID: -1720986274, guid: 7389cd916d704fd4397f3b028dda42be, type: 3}
-  foodPrefab: {fileID: 2479698896246339912, guid: e7970936b69cffc4a9e65390a32fb961, type: 3}
+  foodName: 
+  price: 0
+  foodImage: {fileID: 0}
+  foodPrefab: {fileID: 0}
+  frashness: 0
   description: 
-  preparationTime: 0
-  eatingTime: 0
-  foodType: 1

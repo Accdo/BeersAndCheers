@@ -102,6 +102,7 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowInteractableText(bool show, CustomerAI customer, float distance)
     {
+        interactableText.text = $"상호 작용 [{customer.interactKey}]";
         if (interactableText != null)
         {
             // 더 가까운 손님이 있으면 해당 손님의 텍스트만 표시
