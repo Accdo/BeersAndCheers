@@ -14,8 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - speakerName: "\uB18D\uBD80"
-    text: "\uB0B4\uAC00 \uC655\uC778\uB370!"
+    text: "\uC800\uB294 \uB18D\uBD80\uC778\uB370\uC694"
+    recommendedFood: {fileID: 11400000, guid: 11bc677eb428dcd45a48864ddecfc490, type: 2}
   - speakerName: "\uD50C\uB808\uC774\uC5B4"
-    text: "\uCDA9\uC131"
+    text: "\uC5B4\uC11C\uC624\uC138\uC694"
+    recommendedFood: {fileID: 0}
   - speakerName: "\uB18D\uBD80"
-    text: "\uC774\uB7EC\uD55C \uC74C\uC2DD\uC744 \uC6D0\uD558\uB124"
+    text: "\uBC30\uAC00 \uB108\uBB34 \uACE0\uD30C\uC694"
+    recommendedFood: {fileID: 0}
+  - speakerName: "\uB18D\uBD80"
+    text: "\uBC30\uB97C \uBC30\uBD88\uB9AC \uCC44\uC6B8 \uC218 \uC788\uB294 \uADF8\uB7F0\uAC8C
+      \uBA39\uACE0 \uC2F6\uC5B4\uC694"
+    recommendedFood: {fileID: 0}
