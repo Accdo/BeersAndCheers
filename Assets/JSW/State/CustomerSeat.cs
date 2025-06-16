@@ -22,20 +22,30 @@ public class CustomerSeat : CustomerState
             ai.transform.position = sitPos;
             ai.transform.rotation = ai.mySeats[0].SitPoint.rotation;
             ai.isSeated = true;
-            
-            // 주문 받기
-            ai.StartOrdering();
+
+            // 주문 받기 or 대화
+            float per = Random.Range(0, 100);
+            if(per < 95)
+            {
+                ai.StartOrdering();
+            }
+            else
+            {
+
+            }
+
+
         }
     }
 
     public void FoodCompleted()
     {
         // 식사 완료 후 퇴장 상태로 전이
-        ai.StartExiting();
+        ai.CustormerExit();
     }
 
     public void OnOrderCompleted()
     {
-        ai.RequestExit();
+        ai.CustormerExit();
     }
 }

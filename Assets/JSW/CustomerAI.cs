@@ -31,6 +31,7 @@ public class CustomerAI : MonoBehaviour
 
     #region 만족도
     public float satisfactionScore = 100;
+    public float timer = 0f; // 타이머
     public float waitingTime = 0f; // 대기 시간
     public float maxWaitingTime = 60f; // 최대 대기 시간
     #endregion
@@ -38,14 +39,14 @@ public class CustomerAI : MonoBehaviour
     #region 주문 관련
     public bool hasOrdered = false;
     public bool hasReceivedFood = false;
-    public float orderWaitTime = 0f;
-    public float maxOrderWaitTime = 30f;
     public List<FoodItem> orderedItems = new List<FoodItem>();
     public float eatingTime = 10f;
     #endregion
 
     #region 주문 UI
     public GameObject orderBubblePrefab;
+    public Image CircleGaugeUnfill;
+    public Image CircleGaugeFill;
     #endregion
 
     #region State
@@ -83,6 +84,7 @@ public class CustomerAI : MonoBehaviour
     {
         stateMachine.ChangeState(waitingState);
         HideOrderBubble();
+        HideGauge();
         LoadDialogue();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
@@ -99,37 +101,65 @@ public class CustomerAI : MonoBehaviour
 
         if (player != null)
         {
-            // 플레이어와의 거리 체크
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-            isPlayerNearby = distanceToPlayer <= interactionDistance;
+            NearCheckTalk();
+        }
+    }
 
-            // 상호작용 가능 여부에 따라 텍스트 표시
-            if (DialogueManager.Instance != null)
+    private void NearCheckTalk()
+    {
+        // 플레이어와의 거리 체크
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        isPlayerNearby = distanceToPlayer <= interactionDistance;
+
+        // 상호작용 가능 여부에 따라 텍스트 표시
+        if (DialogueManager.Instance != null)
+        {
+            // 상호작용 키 입력 체크
+            if (isPlayerNearby && isSeated)
             {
-                // 상호작용 키 입력 체크
-                if (isPlayerNearby && isSeated)
+                DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer);
+                if (Input.GetKeyDown(interactKey))
                 {
-                    DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer);
-                    if (Input.GetKeyDown(interactKey))
+                    // 주문한 상태이고 음식을 받지 않은 상태일 때만 음식 전달 가능
+                    if (hasOrdered && !hasReceivedFood)
+                    {
+                        // 플레이어가 들고 있는 음식 확인
+                        FoodItem playerFood = PlayerInventory.Instance.GetCurrentFood();
+                        if (playerFood != null)
+                        {
+                            // 음식 전달
+                            List<FoodItem> deliveredFood = new List<FoodItem> { playerFood };
+                            ReceiveFood(deliveredFood);
+                            // 플레이어 인벤토리에서 음식 제거
+                            PlayerInventory.Instance.RemoveCurrentFood();
+                        }
+                    }
+                    else
                     {
                         StartDialogue();
                     }
                 }
-                else
-                {
-                    DialogueManager.Instance.ShowInteractableText(false, this, distanceToPlayer);
-                }
+            }
+            else
+            {
+                DialogueManager.Instance.ShowInteractableText(false, this, distanceToPlayer);
             }
         }
     }
 
     private void WatingMenu()
     {
+        waitingTime += Time.deltaTime;
+        
         if (waitingTime <= maxWaitingTime)
         {
-            waitingTime += Time.deltaTime;
-            SatisfactionScoreUpDown(-waitingTime / 10f);
-
+            SatisfactionScoreUpDown(-0.01f);
+            UpdateGauge(waitingTime);
+        }
+        else
+        {
+            // 대기 시간 초과 시 퇴장
+            CustormerExit();
         }
     }
 
@@ -180,6 +210,28 @@ public class CustomerAI : MonoBehaviour
         if (orderBubblePrefab != null)
             orderBubblePrefab.SetActive(false);
     }
+    public void UpdateGauge(float amount)
+    {
+        // 현재 대기 시간을 최대 대기 시간으로 나누어 0~1 사이의 값으로 정규화
+        float normalizedAmount = amount / maxWaitingTime;
+        CircleGaugeFill.fillAmount = Mathf.Clamp(normalizedAmount, 0, 1);
+    }
+    public void ShowGauge()
+    {
+        if (CircleGaugeUnfill != null && CircleGaugeFill != null)
+        {
+            CircleGaugeUnfill.gameObject.SetActive(true);
+            CircleGaugeFill.gameObject.SetActive(true);
+        }
+    }
+    public void HideGauge()
+    {
+        if (CircleGaugeUnfill != null && CircleGaugeFill != null)
+        {
+            CircleGaugeUnfill.gameObject.SetActive(false);
+            CircleGaugeFill.gameObject.SetActive(false);
+        }
+    }
     #endregion
 
     #region 만족도
@@ -190,7 +242,7 @@ public class CustomerAI : MonoBehaviour
         if (satisfactionScore <= 0)
         {
             // 만족도가 0 이하가 되면 퇴장 상태로 전이
-            RequestExit();
+            CustormerExit();
         }
 
     }
@@ -246,18 +298,6 @@ public class CustomerAI : MonoBehaviour
             }
         }
     }
-
-    public void StartExiting()
-    {
-        StartCoroutine(WaitAndExit());
-    }
-
-    private IEnumerator WaitAndExit()
-    {
-        yield return new WaitForSeconds(10f); // 10초 후 퇴장
-        stateMachine.ChangeState(exitState);
-    }
-
     public void PlaceOrder(List<FoodItem> items)
     {
         if (!hasOrdered)
@@ -265,10 +305,12 @@ public class CustomerAI : MonoBehaviour
             orderedItems = items;
             hasOrdered = true;
             ShowOrderBubble();
+            ShowGauge();
             // 주문 UI에 주문한 음식 표시
             UpdateOrderBubble(items);
         }
     }
+
 
     public void ReceiveFood(List<FoodItem> deliveredItems)
     {
@@ -281,6 +323,7 @@ public class CustomerAI : MonoBehaviour
             {
                 hasReceivedFood = true;
                 HideOrderBubble();
+                HideGauge();
                 SatisfactionScoreUpDown(10f); // 정확한 주문으로 만족도 증가
 
                 // 각 배달된 음식이 추천 메뉴인지 확인
@@ -387,10 +430,11 @@ public class CustomerAI : MonoBehaviour
         }
     }
     #endregion
-
-    public void RequestExit()
+    #region 퇴장
+    public void CustormerExit()
     {
         HideOrderBubble();
+        HideGauge();
         stateMachine.ChangeState(exitState);
     }
 
@@ -401,10 +445,11 @@ public class CustomerAI : MonoBehaviour
 
     private IEnumerator EatingTime()
     {
-        // 식사 시간 (30초)
         yield return new WaitForSeconds(eatingTime);
-        
+
         // 식사 완료 후 퇴장
-        StartExiting();
+        CustormerExit();
     }
+    #endregion
+
 }
