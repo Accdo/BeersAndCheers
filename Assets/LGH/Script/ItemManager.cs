@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class ItemManager : MonoBehaviour
 {
+    // 아직 사용 안함
     public Item[] items;
 
     private Dictionary<string, Item> nameToItemDict = new Dictionary<string, Item>();
@@ -23,7 +24,7 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    public Item GetItemByType(string key)
+    public Item GetItemByName(string key)
     {
         if (nameToItemDict.ContainsKey(key))
         {
