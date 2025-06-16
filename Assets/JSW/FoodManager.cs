@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class FoodManager : MonoBehaviour
@@ -44,8 +44,5 @@ public class FoodManager : MonoBehaviour
         return availableFoods.Find(food => food.foodName == name);
     }
 
-    public List<FoodItem> GetFoodsByType(FoodType type)
-    {
-        return availableFoods.FindAll(food => food.foodType == type);
-    }
+   
 } 

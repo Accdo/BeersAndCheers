@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Interaction : MonoBehaviour
@@ -6,9 +6,9 @@ public class Interaction : MonoBehaviour
     public InteractionUI interactionUI;
     
     [Header("Interaction Settings")]
-    public float interactRange = 3f; //��ȣ�ۿ� �Ÿ�
-    public LayerMask interactLayer; // ��ȣ�ۿ� ��ü Ȯ�� layer
-    public float holdDuration = 1.5f; //������ ä������ �ð�
+    public float interactRange = 3f; //상호작용 거리
+    public LayerMask interactLayer; // 상호작용 물체 확인 layer
+    public float holdDuration = 1.5f; //게이지 채워지는 시간
 
     [Header("reference")]
     public TimingBar timingBar;
@@ -29,7 +29,7 @@ public class Interaction : MonoBehaviour
         letsinteraction();
     }
 
-    public void letsinteraction() //��ȣ�ۿ�
+    public void letsinteraction() //상호작용
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         bool hitSomething = Physics.Raycast(ray, out RaycastHit hit, interactRange, interactLayer);
@@ -39,7 +39,7 @@ public class Interaction : MonoBehaviour
             var interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
             {
-                //� ��ü�� ��ȣ�ۿ��ϴ��� �˻��Ͽ� Ŀ�� �̹����� �ٸ��� ������
+                //어떤 물체와 상호작용하는지 검사하여 커서 이미지를 다르게 보여줌
                 string cursorType = interactable.GetCursorType();
 
                 interactionUI.ShowGauge();
@@ -74,7 +74,7 @@ public class Interaction : MonoBehaviour
         }
     }
 
-    #region TimingBar(ä��)
+    #region TimingBar(채집)
     public void ShowTimingBar()
     {
         interactionUI.ShowTimingBar();
