@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0bf657b6235c243859d71c6d4992f7, type: 3}
+  m_Name: Exe
+  m_EditorClassIdentifier: 
+  itemName: Exe
+  icon: {fileID: 21300000, guid: fa12cfeb614764843be389363335d535, type: 3}
+  attackPoint: 15
+  weaponPrefab: {fileID: 6161166926701069315, guid: 4d025dbcf4858444ca9975aad96add7c, type: 3}
