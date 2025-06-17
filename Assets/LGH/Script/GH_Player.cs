@@ -19,7 +19,6 @@ public class GH_Player : MonoBehaviour
     private void Awake()
     {
         inventory = GetComponent<InventoryManager>();
-
     }
 
     private void Start()

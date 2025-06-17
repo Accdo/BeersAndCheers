@@ -15,6 +15,8 @@ public class UI_Manager : MonoBehaviour
     public static Image draggedIcon;
     public static bool dragSingle;
 
+    
+
     private void Awake()
     {
         Initialize();
@@ -34,6 +36,11 @@ public class UI_Manager : MonoBehaviour
         else
         {
             dragSingle = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            // 상점
         }
     }
     public void ToggleInventoryUI()
