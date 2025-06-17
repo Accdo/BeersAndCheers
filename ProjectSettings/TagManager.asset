@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Customer
   layers:
   - Default
   - TransparentFX
@@ -28,8 +29,8 @@ TagManager:
   - 
   - Hand
   - Enemy
-  - 
-  - 
+  - Player
+  - TargetFinder
   - 
   - 
   - Interactable
