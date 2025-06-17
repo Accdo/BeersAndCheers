@@ -15,7 +15,7 @@ public class Inventory_UI : MonoBehaviour
 
     private void Start()
     {
-        inventory = GH_GameManager_Test.instance.player.inventory.GetInventoryByName(inventoryName);
+        inventory = GH_GameManager.instance.player.inventory.GetInventoryByName(inventoryName);
 
         SetupSlots();
         Refresh();
@@ -44,7 +44,7 @@ public class Inventory_UI : MonoBehaviour
 
     public void Remove()
     {
-        Item itemToDrop = GH_GameManager_Test.instance.itemManager.GetItemByName(
+        Item itemToDrop = GH_GameManager.instance.itemManager.GetItemByName(
             inventory.slots[UI_Manager.draggedSlot.slotID].itemName);
 
         if (itemToDrop != null)
@@ -99,7 +99,7 @@ public class Inventory_UI : MonoBehaviour
                 UI_Manager.draggedSlot.inventory.slots[UI_Manager.draggedSlot.slotID].count);
         }
 
-        GH_GameManager_Test.instance.uiManager.RefreshAll();
+        GH_GameManager.instance.uiManager.RefreshAll();
     }
 
     private void MoveToMousePosition(GameObject toMove)
