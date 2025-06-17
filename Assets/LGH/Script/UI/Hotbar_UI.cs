@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class Hotbar_UI : MonoBehaviour
@@ -36,7 +36,7 @@ public class Hotbar_UI : MonoBehaviour
             selectedSlot.SetHighlight(true);
 
             GH_GameManager.instance.player.inventory.hotbar.SelectSlot(index);
-            
+
             GH_GameManager.instance.player.EquipWeapon();
 
         }

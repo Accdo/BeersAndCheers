@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -11,7 +11,6 @@ public class Inventory_UI : MonoBehaviour
 
     private void Awake()
     {
-        canvas = FindAnyObjectByType<Canvas>();
     }
 
     private void Start()

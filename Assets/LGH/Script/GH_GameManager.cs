@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GH_GameManager : MonoBehaviour
 {
@@ -7,7 +7,7 @@ public class GH_GameManager : MonoBehaviour
     public ItemManager itemManager;
     public UI_Manager uiManager;
 
-    public GH_Player player;
+    public Player_JSW player;
 
     private void Awake()
     {
@@ -23,6 +23,6 @@ public class GH_GameManager : MonoBehaviour
         itemManager = GetComponent<ItemManager>();
         uiManager = GetComponent<UI_Manager>();
 
-        player = FindAnyObjectByType<GH_Player>();
+        player = FindAnyObjectByType<Player_JSW>();
     }
 }
