@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b395889b5de77145b42f44c40b2c4c0, type: 3}
   m_Name: Pizza
   m_EditorClassIdentifier: 
-  itemName: Item Name
-  icon: {fileID: 0}
+  itemName: Pizza
+  icon: {fileID: 21300000, guid: 96165046080399d42a874591eea23032, type: 3}
   freshPoint: 100
-  foodPrefab: {fileID: 0}
-  price: 0
+  foodPrefab: {fileID: 919132149155446097, guid: 4fa065e1b29f7be4f8b2ba6ad219bdfb, type: 3}
+  price: 1000

@@ -1904,6 +1904,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4213653194816405180, guid: a99c8a3f5461e744b8c13020f7a738fb, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4935536026355962227, guid: a99c8a3f5461e744b8c13020f7a738fb, type: 3}
       propertyPath: m_Name
       value: HotBarSlot
@@ -5332,6 +5336,8 @@ MonoBehaviour:
   - {fileID: 3355094592849020596, guid: e7970936b69cffc4a9e65390a32fb961, type: 3}
   - {fileID: 3753941589294388507, guid: 9268497ddb3996f40a005c44b922d110, type: 3}
   - {fileID: 1451454517858859037, guid: 67a3e3c1ccd0bfb4f846720953aff297, type: 3}
+  - {fileID: 1388576244083133866, guid: ef101dbf313dfe546beac3845c19e9fc, type: 3}
+  - {fileID: 8654538914663531968, guid: 3d04329293e75274097a8afc5b8d0fd5, type: 3}
 --- !u!114 &811220021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9543,7 +9549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11138,8 +11144,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 102944052}
-  - {fileID: 1902743362}
   - {fileID: 1679297402}
+  - {fileID: 1902743362}
   - {fileID: 1389246552}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
