@@ -100,7 +100,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void ShowInteractableText(bool show, CustomerAI customer, float distance)
+    public void ShowInteractableText(bool show, CustomerAI customer, float distance, string interactText = null)
     {
         interactableText.text = $"상호 작용 [{customer.interactKey}]";
         if (interactableText != null)

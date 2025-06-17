@@ -124,7 +124,8 @@ public class CustomerAI : MonoBehaviour
             }
         }
 
-        if (player != null && hasSpecialRequest)
+        // 특별주문이 있거나 음식을 기다리는 상태일 때 상호작용 체크
+        if (player != null && (hasSpecialRequest || (hasOrdered && !hasReceivedFood)))
         {
             NearCheckTalk();
         }
@@ -132,26 +133,90 @@ public class CustomerAI : MonoBehaviour
 
     private void NearCheckTalk()
     {
-        // 플레이어와의 거리 체크
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         isPlayerNearby = distanceToPlayer <= interactionDistance;
 
-        // 상호작용 가능 여부에 따라 텍스트 표시
         if (DialogueManager.Instance != null)
         {
-            if (isPlayerNearby && isSeated )
+            if (isPlayerNearby && isSeated)
             {
-                DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer);
-                if (Input.GetKeyDown(interactKey))
+                // 1. 특별주문 상태
+                if (hasSpecialRequest)
                 {
-                    // 대화 시작
-                    StartDialogue();
+                    DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer, "E: 특별주문 대화");
+                    if (Input.GetKeyDown(interactKey))
+                    {
+                        StartDialogue();
+                    }
+                }
+                // 2. 음식 대기 상태
+                else if (hasOrdered && !hasReceivedFood)
+                {
+                    DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer, "E: 음식 전달");
+                    if (Input.GetKeyDown(interactKey))
+                    {
+                        GiveFoodToCustomer();
+                    }
+                }
+                // 3. 그 외
+                else
+                {
+                    DialogueManager.Instance.ShowInteractableText(false, this, distanceToPlayer);
                 }
             }
             else
             {
                 DialogueManager.Instance.ShowInteractableText(false, this, distanceToPlayer);
             }
+        }
+    }
+
+    // 실제로 음식을 전달하는 함수
+    private void GiveFoodToCustomer()
+    {
+        // 이미 음식을 받았다면 리턴
+        if (hasReceivedFood)
+        {
+            Debug.Log("이미 음식을 받았습니다!");
+            return;
+        }
+
+        var inventory = FindAnyObjectByType<InventoryManager>();
+        
+        // 주문한 음식 이름 가져오기
+        string orderedFoodName = orderedItems[0].itemName;
+        Debug.Log($"주문한 음식: {orderedFoodName}");
+        
+        // 핫바에서 먼저 찾기
+        GameObject foodPrefab = inventory.GetItemPrefab(orderedFoodName);
+        
+        if (foodPrefab != null)
+        {
+            Debug.Log($"찾은 음식 프리팹: {foodPrefab.name}");
+            
+            // 대소문자 구분 없이 비교
+            bool isCorrectOrder = foodPrefab.name.Equals(orderedFoodName, StringComparison.OrdinalIgnoreCase);
+
+            if (isCorrectOrder)
+            {
+                Debug.Log("올바른 음식 전달!");
+                
+                // 주문한 음식의 FoodData를 사용
+                ReceiveFood(new List<FoodData> { orderedItems[0] });
+                // 음식 아이템 제거
+                inventory.RemoveItem(orderedFoodName);
+            }
+            else
+            {
+                Debug.Log($"잘못된 음식 전달! 주문: {orderedFoodName}, 전달: {foodPrefab.name}");
+                // 잘못된 음식 전달 시 만족도 감소
+                SatisfactionScoreUpDown(-15f);
+                StartCoroutine(EatingTime());
+            }
+        }
+        else
+        {
+            Debug.Log($"주문한 음식 {orderedFoodName}이(가) 인벤토리에 없습니다!");
         }
     }
 
@@ -344,26 +409,36 @@ public class CustomerAI : MonoBehaviour
     {
         if (hasOrdered && !hasReceivedFood)
         {
-            // 현재는 1개씩만 주문
-            bool isCorrectOrder = deliveredItems.Count > 0 && 
-                                orderedItems.Count > 0 && 
-                                deliveredItems[0].itemName == orderedItems[0].itemName;
-
-            if (isCorrectOrder)
+            // 현재는 1개씩만 주문하므로 첫 번째 아이템만 확인
+            if (deliveredItems.Count > 0 && orderedItems.Count > 0)
             {
-                hasReceivedFood = true;
-                HideOrderBubble();
-                HideGauge();
-                HideSpecialRequestImage();
-                SatisfactionScoreUpDown(10f);
+                string orderedFoodName = orderedItems[0].itemName;
+                string deliveredFoodName = deliveredItems[0].itemName;
 
-                CheckRecommendedFood(deliveredItems[0]);
-                StartCoroutine(EatingTime());
-            }
-            else
-            {
-                SatisfactionScoreUpDown(-15f);
-                StartCoroutine(EatingTime());
+                // 주문한 음식과 전달된 음식이 같은지 확인
+                bool isCorrectOrder = deliveredFoodName.Equals(orderedFoodName, StringComparison.OrdinalIgnoreCase);
+
+                if (isCorrectOrder)
+                {
+                    hasReceivedFood = true;
+                    HideOrderBubble();
+                    HideGauge();
+                    HideSpecialRequestImage();
+                    
+                    // 만족도 증가
+                    SatisfactionScoreUpDown(10f);
+                    
+                    // 추천 메뉴 확인
+                    CheckRecommendedFood(deliveredItems[0]);
+                    
+                    StartCoroutine(EatingTime());
+                }
+                else
+                {
+                    // 잘못된 음식 전달 시 만족도 감소
+                    SatisfactionScoreUpDown(-15f);
+                    StartCoroutine(EatingTime());
+                }
             }
         }
     }
