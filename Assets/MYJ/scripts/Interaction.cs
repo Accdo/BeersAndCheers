@@ -79,7 +79,7 @@ public class Interaction : MonoBehaviour
     {
         interactionUI.ShowTimingBar();
 
-        playerController.StartOtherWork();
+        //playerController.StartOtherWork();
 
         timingBar?.StartTimingBar(this);
     }
@@ -90,7 +90,7 @@ public class Interaction : MonoBehaviour
         gaugeCompleted = false;
         holdTimer = 0f;
 
-        playerController.EndOtherWork();
+        //playerController.EndOtherWork();
     }
     #endregion
 }

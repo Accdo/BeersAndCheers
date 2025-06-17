@@ -608,10 +608,8 @@ MonoBehaviour:
   orderWaitTime: 0
   maxOrderWaitTime: 30
   orderedItems: []
+  eatingTime: 10
   orderBubblePrefab: {fileID: 1309562172312688879}
   customerType: 3
-  kingDialogue: {fileID: 0}
-  queenDialogue: {fileID: 0}
-  citizenDialogue: {fileID: 0}
-  peasantDialogue: {fileID: 0}
-  richDialogue: {fileID: 0}
+  interactKey: 101
+  interactionDistance: 3

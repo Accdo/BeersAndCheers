@@ -603,13 +603,11 @@ MonoBehaviour:
   orderWaitTime: 0
   maxOrderWaitTime: 30
   orderedItems: []
+  eatingTime: 10
   orderBubblePrefab: {fileID: 2894935279806238658}
   customerType: 2
-  kingDialogue: {fileID: 0}
-  queenDialogue: {fileID: 0}
-  citizenDialogue: {fileID: 0}
-  peasantDialogue: {fileID: 0}
-  richDialogue: {fileID: 0}
+  interactKey: 101
+  interactionDistance: 3
 --- !u!4 &8978857294978790713 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a121a84ddebe6df4ba1555ae8847fa0b, type: 3}
