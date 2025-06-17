@@ -40,7 +40,7 @@ public class CustomerAI : MonoBehaviour
     public bool hasOrdered = false;
     public bool hasReceivedFood = false;
     public bool hasSpecialRequest = false; // 특별 요청 여부
-    public List<FoodItem> orderedItems = new List<FoodItem>();
+    public List<FoodData> orderedItems = new List<FoodData>();
     public float eatingTime = 10f;
     #endregion
 
@@ -75,6 +75,7 @@ public class CustomerAI : MonoBehaviour
         stateMachine = GetComponent<CustomerStateMachine>();
         anim = GetComponent<Animator>();
 
+
         //스테이트
         waitingState = new CustomerWaiting(this, "Wait", stateMachine, agent);
         walkState = new CustomerWalk(this, "Walk", stateMachine, agent);
@@ -87,6 +88,7 @@ public class CustomerAI : MonoBehaviour
         stateMachine.ChangeState(waitingState);
         LoadDialogue();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
+
 
         // UI
         HideOrderBubble();
@@ -194,13 +196,24 @@ public class CustomerAI : MonoBehaviour
         {
             var point = queuePoints[index];
             agent.SetDestination(point.position);
+            
+            // 이동 시작 시 회전값 강제 설정
+            transform.rotation = Quaternion.identity;
+            agent.updateRotation = false;
+
+
         }
         else
         {
             Debug.LogWarning($"[CustomerAI] queueIndex {index} is out of range! queuePoints.Count={queuePoints.Count}");
-            // 대기 위치가 부족할 때는 마지막 위치로 이동하거나, 적당한 대체 위치로 이동
             if (queuePoints.Count > 0)
+            {
                 agent.SetDestination(queuePoints[queuePoints.Count - 1].position);
+                transform.rotation = Quaternion.identity;
+                agent.updateRotation = false;
+                
+
+            }
         }
     }
     #endregion
@@ -216,7 +229,7 @@ public class CustomerAI : MonoBehaviour
         if (orderBubblePrefab != null)
             orderBubblePrefab.SetActive(false);
     }
-    private void UpdateOrderBubble(List<FoodItem> items)
+    private void UpdateOrderBubble(List<FoodData> items)
     {
         if (orderBubblePrefab == null || items.Count == 0) return;
 
@@ -225,7 +238,7 @@ public class CustomerAI : MonoBehaviour
         {
             if (image.gameObject.name == "Food Image")
             {
-                image.sprite = items[0].foodImage;
+                image.sprite = items[0].icon;
                 image.enabled = true;
                 break;
             }
@@ -305,17 +318,17 @@ public class CustomerAI : MonoBehaviour
 
     private IEnumerator WaitAndOrder()
     {
-        yield return new WaitForSeconds(2f);
-        
-        FoodItem order = FoodManager.Instance.GetRandomFood();
+        yield return new WaitForSeconds(1f);
+
+        FoodData order = FoodManager.Instance.GetRandomFood();
         if (order != null)
         {
-            List<FoodItem> orderList = new List<FoodItem> { order };
+            List<FoodData> orderList = new List<FoodData> { order };
             PlaceOrder(orderList);
         }
     }
 
-    public void PlaceOrder(List<FoodItem> items)
+    public void PlaceOrder(List<FoodData> items)
     {
         if (!hasOrdered)
         {
@@ -327,14 +340,14 @@ public class CustomerAI : MonoBehaviour
         }
     }
 
-    public void ReceiveFood(List<FoodItem> deliveredItems)
+    public void ReceiveFood(List<FoodData> deliveredItems)
     {
         if (hasOrdered && !hasReceivedFood)
         {
             // 현재는 1개씩만 주문
             bool isCorrectOrder = deliveredItems.Count > 0 && 
                                 orderedItems.Count > 0 && 
-                                deliveredItems[0].foodName == orderedItems[0].foodName;
+                                deliveredItems[0].itemName == orderedItems[0].itemName;
 
             if (isCorrectOrder)
             {
@@ -379,7 +392,7 @@ public class CustomerAI : MonoBehaviour
     }
 
     // 추천 메뉴 확인
-    public void CheckRecommendedFood(FoodItem deliveredFood)
+    public void CheckRecommendedFood(FoodData deliveredFood)
     {
         if (currentDialogue == null) return;
 
@@ -389,11 +402,11 @@ public class CustomerAI : MonoBehaviour
             if (line.recommendedFood != null)
             {
                 // 첫 번째 추천 메뉴와 일치하는지 확인
-                if (line.recommendedFood.foodName == deliveredFood.foodName)
+                if (line.recommendedFood.itemName == deliveredFood.itemName)
                 {
                     // 추천 메뉴가 맞으면 만족도 증가
                     SatisfactionScoreUpDown(20f);
-                    Debug.Log($"{customerType} 손님이 추천 메뉴 {deliveredFood.foodName}을(를) 받아 만족도가 증가했습니다!");
+                    Debug.Log($"{customerType} 손님이 추천 메뉴 {deliveredFood.itemName}을(를) 받아 만족도가 증가했습니다!");
                 }
                 // 첫 번째 추천 메뉴를 찾았으므로 더 이상 확인하지 않음
                 return;
