@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 public class Interaction : MonoBehaviour
@@ -6,13 +6,13 @@ public class Interaction : MonoBehaviour
     public InteractionUI interactionUI;
     
     [Header("Interaction Settings")]
-    public float interactRange = 3f; //»óÈ£ÀÛ¿ë °Å¸®
-    public LayerMask interactLayer; // »óÈ£ÀÛ¿ë ¹°Ã¼ È®ÀÎ layer
-    public float holdDuration = 1.5f; //°ÔÀÌÁö Ã¤¿öÁö´Â ½Ã°£
+    public float interactRange = 3f; //ìƒí˜¸ì‘ìš© ê±°ë¦¬
+    public LayerMask interactLayer; // ìƒí˜¸ì‘ìš© ë¬¼ì²´ í™•ì¸ layer
+    public float holdDuration = 1.5f; //ê²Œì´ì§€ ì±„ì›Œì§€ëŠ” ì‹œê°„
 
     [Header("reference")]
     public TimingBar timingBar;
-    public PlayerController playerController;
+    public Player_MYJ player_MYJ;
 
     private Camera cam;
     private float holdTimer = 0f;
@@ -29,7 +29,7 @@ public class Interaction : MonoBehaviour
         letsinteraction();
     }
 
-    public void letsinteraction() //»óÈ£ÀÛ¿ë
+    public void letsinteraction() //ìƒí˜¸ì‘ìš©
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         bool hitSomething = Physics.Raycast(ray, out RaycastHit hit, interactRange, interactLayer);
@@ -39,7 +39,7 @@ public class Interaction : MonoBehaviour
             var interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
             {
-                //¾î¶² ¹°Ã¼¿Í »óÈ£ÀÛ¿ëÇÏ´ÂÁö °Ë»çÇÏ¿© Ä¿¼­ ÀÌ¹ÌÁö¸¦ ´Ù¸£°Ô º¸¿©ÁÜ
+                //ì–´ë–¤ ë¬¼ì²´ì™€ ìƒí˜¸ì‘ìš©í•˜ëŠ”ì§€ ê²€ì‚¬í•˜ì—¬ ì»¤ì„œ ì´ë¯¸ì§€ë¥¼ ë‹¤ë¥´ê²Œ ë³´ì—¬ì¤Œ
                 string cursorType = interactable.GetCursorType();
 
                 interactionUI.ShowGauge();
@@ -74,12 +74,12 @@ public class Interaction : MonoBehaviour
         }
     }
 
-    #region TimingBar(Ã¤Áı)
+    #region TimingBar(ì±„ì§‘)
     public void ShowTimingBar()
     {
         interactionUI.ShowTimingBar();
 
-        //playerController.StartOtherWork();
+        player_MYJ.StartOtherWork();
 
         timingBar?.StartTimingBar(this);
     }
@@ -90,7 +90,7 @@ public class Interaction : MonoBehaviour
         gaugeCompleted = false;
         holdTimer = 0f;
 
-        //playerController.EndOtherWork();
+        player_MYJ.EndOtherWork();
     }
     #endregion
 }

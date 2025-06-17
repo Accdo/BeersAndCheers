@@ -20,7 +20,11 @@ public class CustomerExit : CustomerState
         ai.isSeated = false;
 
         ai.ResultOfStisfaciton();
-
+        if(ai.customerType == CustomerType.Queen || ai.customerType == CustomerType.King)
+        {
+            CustomerSpawnManager.Instance.RemoveSpecialCustomer(ai.customerType);
+        }
+      
         if (SeatManager.Instance.exitPoint != null)
         {
             // 걷기 애니메이션 재생

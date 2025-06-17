@@ -8,7 +8,7 @@ public class DialogueScript : ScriptableObject
     {
         public string speakerName;    // 말하는 사람 이름
         public string text;           // 대화 내용
-        public FoodItem recommendedFood;  // 추천 메뉴 정보 추가
+        public FoodData recommendedFood;  // 추천 메뉴 정보 추가
     }
 
     public DialogueLine[] lines;      // 대화 내용 배열
