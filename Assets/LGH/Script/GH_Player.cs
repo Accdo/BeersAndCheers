@@ -57,12 +57,15 @@ public class GH_Player : MonoBehaviour
         Debug.Log("EquipWeapon called");
         if (currentEquipment != null)
         {
-            Destroy(currentEquipment);
+            Destroy(currentEquipment); // animator = null;
         }
         if(inventory.hotbar.selectedSlot.UseItem() == null)
         {
             return;
         }
+
+        // 무기 생성 또는 갈아끼기
+        // animator 로 변경
         currentEquipment = Instantiate(inventory.hotbar.selectedSlot.UseItem(), weaponHoldPoint.position, transform.rotation);
         currentEquipment.transform.SetParent(transform);
     }
