@@ -12,7 +12,7 @@ public class EventManager : MonoBehaviour
             if (instance == null)
             {
                 GameObject obj = new GameObject("EventManager");
-                instance = obj.GetComponent<EventManager>();
+                instance = obj.AddComponent<EventManager>();
                 DontDestroyOnLoad(obj);
             }
             return instance;

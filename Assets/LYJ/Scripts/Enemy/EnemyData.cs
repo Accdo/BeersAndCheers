@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum FleshType { Hard, Soft }
 
-[CreateAssetMenu(fileName = "EnemyData", menuName = "Scriptable Objects/EnemyData")]
+[CreateAssetMenu(fileName = "EnemyData", menuName = "Datas/EnemyData")]
 public class EnemyData : ScriptableObject
 {
     [SerializeField] private string enemyName;

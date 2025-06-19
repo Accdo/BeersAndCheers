@@ -5,6 +5,7 @@ public class Player_LYJ : MonoBehaviour
 {
     #region 상수
     private const float GROUND_CHECK_LEEWAY = 0.1f;
+    private const float DEFAULT_HEALTH = 100f;
     #endregion
     [SerializeField, Tooltip("기본값 100")] private float maxHealth;
     private float currentHealth;
@@ -13,13 +14,11 @@ public class Player_LYJ : MonoBehaviour
         get => currentHealth;
         private set
         {
-            currentHealth = value;
-            // EventManager.Instance.TriggerEvent("PlayerHealthChanged", currentHealth);
-            // ui필요함
+            currentHealth = Mathf.Max(0f, value);
+            EventManager.Instance.TriggerEvent(PlayerEvents.HEALTH_CHANGED, currentHealth);
             if (currentHealth <= 0)
             {
-                // EventManager.Instance.TriggerEvent("PlayerDied");
-                // ui필요함
+                EventManager.Instance.TriggerEvent(PlayerEvents.DIED);
             }
         }
     }
@@ -58,17 +57,22 @@ public class Player_LYJ : MonoBehaviour
         coll = GetComponent<CapsuleCollider>();
         cam = GetComponentInChildren<Camera>();
 
+        currentCamRotationX = 0f;
+
+        MouseVisible(false);
+    }
+
+    private void Start()
+    {
         SetDefaultValues();
     }
 
     private void SetDefaultValues()
     {
         appliedSpeed = walkSpeed;
-        currentCamRotationX = 0f;
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        CurrentHealth = DEFAULT_HEALTH;
     }
+
 
     private void Update()
     {
@@ -143,8 +147,13 @@ public class Player_LYJ : MonoBehaviour
         rb.linearVelocity = new Vector3(moveVel.x, rb.linearVelocity.y, moveVel.z);
     }
 
+    public void Damage(float damageAmount)
+    {
+        CurrentHealth -= damageAmount;
+    }
 
-    #region 다른일 컨트롤 (움직임 및 마우스 제어)
+
+    #region 다른일 컨트롤 (움직임 제어)
 
     public void StartOtherWorkForTime(float time = 0f)
     {
@@ -180,6 +189,20 @@ public class Player_LYJ : MonoBehaviour
         doingOtherWork = false;
         currentOtherWork = null;
     }
-
     #endregion
+
+    public void MouseVisible(bool value)
+    {
+        Cursor.visible = value;
+
+        switch (value)
+        {
+            case true:
+                Cursor.lockState = CursorLockMode.None;
+                break;
+            case false:
+                Cursor.lockState = CursorLockMode.Locked;
+                break;
+        }
+    }
 }
