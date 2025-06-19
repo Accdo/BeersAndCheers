@@ -1,14 +1,15 @@
-ï»¿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
+
 
 public class Interaction : MonoBehaviour
 {
     public InteractionUI interactionUI;
     
     [Header("Interaction Settings")]
-    public float interactRange = 3f; //ìƒí˜¸ì‘ìš© ê±°ë¦¬
-    public LayerMask interactLayer; // ìƒí˜¸ì‘ìš© ë¬¼ì²´ í™•ì¸ layer
-    public float holdDuration = 1.5f; //ê²Œì´ì§€ ì±„ì›Œì§€ëŠ” ì‹œê°„
+    public float interactRange = 3f; //»óÈ£ÀÛ¿ë °Å¸®
+    public LayerMask interactLayer; // »óÈ£ÀÛ¿ë ¹°Ã¼ È®ÀÎ layer
+    public float holdDuration = 1f; //°ÔÀÌÁö Ã¤¿öÁö´Â ½Ã°£
 
     [Header("reference")]
     public TimingBar timingBar;
@@ -17,6 +18,7 @@ public class Interaction : MonoBehaviour
     private Camera cam;
     private float holdTimer = 0f;
     private bool gaugeCompleted = false;
+    private IInteractable currentTarget;
 
     private void Start()
     {
@@ -29,7 +31,7 @@ public class Interaction : MonoBehaviour
         letsinteraction();
     }
 
-    public void letsinteraction() //ìƒí˜¸ì‘ìš©
+    public void letsinteraction() //»óÈ£ÀÛ¿ë
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         bool hitSomething = Physics.Raycast(ray, out RaycastHit hit, interactRange, interactLayer);
@@ -39,27 +41,57 @@ public class Interaction : MonoBehaviour
             var interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
             {
-                //ì–´ë–¤ ë¬¼ì²´ì™€ ìƒí˜¸ì‘ìš©í•˜ëŠ”ì§€ ê²€ì‚¬í•˜ì—¬ ì»¤ì„œ ì´ë¯¸ì§€ë¥¼ ë‹¤ë¥´ê²Œ ë³´ì—¬ì¤Œ
-                string cursorType = interactable.GetCursorType();
+                //¾î¶² ¹°Ã¼¿Í »óÈ£ÀÛ¿ëÇÏ´ÂÁö °Ë»çÇÏ¿© Ä¿¼­ ÀÌ¹ÌÁö¸¦ ´Ù¸£°Ô º¸¿©ÁÜ
+                currentTarget = interactable;
+                interactionUI.SetCursor(interactable.GetCursorType());
 
-                interactionUI.ShowGauge();
-                interactionUI.SetCursor(cursorType);
-
-                if (Input.GetKey(KeyCode.E))
+                switch (interactable.GetInteractionType())
                 {
-                    holdTimer += Time.deltaTime;
-                    interactionUI.UpdateGauge(holdTimer / holdDuration);
+                    case InteractionType.Instant:
+                        interactionUI.ShowCursor();
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            interactable.Interact();
+                        }
+                        break;
 
-                    if (holdTimer >= holdDuration)
-                    {
-                        gaugeCompleted = true;
-                        ShowTimingBar();
-                    }
-                }
-                else
-                {
-                    holdTimer = 0f;
-                    interactionUI.UpdateGauge(0f);
+                    case InteractionType.GaugeThenTiming:
+                        interactionUI.ShowGauge();
+                        if (Input.GetKey(KeyCode.E))
+                        {
+                            holdTimer += Time.deltaTime;
+                            interactionUI.UpdateGauge(holdTimer / holdDuration);
+                            if (holdTimer >= holdDuration)
+                            {
+                                gaugeCompleted = true;
+                                timingBar.StartTimingBar(currentTarget, this, player_MYJ, interactionUI);
+                            }
+                        }
+                        else
+                        {
+                            holdTimer = 0f;
+                            interactionUI.UpdateGauge(0f);
+                        }
+                        break;
+
+                    case InteractionType.MiniGame:
+                        interactionUI.ShowGauge();
+                        if (Input.GetKey(KeyCode.E))
+                        {
+                            holdTimer += Time.deltaTime;
+                            interactionUI.UpdateGauge(holdTimer / holdDuration);
+                            if (holdTimer >= holdDuration)
+                            {
+                                gaugeCompleted = true;
+                                interactable.Interact();
+                            }
+                        }
+                        else
+                        {
+                            holdTimer = 0f;
+                            interactionUI.UpdateGauge(0f);
+                        }
+                        break;
                 }
 
                 return;
@@ -73,24 +105,9 @@ public class Interaction : MonoBehaviour
             interactionUI.UpdateGauge(0f);
         }
     }
-
-    #region TimingBar(ì±„ì§‘)
-    public void ShowTimingBar()
+    public void ResetInteractionState()
     {
-        interactionUI.ShowTimingBar();
-
-        player_MYJ.StartOtherWork();
-
-        timingBar?.StartTimingBar(this);
-    }
-
-    public void FinishTimingBar()
-    {
-        interactionUI.ResetUI();
         gaugeCompleted = false;
         holdTimer = 0f;
-
-        player_MYJ.EndOtherWork();
     }
-    #endregion
 }

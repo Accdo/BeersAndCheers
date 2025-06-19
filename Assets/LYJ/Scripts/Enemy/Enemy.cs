@@ -11,23 +11,22 @@ public class Enemy : MonoBehaviour
     public EnemyData Data => data;
 
     private float currentHealth;
+    private float maxHealth = 100f; // 수치 temp
     public float CurrentHealth
     {
         get => currentHealth;
         private set
         {
-            currentHealth = value;
-            // EventManager.Instance.TriggerEvent("EnemyHealthChanged", currentHealth);
-            // ui필요함
+            currentHealth = Mathf.Max(0f, value);
+            EventManager.Instance.TriggerEvent("EnemyHealthChanged", currentHealth / maxHealth);
             if (currentHealth <= 0)
             {
-                // EventManager.Instance.TriggerEvent("EnemyDied", data.EnemyName);
-                // ui필요함
+                EventManager.Instance.TriggerEvent("EnemyDied", data.EnemyName);
             }
         }
     }
 
-    private Vector3 firstPos = new Vector3(0, 1, 16); // 수치는 temp
+    private Vector3 firstPos = new Vector3(0, 1, 10); // 수치는 temp
     public Vector3 FirstPos => firstPos;
 
     #region 동작 상태
@@ -75,7 +74,8 @@ public class Enemy : MonoBehaviour
     public void Init(EnemyData data, Vector3 InitPos)
     {
         this.data = data;
-        currentHealth = data.Health;
+        maxHealth = data.Health;
+        CurrentHealth = data.Health;
         navMeshAgent.speed = data.MoveSpeed;
         firstPos = InitPos;
         CanAttack = true;
@@ -90,9 +90,9 @@ public class Enemy : MonoBehaviour
 
 
 
-    public void Damage(float damage)
+    public void Damage(float damageAmount)
     {
-        currentHealth -= damage;
+        CurrentHealth -= damageAmount;
     }
 
     public void SetTarget(Player_LYJ target)

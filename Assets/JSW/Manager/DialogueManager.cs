@@ -105,6 +105,10 @@ public class DialogueManager : MonoBehaviour
         interactableText.text = $"상호 작용 [{customer.interactKey}]";
         if (interactableText != null)
         {
+            if(interactText != null)
+            {
+                interactableText.text = interactText;
+            }
             // 더 가까운 손님이 있으면 해당 손님의 텍스트만 표시
             if (show && (nearestCustomer == null || distance < nearestDistance))
             {
@@ -120,6 +124,8 @@ public class DialogueManager : MonoBehaviour
                 interactableText.gameObject.SetActive(false);
             }
         }
-       
+
+        interactText = null;
     }
+
 }

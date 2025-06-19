@@ -185,6 +185,30 @@ public class Inventory
         return null;
     }
 
+    // 아이템을 통해 슬롯 리스트를 탐색 후 아이템 반환
+    public int GetItemCount(Item item, int ingredientNum)
+    {
+        if (item.data is FoodData fodData && ingredientNum >= fodData.ingredients.Length)
+        {
+            Debug.LogWarning($"Ingredient number {ingredientNum} is out of range for item {item.data.itemName}.");
+            return -1;
+        }
+
+        foreach (Slot slot in slots)
+        {
+            // 아이템 이름이 같고
+            Debug.Log($"Item: {item.data.itemName} Slot: {slot.itemName}, Count: {slot.count}");
+            if (item.data is FoodData foodData)
+            {
+                if (slot.itemName == foodData.ingredients[ingredientNum].itemName)
+                {
+                    return slot.count;
+                }
+            }
+        }
+        return -1;
+    }
+
     // 아이템 이동
     public void MoveSlot(int fromIndex, int toIndex, Inventory toInventory, int numToMove = 1)
     {

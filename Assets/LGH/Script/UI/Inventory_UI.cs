@@ -11,6 +11,7 @@ public class Inventory_UI : MonoBehaviour
 
     private void Awake()
     {
+        
     }
 
     private void Start()
