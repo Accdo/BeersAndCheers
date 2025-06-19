@@ -7,6 +7,7 @@ public class EnemyIdleState : State_LYJ<Enemy>
     {
         base.Enter(owner);
         this.owner = owner;
+        owner.NavMeshAgent.isStopped = true;
     }
 
     public override void Run()
