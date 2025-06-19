@@ -15418,7 +15418,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1811318271663635834, guid: 54525128344f24940a9b8ef9b5896cf0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1489210305}
   m_SourcePrefab: {fileID: 100100000, guid: 54525128344f24940a9b8ef9b5896cf0, type: 3}
 --- !u!20 &507393767 stripped
 Camera:
@@ -66472,6 +66475,41 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 0.020000374, z: 2}
   m_Center: {x: 0, y: -0.00000019650906, z: 0}
+--- !u!1 &1489210298 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1811318271663635834, guid: 54525128344f24940a9b8ef9b5896cf0, type: 3}
+  m_PrefabInstance: {fileID: 507393766}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1489210305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489210298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36de05d7ef648c469dc9dec0733e08c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backpack:
+    slots: []
+    selectedSlot:
+      itemName: 
+      count: 0
+      maxAllowed: 99
+      icon: {fileID: 0}
+      itemData: {fileID: 0}
+  backpackSlotCount: 0
+  hotbar:
+    slots: []
+    selectedSlot:
+      itemName: 
+      count: 0
+      maxAllowed: 99
+      icon: {fileID: 0}
+      itemData: {fileID: 0}
+  hotbarSlotCount: 0
 --- !u!1001 &1494368247
 PrefabInstance:
   m_ObjectHideFlags: 0
