@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class Interaction : MonoBehaviour
 {
     public InteractionUI interactionUI;
@@ -8,7 +9,7 @@ public class Interaction : MonoBehaviour
     [Header("Interaction Settings")]
     public float interactRange = 3f; //상호작용 거리
     public LayerMask interactLayer; // 상호작용 물체 확인 layer
-    public float holdDuration = 1.5f; //게이지 채워지는 시간
+    public float holdDuration = 1f; //게이지 채워지는 시간
 
     [Header("reference")]
     public TimingBar timingBar;
@@ -17,6 +18,7 @@ public class Interaction : MonoBehaviour
     private Camera cam;
     private float holdTimer = 0f;
     private bool gaugeCompleted = false;
+    private IInteractable currentTarget;
 
     private void Start()
     {
@@ -40,26 +42,56 @@ public class Interaction : MonoBehaviour
             if (interactable != null)
             {
                 //어떤 물체와 상호작용하는지 검사하여 커서 이미지를 다르게 보여줌
-                string cursorType = interactable.GetCursorType();
+                currentTarget = interactable;
+                interactionUI.SetCursor(interactable.GetCursorType());
 
-                interactionUI.ShowGauge();
-                interactionUI.SetCursor(cursorType);
-
-                if (Input.GetKey(KeyCode.E))
+                switch (interactable.GetInteractionType())
                 {
-                    holdTimer += Time.deltaTime;
-                    interactionUI.UpdateGauge(holdTimer / holdDuration);
+                    case InteractionType.Instant:
+                        interactionUI.ShowCursor();
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            interactable.Interact();
+                        }
+                        break;
 
-                    if (holdTimer >= holdDuration)
-                    {
-                        gaugeCompleted = true;
-                        ShowTimingBar();
-                    }
-                }
-                else
-                {
-                    holdTimer = 0f;
-                    interactionUI.UpdateGauge(0f);
+                    case InteractionType.GaugeThenTiming:
+                        interactionUI.ShowGauge();
+                        if (Input.GetKey(KeyCode.E))
+                        {
+                            holdTimer += Time.deltaTime;
+                            interactionUI.UpdateGauge(holdTimer / holdDuration);
+                            if (holdTimer >= holdDuration)
+                            {
+                                gaugeCompleted = true;
+                                timingBar.StartTimingBar(currentTarget, this, player_MYJ, interactionUI);
+                            }
+                        }
+                        else
+                        {
+                            holdTimer = 0f;
+                            interactionUI.UpdateGauge(0f);
+                        }
+                        break;
+
+                    case InteractionType.MiniGame:
+                        interactionUI.ShowGauge();
+                        if (Input.GetKey(KeyCode.E))
+                        {
+                            holdTimer += Time.deltaTime;
+                            interactionUI.UpdateGauge(holdTimer / holdDuration);
+                            if (holdTimer >= holdDuration)
+                            {
+                                gaugeCompleted = true;
+                                interactable.Interact();
+                            }
+                        }
+                        else
+                        {
+                            holdTimer = 0f;
+                            interactionUI.UpdateGauge(0f);
+                        }
+                        break;
                 }
 
                 return;
@@ -73,24 +105,9 @@ public class Interaction : MonoBehaviour
             interactionUI.UpdateGauge(0f);
         }
     }
-
-    #region TimingBar(채집)
-    public void ShowTimingBar()
+    public void ResetInteractionState()
     {
-        interactionUI.ShowTimingBar();
-
-        player_MYJ.StartOtherWork();
-
-        timingBar?.StartTimingBar(this);
-    }
-
-    public void FinishTimingBar()
-    {
-        interactionUI.ResetUI();
         gaugeCompleted = false;
         holdTimer = 0f;
-
-        player_MYJ.EndOtherWork();
     }
-    #endregion
 }

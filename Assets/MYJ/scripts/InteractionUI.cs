@@ -1,5 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+[System.Serializable]
+public class CursorData
+{
+    public string cursorType;
+    public Sprite cursorSprite;
+}
 
 public class InteractionUI : MonoBehaviour
 {
@@ -8,26 +16,41 @@ public class InteractionUI : MonoBehaviour
     public GameObject CursorUI;
     public GameObject GaugeUI;
     public GameObject timingBarUI;
+    public GameObject FishingGameUI;
 
     [Header("Cursor")]
     public Image cursorImage;
-    public Sprite TreeCursor;
-    public Sprite RockCursor;
+
+    [SerializeField]
+    private List<CursorData> cursorDataList;
+
+    private Dictionary<string, Sprite> cursorDict;
 
     [Header("Gauge")]
     public Image gaugeImage;
     public Image gaugeUnfilledImage;
 
+    [Header("Fishing UI")]
+    public GameObject fishingUI;
+    public GameObject hitUI;
+    public GameObject fishingGameUI;
+
+    private void Awake()
+    {
+        cursorDict = new Dictionary<string, Sprite>();
+
+        foreach(var data in cursorDataList)
+        {
+            if (!cursorDict.ContainsKey(data.cursorType))
+                cursorDict.Add(data.cursorType, data.cursorSprite);
+        }
+    }
+
     public void SetCursor(string type)
     {
-        switch (type)
+        if (cursorDict.TryGetValue(type, out Sprite sprite))
         {
-            case "Tree":
-                cursorImage.sprite = TreeCursor;
-                break;
-            case "Rock":
-                cursorImage.sprite = RockCursor;
-                break;
+            cursorImage.sprite = sprite;
         }
     }
 
@@ -42,6 +65,7 @@ public class InteractionUI : MonoBehaviour
         CursorUI.SetActive(true);
         GaugeUI.SetActive(true);
         timingBarUI.SetActive(false);
+        FishingGameUI.SetActive(false);
     }
 
     public void UpdateGauge(float amount)
@@ -55,6 +79,37 @@ public class InteractionUI : MonoBehaviour
         CursorUI.SetActive(false);
         GaugeUI.SetActive(false);
         timingBarUI.SetActive(true);
+        FishingGameUI.SetActive(false);
+    }
+    public void ShowFishingHitUI()
+    {
+        crosshairUI.SetActive(false);
+        CursorUI.SetActive(false);
+        GaugeUI.SetActive(false);
+        timingBarUI.SetActive(false);
+
+        fishingUI.SetActive(true);
+        hitUI.SetActive(true);
+        fishingGameUI.SetActive(false);
+    }
+
+    public void ShowFishingMiniGameUI()
+    {
+        crosshairUI.SetActive(false);
+        CursorUI.SetActive(false);
+        GaugeUI.SetActive(false);
+        timingBarUI.SetActive(false);
+
+        fishingUI.SetActive(true);
+        hitUI.SetActive(false);
+        fishingGameUI.SetActive(true);
+    }
+
+    public void ResetFishingUI()
+    {
+        fishingUI.SetActive(false);
+        hitUI.SetActive(false);
+        fishingGameUI.SetActive(false);
     }
 
     public void ResetUI()
@@ -63,5 +118,6 @@ public class InteractionUI : MonoBehaviour
         CursorUI.SetActive(false);
         GaugeUI.SetActive(false);
         timingBarUI.SetActive(false);
+        ResetFishingUI();
     }
 }
