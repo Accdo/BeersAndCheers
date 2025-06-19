@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class Hotbar_UI : MonoBehaviour
@@ -18,6 +18,11 @@ public class Hotbar_UI : MonoBehaviour
         CheckAlphaNumbericKeys();
     }
 
+    public void SelectSlot(Slot_UI slot)
+    {
+        SelectSlot(slot.slotID);
+    }
+
     // 입력한 번호의 슬롯을 선택
     public void SelectSlot(int index)
     {
@@ -29,6 +34,11 @@ public class Hotbar_UI : MonoBehaviour
             }
             selectedSlot = hotbarSlots[index];
             selectedSlot.SetHighlight(true);
+
+            GH_GameManager.instance.player.inventory.hotbar.SelectSlot(index);
+
+            GH_GameManager.instance.player.EquipWeapon();
+
         }
     }
 
