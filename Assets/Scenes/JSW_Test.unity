@@ -7492,6 +7492,9 @@ MonoBehaviour:
   inventoryUIs:
   - {fileID: 336456254}
   - {fileID: 1784559288}
+  RecipePanel: {fileID: 0}
+  CookingPanel: {fileID: 0}
+  cookingUI: {fileID: 0}
 --- !u!114 &1122421934
 MonoBehaviour:
   m_ObjectHideFlags: 0
