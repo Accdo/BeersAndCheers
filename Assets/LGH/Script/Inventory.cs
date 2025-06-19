@@ -197,7 +197,6 @@ public class Inventory
         foreach (Slot slot in slots)
         {
             // 아이템 이름이 같고
-            Debug.Log($"Item: {item.data.itemName} Slot: {slot.itemName}, Count: {slot.count}");
             if (item.data is FoodData foodData)
             {
                 if (slot.itemName == foodData.ingredients[ingredientNum].itemName)

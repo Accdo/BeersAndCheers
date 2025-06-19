@@ -54,10 +54,12 @@ public class UI_Manager : MonoBehaviour
         {
             if (!RecipePanel.activeSelf)
             {
+                GH_GameManager.instance.player.MouseVisible(true);
                 RecipePanel.SetActive(true);
             }
             else
             {
+                GH_GameManager.instance.player.MouseVisible(false);
                 RecipePanel.SetActive(false);
             }
         }
@@ -90,11 +92,13 @@ public class UI_Manager : MonoBehaviour
         {
             if (!inventoryPanel.activeSelf)
             {
+                GH_GameManager.instance.player.MouseVisible(true);
                 inventoryPanel.SetActive(true);
                 RefreshInventory("Backpack");
             }
             else
             {
+                GH_GameManager.instance.player.MouseVisible(false);
                 inventoryPanel.SetActive(false);
             }
         }

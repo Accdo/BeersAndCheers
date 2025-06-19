@@ -20,6 +20,7 @@ public class Fishing : MonoBehaviour,IInteractable
     public string requiredToolName = "FishingRod"; //인벤토리에서 낚시대 찾는거 넣기
     /*public Animator playerAnimator; //애니메이션*/
 
+    [SerializeField] private Player_MYJ player;
     public InteractionUI interactionUI;
 
     private bool isFishing = false;
@@ -36,8 +37,10 @@ public class Fishing : MonoBehaviour,IInteractable
 
     IEnumerator FishingSystem()
     {
-        interactionUI.ResetUI();
         isFishing = true;
+        Debug.Log($"player reference: {player}");
+        player?.StartOtherWork();
+        interactionUI.ResetUI();
 
         /*playerAnimator.SetTrigger("Cast");*/
         Debug.Log("애니메이션 실행");
@@ -113,13 +116,15 @@ public class Fishing : MonoBehaviour,IInteractable
 
         interactionUI.ResetFishingUI();
         isFishing = false;
+        player?.EndOtherWork();
     }
 
     private void OnDisable()
     {
         if (fishingRoutine != null) StopCoroutine(fishingRoutine);
-        interactionUI.ResetFishingUI();
         isFishing = false;
         canCatch = false;
+
+        player?.EndOtherWork();
     }
 }

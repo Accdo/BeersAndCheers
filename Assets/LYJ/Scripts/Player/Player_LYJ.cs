@@ -51,6 +51,14 @@ public class Player_LYJ : MonoBehaviour
     private Camera cam;
     #endregion
 
+    // 인벤토라 관련
+    public InventoryManager inventory;
+    public Item swordItem;
+    public Item exeItem;
+    // 현재 착용 장비
+    public GameObject currentEquipment;
+    public Transform weaponHoldPoint; // 무기를 장착할 위치
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -60,6 +68,8 @@ public class Player_LYJ : MonoBehaviour
         currentCamRotationX = 0f;
 
         MouseVisible(false);
+
+        inventory = GetComponent<InventoryManager>();
     }
 
     private void Start()
@@ -204,5 +214,23 @@ public class Player_LYJ : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 break;
         }
+    }
+
+    public void EquipWeapon()
+    {
+        Debug.Log("EquipWeapon called");
+        if (currentEquipment != null)
+        {
+            Destroy(currentEquipment); // animator = null;
+        }
+        if (inventory.hotbar.selectedSlot.UseItem() == null)
+        {
+            return;
+        }
+
+        // 무기 생성 또는 갈아끼기
+        // animator 로 변경
+        currentEquipment = Instantiate(inventory.hotbar.selectedSlot.UseItem(), weaponHoldPoint.position, transform.rotation);
+        currentEquipment.transform.SetParent(transform);
     }
 }
