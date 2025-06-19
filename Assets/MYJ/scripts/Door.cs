@@ -1,10 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    public Transform doorHinge; // È¸ÀüÇÒ ¹® Transform
-    public float angleAmount = 90f; // ¿­°í ´İ´Â °¢µµ
-    public float openSpeed = 2f; // È¸Àü ¼Óµµ
+    public Transform doorHinge; // íšŒì „í•  ë¬¸ Transform
+    public float angleAmount = 90f; // ì—´ê³  ë‹«ëŠ” ê°ë„
+    public float openSpeed = 2f; // íšŒì „ ì†ë„
 
     private bool isOpen = false;
     private bool isAnimating = false;
@@ -42,5 +42,10 @@ public class Door : MonoBehaviour, IInteractable
 
         doorHinge.rotation = targetRotation;
         isAnimating = false;
+    }
+
+    public bool GetDoorState()
+    {
+        return isOpen;
     }
 }
