@@ -15,7 +15,7 @@ MonoBehaviour:
   lines:
   - speakerName: "\uB18D\uBD80"
     text: "\uC800\uB294 \uB18D\uBD80\uC778\uB370\uC694"
-    recommendedFood: {fileID: 11400000, guid: 11bc677eb428dcd45a48864ddecfc490, type: 2}
+    recommendedFood: {fileID: 11400000, guid: 1ce6909772c4eb947b98cc23782e25fd, type: 2}
   - speakerName: "\uD50C\uB808\uC774\uC5B4"
     text: "\uC5B4\uC11C\uC624\uC138\uC694"
     recommendedFood: {fileID: 0}
