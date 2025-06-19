@@ -29,7 +29,10 @@ public class EnemyAttackState : State_LYJ<Enemy>
     {
         owner.CanAttack = false;
 
-        Debug.Log("Enemy Attack!");
+        if (owner.Target is Player_LYJ player)
+        {
+            player.Damage(owner.Data.AttackPower);
+        }
 
         yield return new WaitForSeconds(owner.Data.AttackDelay);
 

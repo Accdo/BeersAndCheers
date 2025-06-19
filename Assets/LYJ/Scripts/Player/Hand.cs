@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum AttackType { Slash, Smash, Nothing }
 
-[CreateAssetMenu(fileName = "Hand", menuName = "Scriptable Objects/Hand")]
+[CreateAssetMenu(fileName = "Hand", menuName = "Datas/Hand")]
 public class Hand : ScriptableObject
 {
     [SerializeField] private string handName;

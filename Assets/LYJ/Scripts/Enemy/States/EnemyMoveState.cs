@@ -1,4 +1,3 @@
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public class EnemyMoveState : State_LYJ<Enemy>
@@ -26,6 +25,11 @@ public class EnemyMoveState : State_LYJ<Enemy>
         if (owner.Target != null && Vector3.Distance(owner.transform.position, owner.Target.transform.position) > owner.Data.AttackRange)
         {
             owner.NavMeshAgent.SetDestination(owner.Target.transform.position);
+        }
+        if (Vector3.Distance(owner.transform.position,owner.FirstPos) < 0.1f && !owner.Target)
+        {
+            owner.ChangeState(EnemyStates.Idle);
+            return;
         }
     }
 

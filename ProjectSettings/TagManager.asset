@@ -28,8 +28,8 @@ TagManager:
   - 
   - Hand
   - Enemy
-  - 
-  - 
+  - Player
+  - TargetFinder
   - 
   - 
   - Interactable
