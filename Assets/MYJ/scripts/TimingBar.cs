@@ -9,14 +9,13 @@ public class TimingBar : MonoBehaviour
 
     private bool barMoving = true;
     private float elapsed = 0f;
+
+    private IInteractable currentTarget;
+    private Player_MYJ player_MYJ;
+    private InteractionUI interactionUI;
+
     private Interaction interactionRef;
 
-    public void StartTimingBar(Interaction interaction)
-    {
-        interactionRef = interaction;
-        barMoving = true;
-        elapsed = 0f;
-    }
     private void Update()
     {
         if (!barMoving) return;
@@ -38,6 +37,20 @@ public class TimingBar : MonoBehaviour
         }
     }
 
+    
+    public void StartTimingBar(IInteractable target, Interaction interaction, Player_MYJ player, InteractionUI ui)
+    {
+        currentTarget = target;
+        interactionRef = interaction;
+        player_MYJ = player;
+        interactionUI = ui;
+
+        barMoving = true;
+        elapsed = 0f;
+
+        interactionUI.ShowTimingBar();
+        player_MYJ.StartOtherWork();
+    }
     private void CheckResult()
     {
         Rect barRect = new Rect(bar.anchoredPosition, bar.sizeDelta);
@@ -46,12 +59,28 @@ public class TimingBar : MonoBehaviour
         if (barRect.Overlaps(targetRect))
         {
             Debug.Log("성공!");
+            currentTarget?.Interact();
         }
         else
         {
             Debug.Log("실패!");
         }
 
-        interactionRef?.FinishTimingBar(); // Interaction으로 UI 복구
+        FinishTimingBar(); // Interaction으로 UI 복구
+    }
+
+    private void FinishTimingBar()
+    {
+        currentTarget = null;
+        barMoving = false;
+        elapsed = 0f;
+
+        if (interactionRef != null)
+        {
+            interactionRef.ResetInteractionState();
+        }
+
+        interactionUI.ResetUI();
+        player_MYJ.EndOtherWork();
     }
 }

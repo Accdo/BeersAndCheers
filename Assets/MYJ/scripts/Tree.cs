@@ -1,14 +1,6 @@
 using UnityEngine;
 
-public class Tree : MonoBehaviour, IInteractable
+public class Tree : MonoBehaviour
 {
-    public void Interact()
-    {
-        Debug.Log("나무 상호작용중...");
-    }
-
-    public string GetCursorType()
-    {
-        return "Tree";
-    }
+   //몬스터처럼 hp가 있는 느낌
 }
