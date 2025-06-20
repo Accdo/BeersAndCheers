@@ -1,8 +1,19 @@
 using UnityEngine;
+using System.Collections.Generic;
+
+[System.Serializable]
+public class StartItem
+{
+    public string inventoryName; // 인벤토리 이름
+    public string itemName;
+    public int count;
+}
 
 public class Player_StartItem : MonoBehaviour
 {
     public InventoryManager inventory;
+
+    public List<StartItem> startItems;
 
     private void Awake()
     {
@@ -11,12 +22,19 @@ public class Player_StartItem : MonoBehaviour
 
     private void Start()
     {
-        
-        for (int i = 0; i < 10; i++)
+        foreach (var item in startItems)
         {
-            inventory.Add("Backpack", GH_GameManager.instance.itemManager.GetItemByName("Carrot"));
-            inventory.Add("Backpack", GH_GameManager.instance.itemManager.GetItemByName("Potato"));
-            inventory.Add("Backpack", GH_GameManager.instance.itemManager.GetItemByName("Onion"));
+            for (int i = 0; i < item.count; i++)
+            {
+                inventory.Add(item.inventoryName, GH_GameManager.instance.itemManager.GetItemByName(item.itemName));
+            }
         }
+
+        // for (int i = 0; i < 10; i++)
+        // {
+        //     inventory.Add("Backpack", GH_GameManager.instance.itemManager.GetItemByName("Carrot"));
+        //     inventory.Add("Backpack", GH_GameManager.instance.itemManager.GetItemByName("Potato"));
+        //     inventory.Add("Backpack", GH_GameManager.instance.itemManager.GetItemByName("Onion"));
+        // }
     }
 }

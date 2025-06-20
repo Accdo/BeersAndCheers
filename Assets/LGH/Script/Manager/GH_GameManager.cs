@@ -7,7 +7,7 @@ public class GH_GameManager : MonoBehaviour
     public ItemManager itemManager;
     public UI_Manager uiManager;
 
-    public Player_JSW player;
+    public Player_LYJ player;
 
     private void Awake()
     {
@@ -23,6 +23,6 @@ public class GH_GameManager : MonoBehaviour
         itemManager = GetComponent<ItemManager>();
         uiManager = GetComponent<UI_Manager>();
 
-        player = FindAnyObjectByType<Player_JSW>();
+        player = FindAnyObjectByType<Player_LYJ>();
     }
 }

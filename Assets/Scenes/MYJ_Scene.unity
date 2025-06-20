@@ -29696,6 +29696,7 @@ MonoBehaviour:
   biteMaxTime: 5
   hitDuration: 2
   requiredToolName: FishingRod
+  player: {fileID: 0}
   interactionUI: {fileID: 1480864238}
 --- !u!1 &1298345400 stripped
 GameObject:
@@ -45751,6 +45752,7 @@ MonoBehaviour:
   biteMaxTime: 5
   hitDuration: 2
   requiredToolName: FishingRod
+  player: {fileID: 2944046537086263311}
   interactionUI: {fileID: 1480864238}
 --- !u!65 &1858514826
 BoxCollider:

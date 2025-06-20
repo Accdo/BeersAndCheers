@@ -87,8 +87,8 @@ public class Player_JSW : MonoBehaviour
         appliedSpeed = walkSpeed;
         currentCamRotationX = 0f;
 
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
