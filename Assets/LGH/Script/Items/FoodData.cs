@@ -7,5 +7,4 @@ public class FoodData : ItemData
     public GameObject foodPrefab;
     public IngredientData[] ingredients;
     public int[] ingredientCounts; // 요리에 필요한 재료 개수
-    public int price = 0;
 }

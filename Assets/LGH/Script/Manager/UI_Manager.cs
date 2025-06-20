@@ -20,6 +20,8 @@ public class UI_Manager : MonoBehaviour
 
     public Cooking_UI cookingUI;
 
+    public GameObject ShopPanel;
+
     private void Awake()
     {
         Initialize();
@@ -46,6 +48,29 @@ public class UI_Manager : MonoBehaviour
             // 레시피 시설 패널 생성
             ToggleRecipeUI();
         }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            // 상점 패널 생성
+            ToggleShopUI();
+        }
+    }
+
+    public void ToggleShopUI()
+    {
+        if (ShopPanel != null)
+        {
+            if (!ShopPanel.activeSelf)
+            {
+                GH_GameManager.instance.player.MouseVisible(true);
+                ShopPanel.SetActive(true);
+            }
+            else
+            {
+                GH_GameManager.instance.player.MouseVisible(false);
+                ShopPanel.SetActive(false);
+            }
+        }
     }
 
     public void ToggleRecipeUI()
@@ -61,6 +86,7 @@ public class UI_Manager : MonoBehaviour
             {
                 GH_GameManager.instance.player.MouseVisible(false);
                 RecipePanel.SetActive(false);
+                CookingPanel.SetActive(false);
             }
         }
     }
