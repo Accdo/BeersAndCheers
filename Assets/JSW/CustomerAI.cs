@@ -193,6 +193,24 @@ public class CustomerAI : MonoBehaviour
         }
     }
 
+    //프리팹 내부에 있는 스크립터블 오브젝트인 푸드데이터를 가져오는 함수
+    private FoodData GetFoodData(GameObject foodPrefab)
+    {
+        if (foodPrefab == null) return null;
+        // 프리팹에서 FoodData 컴포넌트 찾기
+        Item item = foodPrefab.GetComponent<Item>();
+        if (item != null)
+        {
+            // FoodData가 있으면 반환
+            if (item.data is FoodData foodData)
+            {
+                return foodData;
+            }
+        }
+        // FoodData가 없으면 경고 메시지 출력
+        return null;
+    }
+
     // 실제로 음식을 전달하는 함수
     private void GiveFoodToCustomer()
     {
@@ -211,13 +229,13 @@ public class CustomerAI : MonoBehaviour
 
         // 핫바에서 먼저 찾기
         GameObject foodPrefab = inventory.GetItemPrefab(orderedFoodName);
-
+        FoodData reciveFood = GetFoodData(foodPrefab);
         if (foodPrefab != null)
         {
             Debug.Log($"찾은 음식 프리팹: {foodPrefab.name}");
 
             // 대소문자 구분 없이 비교
-            bool isCorrectOrder = foodPrefab.name.Equals(orderedFoodName, StringComparison.OrdinalIgnoreCase);
+            bool isCorrectOrder = reciveFood.itemName.Equals(orderedFoodName, StringComparison.OrdinalIgnoreCase);
 
             if (isCorrectOrder)
             {
@@ -226,7 +244,7 @@ public class CustomerAI : MonoBehaviour
                 // 특별주문이고 대화를 했고, 추측한 음식이 맞는 경우
                 if (hasSpecialRequest && hasTalkedAboutSpecialRequest && hintedFood != null)
                 {
-                    bool isCorrectGuess = foodPrefab.name.Equals(hintedFood.itemName, StringComparison.OrdinalIgnoreCase);
+                    bool isCorrectGuess = reciveFood.itemName.Equals(hintedFood.itemName, StringComparison.OrdinalIgnoreCase);
                     if (isCorrectGuess)
                     {
                         Debug.Log("추측한 음식이 정확합니다! 추가 만족도 획득!");

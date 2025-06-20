@@ -17,6 +17,8 @@ public class InteractionUI : MonoBehaviour
     public GameObject GaugeUI;
     public GameObject timingBarUI;
     public GameObject FishingGameUI;
+    public GameObject CuttingUI;
+    public GameObject CookingUI;
 
     [Header("Cursor")]
     public Image cursorImage;
@@ -120,4 +122,19 @@ public class InteractionUI : MonoBehaviour
         timingBarUI.SetActive(false);
         ResetFishingUI();
     }
+
+    public void ShowCuttingMiniGameUI()
+    {
+        CuttingUI.SetActive(true);
+    }
+    public void ShowCookingMiniGameUI()
+    {
+        CuttingUI.SetActive(false);
+        CookingUI.SetActive(true);
+    }
+    public void HideCookingMiniGameUI()
+    {
+        CookingUI.SetActive(false);
+    }
+
 }

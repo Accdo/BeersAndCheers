@@ -17,6 +17,8 @@ public class CustomerSpawnManager : MonoBehaviour
     [Header("특별 손님 생성 확률(0~1)")]
     [Range(0f, 1f)]
     public float specialSpawnProbability = 0.1f;
+    [Header("손님 생성 ON/OFF 용 문 할당")]
+    public Door door;
 
     private float timer = 0f;
     private HashSet<CustomerType> spawnedSpecialCustomers = new HashSet<CustomerType>();
@@ -36,6 +38,11 @@ public class CustomerSpawnManager : MonoBehaviour
     }
     void Update()
     {
+        if(door != null && !door.GetDoorState())
+        {
+            // 문이 닫혀있으면 손님 생성 중지
+            return;
+        }
         timer += Time.deltaTime;
         if (timer >= spawnInterval)
         {
