@@ -5,5 +5,4 @@ public class IngredientData : ItemData
 {
     public int freshPoint = 100;
     //public GameObject ingredientPrefab;
-    public int price = 0;
 }
