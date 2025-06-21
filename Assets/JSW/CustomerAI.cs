@@ -5,8 +5,7 @@ using System;
 using System.Collections;
 using UnityEngine.UI;
 
-//임시로 음식
-
+#region 손님 타입, 개성
 public enum CustomerType
 {
     King,       // 왕
@@ -16,8 +15,20 @@ public enum CustomerType
     Rich        // 부자
 }
 
+public enum CustomerPersonality
+{
+    Standard,   // 보통
+    Impatient,  // 성급함
+    Patient,    // 인내심 많음
+    Generous,   // 관대함
+    Stingy      // 인색함
+}
+#endregion
 public class CustomerAI : MonoBehaviour
 {
+    [Header("NavMeshAgent 설정")]
+    public float agentAngularSpeed = 200f;
+
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public int teamSize = 1;
     public CustomerGroup myGroup;
@@ -34,6 +45,13 @@ public class CustomerAI : MonoBehaviour
     public float timer = 0f; // 타이머
     public float waitingTime = 0f; // 대기 시간
     public float maxWaitingTime = 60f; // 최대 대기 시간
+
+    [Header("Satisfaction UI")]
+    public GameObject satisfactionUI; // 만족도 UI 오브젝트
+    public GameObject happyIcon;
+    public GameObject neutralIcon;
+    public GameObject angryIcon;
+    public float satisfactionFeedbackDuration = 2.5f; // 만족도 피드백 표시 시간
     #endregion
 
     #region 주문 관련
@@ -44,12 +62,14 @@ public class CustomerAI : MonoBehaviour
     public List<FoodData> orderedItems = new List<FoodData>();
     public FoodData hintedFood; // 대화에서 언급된 음식
     public float eatingTime = 10f;
+    private InventoryManager inventory; // 인벤토리 매니저
     #endregion
 
     #region 주문 UI
     public GameObject orderBubblePrefab;
     public Image CircleGaugeUnfill;
     public Image CircleGaugeFill;
+    public GameObject specialOrderPrefab;
     public Image specialRequestImage; // 특별 요청 이미지 (대화 전)
     public Image specialRequestTalkedImage; // 특별 요청 이미지 (대화 후)
     #endregion
@@ -63,6 +83,9 @@ public class CustomerAI : MonoBehaviour
 
     [Header("Customer Type")]
     public CustomerType customerType;
+
+    [Header("Customer Personality")]
+    public CustomerPersonality personality = CustomerPersonality.Standard;
 
     private DialogueScript currentDialogue;
 
@@ -79,12 +102,16 @@ public class CustomerAI : MonoBehaviour
         stateMachine = GetComponent<CustomerStateMachine>();
         anim = GetComponent<Animator>();
 
+        // NavMeshAgent 회전 속도 설정
+        agent.angularSpeed = agentAngularSpeed;
 
         //스테이트
         waitingState = new CustomerWaiting(this, "Wait", stateMachine, agent);
         walkState = new CustomerWalk(this, "Walk", stateMachine, agent);
         seatState = new CustomerSeat(this, "Sit", stateMachine, agent);
         exitState = new CustomerExit(this, "Walk", stateMachine, agent);
+        inventory = FindAnyObjectByType<InventoryManager>();
+
     }
 
     void Start()
@@ -93,12 +120,14 @@ public class CustomerAI : MonoBehaviour
         LoadDialogue();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
 
+        AssignRandomPersonality();
 
         // UI
         HideOrderBubble();
         HideGauge();
         HideSpecialRequestImage();
         HideSpecialRequestTalkedImage();
+        HideSatisfactionIcons();
     }
 
     private void Update()
@@ -111,23 +140,10 @@ public class CustomerAI : MonoBehaviour
             WatingMenu();
         }
 
-        // 주문 버블이 활성화되어 있을 때 플레이어를 바라보도록 회전
-        if (orderBubblePrefab != null && orderBubblePrefab.activeSelf && player != null)
-        {
-            // 주문 버블이 플레이어를 바라보도록 회전
-            Vector3 direction = player.position - orderBubblePrefab.transform.position;
-            direction.y = 0; // Y축 회전만 적용
-
-            if (direction != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                orderBubblePrefab.transform.rotation = Quaternion.Slerp(
-                    orderBubblePrefab.transform.rotation,
-                    targetRotation,
-                    Time.deltaTime * 10f
-                );
-            }
-        }
+        // UI가 활성화되어 있을 때 플레이어를 바라보도록 회전
+        UILookAtPlayer(orderBubblePrefab, player);
+        UILookAtPlayer(specialOrderPrefab, player);
+        UILookAtPlayer(satisfactionUI, player);
 
         // 특별주문이 있거나 음식을 기다리는 상태일 때 상호작용 체크
         if (player != null && (hasSpecialRequest || (hasOrdered && !hasReceivedFood)))
@@ -156,7 +172,7 @@ public class CustomerAI : MonoBehaviour
                 // 1. 특별주문 상태 (대화 전)
                 if (hasSpecialRequest && !hasTalkedAboutSpecialRequest)
                 {
-                    DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer, "E: 특별주문 대화");
+                    DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer);
                     if (Input.GetKeyDown(interactKey))
                     {
                         StartDialogue();
@@ -165,7 +181,7 @@ public class CustomerAI : MonoBehaviour
                 // 2. 특별주문 상태 (대화 후)
                 else if (hasSpecialRequest && hasTalkedAboutSpecialRequest)
                 {
-                    DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer, "E: 추측한 음식 전달");
+                    DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer);
                     if (Input.GetKeyDown(interactKey))
                     {
                         GiveFoodToCustomer();
@@ -174,7 +190,7 @@ public class CustomerAI : MonoBehaviour
                 // 3. 일반 음식 대기 상태
                 else if (hasOrdered && !hasReceivedFood)
                 {
-                    DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer, "E: 음식 전달");
+                    DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer);
                     if (Input.GetKeyDown(interactKey))
                     {
                         GiveFoodToCustomer();
@@ -221,7 +237,12 @@ public class CustomerAI : MonoBehaviour
             return;
         }
 
-        var inventory = FindAnyObjectByType<InventoryManager>();
+        // 주문한 음식이 있는지 먼저 확인
+        if (orderedItems == null || orderedItems.Count == 0)
+        {
+            Debug.LogWarning("손님이 주문한 음식이 없습니다.");
+            return;
+        }
 
         // 주문한 음식 이름 가져오기
         string orderedFoodName = orderedItems[0].itemName;
@@ -262,7 +283,6 @@ public class CustomerAI : MonoBehaviour
             {
                 Debug.Log($"잘못된 음식 전달! 주문: {orderedFoodName}, 전달: {foodPrefab.name}");
                 // 잘못된 음식 전달 시 만족도 감소
-                SatisfactionScoreUpDown(-15f);
                 StartCoroutine(EatingTime());
             }
         }
@@ -276,14 +296,28 @@ public class CustomerAI : MonoBehaviour
     {
         waitingTime += Time.deltaTime;
 
-        if (waitingTime <= maxWaitingTime)
+        float decreaseAmount = -0.01f;
+        float maxWait = maxWaitingTime;
+
+        switch (personality)
         {
-            SatisfactionScoreUpDown(-0.01f);
-            UpdateGauge(waitingTime);
+            case CustomerPersonality.Impatient:
+                decreaseAmount *= 2f; // 더 빨리 감소
+                maxWait *= 0.7f;      // 대기시간 짧음
+                break;
+            case CustomerPersonality.Patient:
+                decreaseAmount *= 0.5f; // 더 천천히 감소
+                maxWait *= 1.5f;        // 대기시간 김
+                break;
+        }
+
+        if (waitingTime <= maxWait)
+        {
+            SatisfactionScoreUpDown(decreaseAmount);
+            UpdateGauge(waitingTime, maxWait);
         }
         else
         {
-            // 대기 시간 초과 시 퇴장
             CustormerExit();
         }
     }
@@ -299,7 +333,7 @@ public class CustomerAI : MonoBehaviour
 
             // NavMeshAgent 설정
             agent.updateRotation = true;
-            agent.angularSpeed = 120f;
+            agent.angularSpeed = agentAngularSpeed;
 
             // 경로 탐색 설정
             NavMeshPath path = new NavMeshPath();
@@ -331,7 +365,7 @@ public class CustomerAI : MonoBehaviour
 
             // NavMeshAgent 설정
             agent.updateRotation = true;
-            agent.angularSpeed = 120f;
+            agent.angularSpeed = agentAngularSpeed;
 
             // 경로 탐색 설정
             NavMeshPath path = new NavMeshPath();
@@ -387,10 +421,10 @@ public class CustomerAI : MonoBehaviour
             }
         }
     }
-    public void UpdateGauge(float amount)
+    public void UpdateGauge(float amount, float maxWaitTimeValue)
     {
         // 현재 대기 시간을 최대 대기 시간으로 나누어 0~1 사이의 값으로 정규화
-        float normalizedAmount = amount / maxWaitingTime;
+        float normalizedAmount = amount / maxWaitTimeValue;
         CircleGaugeFill.fillAmount = Mathf.Clamp(normalizedAmount, 0, 1);
     }
     public void ShowGauge()
@@ -443,6 +477,26 @@ public class CustomerAI : MonoBehaviour
             specialRequestTalkedImage.gameObject.SetActive(false);
         }
     }
+
+    // 플레이어를 바라보도록 UI 오브젝트 회전
+    private void UILookAtPlayer(GameObject uiObject, Transform player, float lerpSpeed = 10f)
+    {
+        if (uiObject != null && uiObject.activeSelf && player != null)
+        {
+            Vector3 direction = player.position - uiObject.transform.position;
+            direction.y = 0; // Y축 회전만 적용
+
+            if (direction != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                uiObject.transform.rotation = Quaternion.Slerp(
+                    uiObject.transform.rotation,
+                    targetRotation,
+                    Time.deltaTime * lerpSpeed
+                );
+            }
+        }
+    }
     #endregion
 
     #region 만족도
@@ -461,37 +515,32 @@ public class CustomerAI : MonoBehaviour
     //만족도에 따라서 결과처리
     public void ResultOfStisfaciton()
     {
-        // 음식을 받지 않았으면 돈을 지불하지 않음
         if (!hasReceivedFood) return;
-
-        // 주문한 음식이 없으면 돈을 지불하지 않음
         if (orderedItems.Count == 0) return;
 
         int basePrice = orderedItems[0].price;
-        int finalPrice = basePrice; // 기본 가격으로 시작
+        int finalPrice = basePrice;
 
+        float tipRate = 0f;
         if (satisfactionScore >= 90)
-        {
-            // 20% 팁 추가
-            int tip = Mathf.RoundToInt(basePrice * 0.2f);
-            finalPrice = basePrice + tip;
-        }
+            tipRate = 0.2f;
         else if (satisfactionScore >= 70)
+            tipRate = 0.1f;
+
+        switch (personality)
         {
-            // 10% 팁 추가
-            int tip = Mathf.RoundToInt(basePrice * 0.1f);
-            finalPrice = basePrice + tip;
+            case CustomerPersonality.Generous:
+                tipRate *= 1.5f; // 팁 많이 줌
+                break;
+            case CustomerPersonality.Stingy:
+                tipRate *= 0.2f; // 팁 거의 안 줌
+                break;
         }
-        else if (satisfactionScore >= 30)
-        {
-            // 음식가격만 지불하기
-            finalPrice = basePrice;
-        }
-        else
-        {
-            // 만족도가 낮으면 돈을 지불하지 않음
+
+        if (satisfactionScore >= 30)
+            finalPrice = basePrice + Mathf.RoundToInt(basePrice * tipRate);
+        else if (satisfactionScore < 30)
             finalPrice = 0;
-        }
 
         GiveMoneyToPlayer(finalPrice);
     }
@@ -510,6 +559,12 @@ public class CustomerAI : MonoBehaviour
             Debug.LogWarning("MoneyManager가 초기화되지 않았습니다!");
         }
 
+    }
+
+    private void AssignRandomPersonality()
+    {
+        Array values = Enum.GetValues(typeof(CustomerPersonality));
+        personality = (CustomerPersonality)values.GetValue(UnityEngine.Random.Range(0, values.Length));
     }
     #endregion
 
@@ -577,18 +632,89 @@ public class CustomerAI : MonoBehaviour
                     // 추천 메뉴 확인
                     CheckRecommendedFood(deliveredItems[0]);
 
+                    // ★ 애니메이션 반응 적용
+                    StartCoroutine(ShowSatisfactionFeedbackForDuration());
+
                     StartCoroutine(EatingTime());
                 }
                 else
                 {
                     // 잘못된 음식 전달 시 만족도 감소
                     SatisfactionScoreUpDown(-15f);
+                    StartCoroutine(ShowSatisfactionFeedbackForDuration());
                     StartCoroutine(EatingTime());
                 }
             }
         }
     }
 
+    private IEnumerator ShowSatisfactionFeedbackForDuration()
+    {
+        // 1. 만족도에 맞는 아이콘 표시
+        HideSatisfactionIcons(); 
+
+        if (satisfactionScore >= 70)
+        {
+            if (happyIcon != null) happyIcon.SetActive(true);
+        }
+        else if (satisfactionScore >= 40)
+        {
+            if (neutralIcon != null) neutralIcon.SetActive(true);
+        }
+        else
+        {
+            if (angryIcon != null) angryIcon.SetActive(true);
+        }
+
+        // 2. 만족도와 성격에 맞는 애니메이션 재생
+        float sitMotionValue = 0f;
+
+        if (satisfactionScore >= 80)
+            sitMotionValue = 1f; // thumbs up
+        else if (satisfactionScore >= 60)
+            sitMotionValue = 0.66f; // clap
+        else if (satisfactionScore >= 40)
+            sitMotionValue = 0.33f; // talk
+        else
+            sitMotionValue = 0f; // idle
+
+        if (personality == CustomerPersonality.Generous && sitMotionValue < 1f)
+            sitMotionValue = 0.66f;
+        if (personality == CustomerPersonality.Impatient && sitMotionValue > 0.33f)
+            sitMotionValue = 0.33f;
+
+        anim.SetFloat("SitMotion", sitMotionValue);
+        
+        // 3. 설정된 시간만큼 기다림
+        yield return new WaitForSeconds(satisfactionFeedbackDuration);
+
+        // 4. 아이콘 숨기기
+        HideSatisfactionIcons();
+    }
+
+    //앉은 상태에서 모션 컨트롤
+    private void SetSitMotionByPersonalityAndSatisfaction()
+    {
+        float sitMotionValue = 0f;
+
+        // 1. 만족도 기준
+        if (satisfactionScore >= 80)
+            sitMotionValue = 1f; // thumbs up
+        else if (satisfactionScore >= 60)
+            sitMotionValue = 0.66f; // clap
+        else if (satisfactionScore >= 40)
+            sitMotionValue = 0.33f; // talk
+        else
+            sitMotionValue = 0f; // idle
+
+        // 2. 성격별로 추가 가중치
+        if (personality == CustomerPersonality.Generous && sitMotionValue < 1f)
+            sitMotionValue = 0.66f; // 관대한 손님은 박수라도 침
+        if (personality == CustomerPersonality.Impatient && sitMotionValue > 0.33f)
+            sitMotionValue = 0.33f; // 성급한 손님은 만족해도 talk까지만
+
+        anim.SetFloat("SitMotion", sitMotionValue);
+    }
 
     #endregion
 
@@ -712,7 +838,7 @@ public class CustomerAI : MonoBehaviour
     }
     #endregion
 
-    // 기즈모 표시 (Scene 뷰에서만 보임)
+    #region Gizmos
     private void OnDrawGizmos()
     {
         if (!showInteractionGizmo) return;
@@ -777,6 +903,7 @@ public class CustomerAI : MonoBehaviour
 #endif
         }
     }
+    #endregion
 
     #region 퇴장
     public void CustormerExit()
@@ -785,6 +912,7 @@ public class CustomerAI : MonoBehaviour
         HideGauge();
         HideSpecialRequestImage();
         HideSpecialRequestTalkedImage();
+        HideSatisfactionIcons();
 
         // 상호작용 텍스트 숨기기
         if (DialogueManager.Instance != null)
@@ -809,5 +937,10 @@ public class CustomerAI : MonoBehaviour
     }
     #endregion
 
-
+    private void HideSatisfactionIcons()
+    {
+        if (happyIcon != null) happyIcon.SetActive(false);
+        if (neutralIcon != null) neutralIcon.SetActive(false);
+        if (angryIcon != null) angryIcon.SetActive(false);
+    }
 }
