@@ -60,7 +60,11 @@ public class Cooking_UI : MonoBehaviour
                 if (playerItemCount >= cookItemCount)
                 {
                     // 인벤토리 음식재료 제거
-                    GH_GameManager.instance.player.inventory.RemoveItem(foodData.ingredients[i].itemName);
+                    for (int j = 0; j < cookItemCount; j++)
+                    {
+                        // 인벤토리에서 재료 아이템 제거
+                        GH_GameManager.instance.player.inventory.RemoveItem(foodData.ingredients[i].itemName);
+                    }
 
                     // 요리창 새로고침
                     Refresh();

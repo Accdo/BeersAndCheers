@@ -110,6 +110,7 @@ public class Inventory
         foreach (Slot slot in slots)
         {
             // 아이템 이름이 같고, 아이템을 추가 가능하면 => 아이템 추가!
+            // ================================================================================================
             if (slot.itemName == item.data.itemName && slot.CanAddItem(item.data.itemName))
             {
                 slot.AddItem(item);
@@ -224,6 +225,8 @@ public class Inventory
                 {
                     // 아이템을 추가
                     toSlot.AddItem(fromSlot.itemName, fromSlot.icon, fromSlot.maxAllowed);
+                    // 아이템 데이터를 추가
+                    toInventory.slots[toIndex].itemData = fromSlot.itemData;
                     fromSlot.RemoveItem();
                 }
             }

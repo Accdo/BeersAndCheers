@@ -6,6 +6,7 @@ public class GH_GameManager : MonoBehaviour
 
     public ItemManager itemManager;
     public UI_Manager uiManager;
+    public GoldManager goldManager;
 
     public Player_LYJ player;
 
@@ -22,6 +23,7 @@ public class GH_GameManager : MonoBehaviour
 
         itemManager = GetComponent<ItemManager>();
         uiManager = GetComponent<UI_Manager>();
+        goldManager = GetComponent<GoldManager>();
 
         player = FindAnyObjectByType<Player_LYJ>();
     }

@@ -218,13 +218,13 @@ public class Player_LYJ : MonoBehaviour
 
     public void EquipWeapon()
     {
-        Debug.Log("EquipWeapon called");
         if (currentEquipment != null)
         {
             Destroy(currentEquipment); // animator = null;
         }
         if (inventory.hotbar.selectedSlot.UseItem() == null)
         {
+            Debug.LogWarning("선택된 슬롯에 아이템이 없습니다.");
             return;
         }
 
