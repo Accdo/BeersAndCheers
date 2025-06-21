@@ -10,7 +10,7 @@ public class Cooking : MonoBehaviour, IInteractable
     public InteractionUI interactionUI;
     public CuttingMinigame cuttingMinigame;
 
-    private bool isCooking = false;
+    public bool isCooking = false;
 
     private Coroutine CookingRoutine;
 

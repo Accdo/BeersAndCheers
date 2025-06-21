@@ -69166,7 +69166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 833a3e56fb14840419a4091340202003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerDuration: 15
+  timerDuration: 10
   rotationSpeeds:
   - 300
   - 400
@@ -69180,6 +69180,8 @@ MonoBehaviour:
   lineImage: {fileID: 739293605}
   resultText: {fileID: 111665596}
   interactionUI: {fileID: 1663716408}
+  interaction: {fileID: 1462343523}
+  cooking: {fileID: 2117154928}
 --- !u!1001 &2051738869
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70310,6 +70312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionUI: {fileID: 1663716408}
   cuttingMinigame: {fileID: 703212311}
+  isCooking: 0
 --- !u!4 &2117996714 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 81f40caf66a58a34eb8aec8af919fdd2, type: 3}

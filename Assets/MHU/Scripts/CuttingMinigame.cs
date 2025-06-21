@@ -18,6 +18,7 @@ public class CuttingMinigame : MonoBehaviour
 
     public void StartCuttingMinigame()
     {
+        InitSet();
         // 모든 Cut Image를 비활성화로 초기화
         if (cutImages == null || cutImages.Length != 8)
         {
@@ -80,6 +81,10 @@ public class CuttingMinigame : MonoBehaviour
         }
     }
 
+    public void InitSet()
+    {
+        currentCutIndex = 0;
+    }
     public IEnumerator MoveSpacebarImage()
     {
         // 3픽셀 아래로 이동
