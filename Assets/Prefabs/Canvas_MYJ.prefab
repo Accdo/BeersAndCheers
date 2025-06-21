@@ -542,6 +542,8 @@ MonoBehaviour:
   GaugeUI: {fileID: 8182680001514186354}
   timingBarUI: {fileID: 6579846816698855242}
   FishingGameUI: {fileID: 233570555200695069}
+  CuttingUI: {fileID: 0}
+  CookingUI: {fileID: 0}
   cursorImage: {fileID: 2582184297031039287}
   cursorDataList:
   - cursorType: Door

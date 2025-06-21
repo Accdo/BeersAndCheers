@@ -20,6 +20,8 @@ public class InteractionUI : MonoBehaviour
     public GameObject CuttingUI;
     public GameObject CookingUI;
 
+    public UI_Manager UI_manager;
+
     [Header("Cursor")]
     public Image cursorImage;
 

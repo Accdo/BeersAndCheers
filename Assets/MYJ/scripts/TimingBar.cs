@@ -11,7 +11,7 @@ public class TimingBar : MonoBehaviour
     private float elapsed = 0f;
 
     private IInteractable currentTarget;
-    private Player_MYJ player_MYJ;
+    private Player_LYJ player_LYJ;
     private InteractionUI interactionUI;
 
     private Interaction interactionRef;
@@ -38,18 +38,18 @@ public class TimingBar : MonoBehaviour
     }
 
     
-    public void StartTimingBar(IInteractable target, Interaction interaction, Player_MYJ player, InteractionUI ui)
+    public void StartTimingBar(IInteractable target, Interaction interaction, Player_LYJ player, InteractionUI ui)
     {
         currentTarget = target;
         interactionRef = interaction;
-        player_MYJ = player;
+        player_LYJ = player;
         interactionUI = ui;
 
         barMoving = true;
         elapsed = 0f;
 
         interactionUI.ShowTimingBar();
-        player_MYJ.StartOtherWork();
+        player_LYJ.StartOtherWork();
     }
     private void CheckResult()
     {
@@ -81,6 +81,6 @@ public class TimingBar : MonoBehaviour
         }
 
         interactionUI.ResetUI();
-        player_MYJ.EndOtherWork();
+        player_LYJ.EndOtherWork();
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CuttingMinigame : MonoBehaviour
 {
+    public Image cuttingImage; // 자를 재료 이미지
     public Image[] cutImages; // 8개의 Cut Image 배열
     public Image spacebarImage; // 스페이스바 이미지
     private int currentCutIndex = 0; // 현재 활성화할 Cut Image 인덱스
@@ -16,28 +17,15 @@ public class CuttingMinigame : MonoBehaviour
     public InteractionUI interactionUI;
     public CookingMinigame cookingMinigame;
 
+    public void ImageSet(Sprite sprite,Sprite sprite2)
+    {
+        cuttingImage.sprite = sprite;
+        cookingMinigame.cookingImage.sprite = sprite2;
+    }
+
     public void StartCuttingMinigame()
     {
         InitSet();
-        // 모든 Cut Image를 비활성화로 초기화
-        if (cutImages == null || cutImages.Length != 8)
-        {
-            Debug.LogError("Cut Images 배열이 올바르게 설정되지 않았습니다. 8개의 이미지를 할당해주세요.");
-            return;
-        }
-        foreach (Image cutImage in cutImages)
-        {
-            cutImage.gameObject.SetActive(false);
-        }
-
-        // 스페이스바 이미지 초기화
-        if (spacebarImage == null)
-        {
-            Debug.LogError("Spacebar Image가 할당되지 않았습니다.");
-            return;
-        }
-        lastInputTime = Time.time;
-        spacebarOriginalPos = spacebarImage.rectTransform.anchoredPosition;
     }
 
     void Update()
@@ -83,7 +71,28 @@ public class CuttingMinigame : MonoBehaviour
 
     public void InitSet()
     {
+        resultText.text = "";
         currentCutIndex = 0;
+
+        // 모든 Cut Image를 비활성화로 초기화
+        if (cutImages == null || cutImages.Length != 8)
+        {
+            Debug.LogError("Cut Images 배열이 올바르게 설정되지 않았습니다. 8개의 이미지를 할당해주세요.");
+            return;
+        }
+        foreach (Image cutImage in cutImages)
+        {
+            cutImage.gameObject.SetActive(false);
+        }
+
+        // 스페이스바 이미지 초기화
+        if (spacebarImage == null)
+        {
+            Debug.LogError("Spacebar Image가 할당되지 않았습니다.");
+            return;
+        }
+        lastInputTime = Time.time;
+        spacebarOriginalPos = spacebarImage.rectTransform.anchoredPosition;
     }
     public IEnumerator MoveSpacebarImage()
     {
@@ -98,6 +107,7 @@ public class CuttingMinigame : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         interactionUI.ShowCookingMiniGameUI();
+       
         cookingMinigame.StartCookingMinigame();
 
         //gameObject.SetActive(false); // 캔버스 비활성화

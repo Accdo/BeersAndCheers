@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class Cooking : MonoBehaviour, IInteractable
@@ -9,6 +8,7 @@ public class Cooking : MonoBehaviour, IInteractable
 
     public InteractionUI interactionUI;
     public CuttingMinigame cuttingMinigame;
+    public UI_Manager UI_manager;
 
     public bool isCooking = false;
 
@@ -17,16 +17,29 @@ public class Cooking : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (isCooking) return;
-        CookingRoutine = StartCoroutine(CookingSystem());
+        // 레시피 시설 패널 생성
+        UI_manager.ToggleRecipeUI();
+        //CookingRoutine = StartCoroutine(CookingSystem());
     }
 
-    IEnumerator CookingSystem()
+    public void CookingSystem(Sprite sprite, Sprite sprite2)
     {
+        
         interactionUI.ResetUI();
         isCooking = true;
         interactionUI.ShowCuttingMiniGameUI();
+        cuttingMinigame.ImageSet(sprite,sprite2);
         cuttingMinigame.StartCuttingMinigame();
-
-        yield return null;
+        UI_manager.ToggleRecipeUI();
     }
+
+    //IEnumerator CookingSystem()
+    //{
+    //    interactionUI.ResetUI();
+    //    isCooking = true;
+    //    interactionUI.ShowCuttingMiniGameUI();
+    //    cuttingMinigame.StartCuttingMinigame();
+
+    //    yield return null;
+    //}
 }

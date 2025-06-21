@@ -1,12 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Cooking_UI : MonoBehaviour
 {
     public List<IngredientSlot_UI> cookingSlots = new List<IngredientSlot_UI>();
 
     public Item SelectItem;
-
+ 
+    public Cooking cooking;
+    public CookingMinigame cookingMinigame;
 
     // 플레이어가 가진 재료 아이템 갯수
     private int playerItemCount;
@@ -87,6 +90,17 @@ public class Cooking_UI : MonoBehaviour
 
         }
 
+         //요리 미니게임 시작
+         //cooking.CookingSystem(SelectItem.data.icon);
+         if (SelectItem.data is FoodData foodData2)
+         {
+                cooking.CookingSystem(foodData2.ingredients[0].icon, SelectItem.data.icon);
+         }
+
+        
+        //실패시 리턴
+        if (cookingMinigame.isCookingSuccess) return;
+
         // 별 문제 없었다면
         // 인벤토리 완성된 음식 추가
         GH_GameManager.instance.player.inventory.Add("Backpack", SelectItem);
@@ -94,4 +108,6 @@ public class Cooking_UI : MonoBehaviour
         // 인벤 새로고침
         GH_GameManager.instance.uiManager.RefreshAll();
     }
+
+    
 }

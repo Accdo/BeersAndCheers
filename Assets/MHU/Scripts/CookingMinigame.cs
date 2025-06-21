@@ -11,7 +11,7 @@ public class CookingMinigame : MonoBehaviour
 
     [Header("UI 요소")]
     [SerializeField] private Image spacebarImage; // 스페이스바 이미지
-    [SerializeField] private Image cookingImage; // 요리 중인 음식 이미지
+    [SerializeField] public Image cookingImage; // 요리 중인 음식 이미지
     [SerializeField] private Image[] perfectZoneImages; // 각 레벨의 퍼펙트 존 이미지
     [SerializeField] private Image lineImage; // 회전하는 선 이미지
     [SerializeField] private TextMeshProUGUI resultText; // 결과 표시 텍스트
@@ -30,12 +30,19 @@ public class CookingMinigame : MonoBehaviour
     public Interaction interaction;
     public Cooking cooking;
 
+    public bool isCookingSuccess = false;
+    
+    public void ImageSet(Sprite sprite)
+    {
+        cookingImage.sprite = sprite;
+    }
     // 게임 시작 시 초기화
     public void StartCookingMinigame()
     {
         // 기존 코루틴 중지
         StopColorChange();
 
+        
         // 상태 및 UI 초기화
         InitSet();
         InitializeUI();
@@ -135,6 +142,7 @@ public class CookingMinigame : MonoBehaviour
             currentLevel++;
             if (currentLevel >= perfectZoneImages.Length)
             {
+                //성공 처리
                 canSpacebar = false;
                 resultText.text = "성공!";
                 StopColorChange();
@@ -173,7 +181,7 @@ public class CookingMinigame : MonoBehaviour
             yield return null;
         }
 
-        // 시간 초과 시 실패 처리
+        // 실패 처리 (시간초과)
         canSpacebar = false;
         resultText.text = "실패!";
         yield return new WaitForSeconds(1f);
@@ -183,7 +191,7 @@ public class CookingMinigame : MonoBehaviour
         cooking.isCooking = false; // Cooking 클래스의 프로퍼티 사용
     }
 
-    // 게임 종료 후 1초 대기
+    // 성공 처리 코루틴 (게임 종료 후 1초 대기)
     private IEnumerator EndGameAfterDelay()
     {
         yield return new WaitForSeconds(1f);
@@ -191,6 +199,7 @@ public class CookingMinigame : MonoBehaviour
         interactionUI.ResetUI();
         interaction.ResetInteractionState();
         cooking.isCooking = false;
+        isCookingSuccess = true;
     }
 
     // 색상 변화 코루틴 중지
