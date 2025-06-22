@@ -25,6 +25,10 @@ public class Inventory
             {
                 return foodData.foodPrefab;
             }
+            else if (itemData is DeployData deployData)
+            {
+                return deployData.deployPrefab;
+            }
 
             return null;
         }
@@ -194,6 +198,11 @@ public class Inventory
             Debug.LogWarning($"Ingredient number {ingredientNum} is out of range for item {item.data.itemName}.");
             return -1;
         }
+        if (item.data is DeployData deploData && ingredientNum >= deploData.ingredients.Length)
+        {
+            Debug.LogWarning($"Ingredient number {ingredientNum} is out of range for item {item.data.itemName}.");
+            return -1;
+        }
 
         foreach (Slot slot in slots)
         {
@@ -201,6 +210,13 @@ public class Inventory
             if (item.data is FoodData foodData)
             {
                 if (slot.itemName == foodData.ingredients[ingredientNum].itemName)
+                {
+                    return slot.count;
+                }
+            }
+            if (item.data is DeployData deployData)
+            {
+                if (slot.itemName == deployData.ingredients[ingredientNum].itemName)
                 {
                     return slot.count;
                 }
