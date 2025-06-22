@@ -19,7 +19,7 @@ public class ShopSlot_UI : MonoBehaviour
             // 아이템 이름과 가격을 UI에 설정
             itemImage.sprite = item.data.icon;
             itemNameText.text = item.data.name;
-            itemPriceText.text = "$ " + item.data.price.ToString();
+            itemPriceText.text = item.data.price.ToString() + " G";
         }
     }
 
