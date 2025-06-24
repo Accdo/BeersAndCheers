@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7389cd916d704fd4397f3b028dda42be
+guid: b7f602c7433bffe488e15c499a30280e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,123 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: chicken1
+      name: WhiteSquare_0
       rect:
         serializedVersion: 2
-        x: 182
-        y: 465
-        width: 25
-        height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3986b74ad19de8d4da5d7212dd239c5a
-      internalID: -1720986274
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cheese1
-      rect:
-        serializedVersion: 2
-        x: 102
-        y: 465
-        width: 25
-        height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: df7dad18254c83e47b580363f6bad15a
-      internalID: -189331145
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Onion1
-      rect:
-        serializedVersion: 2
-        x: 380
-        y: 435
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6819943b219009a498528758fff29004
-      internalID: -438281954
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: steak1
-      rect:
-        serializedVersion: 2
-        x: 155
-        y: 467
-        width: 25
-        height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1e53f0672752e4e459d163b5ef4ad9f5
-      internalID: 871707824
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Beer
-      rect:
-        serializedVersion: 2
-        x: 569
-        y: 519
-        width: 25
-        height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 71d81bc5af31c314fa7d7117f89ad844
-      internalID: 437911813
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Lettuce
-      rect:
-        serializedVersion: 2
-        x: 235
-        y: 390
-        width: 25
-        height: 25
+        x: 89
+        y: 30
+        width: 435
+        height: 536
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -261,8 +151,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 615b028a273bcfc48922effd9dcaab1b
-      internalID: 2058808909
+      spriteID: a4dba7bd923e27b42b0f029b9b67fcb6
+      internalID: 1216265216
       vertices: []
       indices: 
       edges: []
@@ -271,8 +161,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: eea75baf201316d44a7013900e305fc6
-    internalID: 0
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -281,12 +171,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Beer: 437911813
-      Cheese1: -189331145
-      Lettuce: 2058808909
-      Onion1: -438281954
-      chicken1: -1720986274
-      steak1: 871707824
+      WhiteSquare_0: 1216265216
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

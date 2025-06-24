@@ -7,7 +7,7 @@ public class Cooking_UI : MonoBehaviour
     public List<IngredientSlot_UI> cookingSlots = new List<IngredientSlot_UI>();
 
     public Item SelectItem;
- 
+
     public Cooking cooking;
     public CookingMinigame cookingMinigame;
 
@@ -109,14 +109,15 @@ public class Cooking_UI : MonoBehaviour
 
         }
 
-         //요리 미니게임 시작
-         //cooking.CookingSystem(SelectItem.data.icon);
-         if (SelectItem.data is FoodData foodData2)
-         {
-                cooking.CookingSystem(foodData2.ingredients[0].icon, SelectItem.data.icon);
-         }
+        //요리 미니게임 시작
+        //cooking.CookingSystem(SelectItem.data.icon);
+        if (SelectItem.data is FoodData foodData2)
+        {
+            GH_GameManager.instance.uiManager.ActiveHotbarUI();
+            cooking.CookingSystem(foodData2.ingredients[0].icon, SelectItem.data.icon);
+        }
 
-        
+
         //실패시 리턴
         if (cookingMinigame.isCookingSuccess) return;
 
@@ -179,7 +180,7 @@ public class Cooking_UI : MonoBehaviour
         }
 
         // 시설 배치 시작
-        
+
 
         // 별 문제 없었다면
         // 인벤토리 완성된 맥주 추가

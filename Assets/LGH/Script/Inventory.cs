@@ -15,6 +15,8 @@ public class Inventory
         public Sprite icon;
 
         public ItemData itemData;
+        public int freshPoint;
+
         public GameObject UseItem()
         {
             if (itemData is WeaponData weaponData)
@@ -90,6 +92,8 @@ public class Inventory
                 {
                     icon = null;
                     itemName = "";
+                    itemData = null;
+                    freshPoint = 0; // 신선도 초기화
                 }
             }
         }
@@ -114,10 +118,17 @@ public class Inventory
         foreach (Slot slot in slots)
         {
             // 아이템 이름이 같고, 아이템을 추가 가능하면 => 아이템 추가!
-            // ================================================================================================
+            // ================================================================================================?
             if (slot.itemName == item.data.itemName && slot.CanAddItem(item.data.itemName))
             {
                 slot.AddItem(item);
+
+                int AverageFreshPoint = slot.freshPoint * (slot.count-1); // 현재 신선도 * 현재 아이템 개수
+                AverageFreshPoint += GetDefaultFreshPoint(item.data); // 새로 추가되는 아이템
+                AverageFreshPoint /= slot.count; // 평균 신선도 계산
+
+                slot.freshPoint = AverageFreshPoint; // 신선도 평균으로 변경
+
                 return;
             }
         }
@@ -128,9 +139,21 @@ public class Inventory
             if (slot.itemName == "")
             {
                 slot.AddItem(item);
+                
+                slot.freshPoint = GetDefaultFreshPoint(item.data);
                 return;
             }
         }
+    }
+
+    // 아이템 신선도의 기본값을 가져오는 함수
+    private int GetDefaultFreshPoint(ItemData data)
+    {
+        if (data is FoodData foodData)
+            return foodData.freshPoint;
+        if (data is IngredientData ingredientData)
+            return ingredientData.freshPoint;
+        return 0;
     }
 
     // 아이템 삭제
@@ -241,8 +264,18 @@ public class Inventory
                 {
                     // 아이템을 추가
                     toSlot.AddItem(fromSlot.itemName, fromSlot.icon, fromSlot.maxAllowed);
-                    // 아이템 데이터를 추가
+                    // 도착 슬롯의 아이템 데이터를 추가
                     toInventory.slots[toIndex].itemData = fromSlot.itemData;
+
+                    int AverageFreshPoint = toInventory.slots[toIndex].freshPoint * (toInventory.slots[toIndex].count-1); // 현재 신선도 * 현재 아이템 개수
+                    AverageFreshPoint += fromSlot.freshPoint; // 새로 추가되는 아이템
+                    AverageFreshPoint /= toInventory.slots[toIndex].count; // 평균 신선도 계산
+
+                    toInventory.slots[toIndex].freshPoint = AverageFreshPoint; // 신선도 평균으로 변경
+
+                    // 시작 슬롯의 아이템 데이터를 비우기
+                    //slots[fromIndex].itemData = null;
+
                     fromSlot.RemoveItem();
                 }
             }
