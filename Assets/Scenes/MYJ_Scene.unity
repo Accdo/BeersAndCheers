@@ -34392,9 +34392,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6049958976951133679, guid: 6dd1bdb246bacb546b7b5be9d083c2cc, type: 3}
+      propertyPath: cursorDataList.Array.data[3].cursorSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 280f5273b0083924d896a94404639b48, type: 3}
     - target: {fileID: 6400103147277546380, guid: 6dd1bdb246bacb546b7b5be9d083c2cc, type: 3}
       propertyPath: m_Name
       value: Canvas_MYJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400103147277546380, guid: 6dd1bdb246bacb546b7b5be9d083c2cc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6415817890010758770, guid: 6dd1bdb246bacb546b7b5be9d083c2cc, type: 3}
       propertyPath: m_Pivot.x
