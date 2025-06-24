@@ -5,26 +5,26 @@ using System.Collections;
 
 public class CookingMinigame : MonoBehaviour
 {
-    [Header("°ÔÀÓ ¼³Á¤")]
-    [SerializeField] private float timerDuration = 15f; // Å¸ÀÌ¸Ó Áö¼Ó ½Ã°£ (ÃÊ ´ÜÀ§)
-    [SerializeField] private float[] rotationSpeeds = { 300f, 400f, 500f }; // ·¹º§º° È¸Àü ¼Óµµ
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½")]
+    [SerializeField] private float timerDuration = 15f; // Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ (ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    [SerializeField] private float[] rotationSpeeds = { 300f, 400f, 500f }; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½Óµï¿½
 
-    [Header("UI ¿ä¼Ò")]
-    [SerializeField] private Image spacebarImage; // ½ºÆäÀÌ½º¹Ù ÀÌ¹ÌÁö
-    [SerializeField] public Image cookingImage; // ¿ä¸® ÁßÀÎ À½½Ä ÀÌ¹ÌÁö
-    [SerializeField] private Image[] perfectZoneImages; // °¢ ·¹º§ÀÇ ÆÛÆåÆ® Á¸ ÀÌ¹ÌÁö
-    [SerializeField] private Image lineImage; // È¸ÀüÇÏ´Â ¼± ÀÌ¹ÌÁö
-    [SerializeField] private TextMeshProUGUI resultText; // °á°ú Ç¥½Ã ÅØ½ºÆ®
+    [Header("UI ï¿½ï¿½ï¿½")]
+    [SerializeField] private Image spacebarImage; // ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+    [SerializeField] public Image cookingImage; // ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+    [SerializeField] private Image[] perfectZoneImages; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+    [SerializeField] private Image lineImage; // È¸ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+    [SerializeField] private TextMeshProUGUI resultText; // ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½Ø½ï¿½Æ®
 
-    private readonly float[] perfectZoneAngles = { 88f, 44f, 22f }; // ·¹º§º° ¼º°ø °¢µµ
-    private Vector2 spacebarOriginalPos; // ½ºÆäÀÌ½º¹Ù ÀÌ¹ÌÁöÀÇ ¿ø·¡ À§Ä¡
-    private int currentLevel = 0; // ÇöÀç ·¹º§ (0 = 1·¹º§, 1 = 2·¹º§, 2 = 3·¹º§)
-    private float currentLineAngle; // ¼± ÀÌ¹ÌÁöÀÇ ÇöÀç È¸Àü °¢µµ
-    private float perfectZoneStartAngle; // ÆÛÆåÆ® Á¸ÀÇ ½ÃÀÛ °¢µµ
-    private float currentRotationSpeed; // ÇöÀç È¸Àü ¼Óµµ
-    private bool isClockwise = true; // È¸Àü ¹æÇâ (true: ½Ã°è ¹æÇâ, false: ¹Ý½Ã°è ¹æÇâ)
-    private Coroutine colorChangeCoroutine; // »ö»ó º¯È­ ÄÚ·çÆ¾
-    private bool canSpacebar = true; // ½ºÆäÀÌ½º¹Ù ÀÔ·Â °¡´É ¿©ºÎ
+    private readonly float[] perfectZoneAngles = { 88f, 44f, 22f }; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private Vector2 spacebarOriginalPos; // ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+    private int currentLevel = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (0 = 1ï¿½ï¿½ï¿½ï¿½, 1 = 2ï¿½ï¿½ï¿½ï¿½, 2 = 3ï¿½ï¿½ï¿½ï¿½)
+    private float currentLineAngle; // ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float perfectZoneStartAngle; // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float currentRotationSpeed; // ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½Óµï¿½
+    private bool isClockwise = true; // È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (true: ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½, false: ï¿½Ý½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    private Coroutine colorChangeCoroutine; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½Ú·ï¿½Æ¾
+    private bool canSpacebar = true; // ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     public InteractionUI interactionUI;
     public Interaction interaction;
@@ -36,21 +36,21 @@ public class CookingMinigame : MonoBehaviour
     {
         cookingImage.sprite = sprite;
     }
-    // °ÔÀÓ ½ÃÀÛ ½Ã ÃÊ±âÈ­
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê±ï¿½È­
     public void StartCookingMinigame()
     {
-        // ±âÁ¸ ÄÚ·çÆ¾ ÁßÁö
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½
         StopColorChange();
 
         
-        // »óÅÂ ¹× UI ÃÊ±âÈ­
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ UI ï¿½Ê±ï¿½È­
         InitSet();
         InitializeUI();
         StartLevel(currentLevel);
         colorChangeCoroutine = StartCoroutine(ChangeCookingImageColor());
     }
 
-    // ¸Å ÇÁ·¹ÀÓ ¾÷µ¥ÀÌÆ®
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     private void Update()
     {
         if (!canSpacebar) return;
@@ -66,30 +66,30 @@ public class CookingMinigame : MonoBehaviour
         }
     }
 
-    // UI ¿ä¼Ò ÃÊ±âÈ­
+    // UI ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
     private void InitializeUI()
     {
         if (cookingImage == null || perfectZoneImages == null || perfectZoneImages.Length != 3 ||
             lineImage == null || resultText == null || spacebarImage == null)
         {
-            Debug.LogError("¸ðµç UI ¿ä¼Ò¸¦ ÀÎ½ºÆåÅÍ¿¡ ÇÒ´çÇØ¾ß ÇÕ´Ï´Ù.");
+            Debug.LogError("ï¿½ï¿½ï¿½ UI ï¿½ï¿½Ò¸ï¿½ ï¿½Î½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½Ò´ï¿½ï¿½Ø¾ï¿½ ï¿½Õ´Ï´ï¿½.");
             enabled = false;
             return;
         }
 
-        // ½ºÆäÀÌ½º¹Ù À§Ä¡ ÃÊ±âÈ­
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½Ê±ï¿½È­
         spacebarOriginalPos = spacebarImage.rectTransform.anchoredPosition;
 
-        // ¸ðµç ÆÛÆåÆ® Á¸ ÀÌ¹ÌÁö ºñÈ°¼ºÈ­
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
         foreach (Image zoneImage in perfectZoneImages)
         {
             zoneImage.gameObject.SetActive(false);
         }
 
-        // UI ¿ä¼Ò ÃÊ±âÈ­
-        cookingImage.color = Color.white; // À½½Ä ÀÌ¹ÌÁö »ö»ó ÃÊ±âÈ­
+        // UI ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
+        cookingImage.color = Color.white; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         resultText.text = "";
-        lineImage.rectTransform.rotation = Quaternion.identity; // ¼± È¸Àü ÃÊ±âÈ­
+        lineImage.rectTransform.rotation = Quaternion.identity; // ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½Ê±ï¿½È­
     }
 
     private void InitSet()
@@ -100,7 +100,7 @@ public class CookingMinigame : MonoBehaviour
         canSpacebar = true;
     }
 
-    // ÁöÁ¤µÈ ·¹º§ ½ÃÀÛ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void StartLevel(int level)
     {
         foreach (Image zoneImage in perfectZoneImages)
@@ -113,21 +113,21 @@ public class CookingMinigame : MonoBehaviour
         SetRandomPerfectZone();
     }
 
-    // ÆÛÆåÆ® Á¸À» ·£´ýÇÑ °¢µµ·Î ¼³Á¤
+    // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void SetRandomPerfectZone()
     {
         perfectZoneStartAngle = Random.Range(0f, 360f);
         perfectZoneImages[currentLevel].rectTransform.rotation = Quaternion.Euler(0f, 0f, -perfectZoneStartAngle);
     }
 
-    // ¼±ÀÌ ÆÛÆåÆ® Á¸ ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö È®ÀÎ
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
     private bool IsLineInPerfectZone()
     {
         float angleDiff = Mathf.Abs(Mathf.DeltaAngle(currentLineAngle, perfectZoneStartAngle));
         return angleDiff <= perfectZoneAngles[currentLevel] / 2f;
     }
 
-    // ½ºÆäÀÌ½º¹Ù ÀÔ·Â Ã³¸®
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ Ã³ï¿½ï¿½
     private void HandleSpacebarInput()
     {
         if (spacebarImage != null)
@@ -142,9 +142,9 @@ public class CookingMinigame : MonoBehaviour
             currentLevel++;
             if (currentLevel >= perfectZoneImages.Length)
             {
-                //¼º°ø Ã³¸®
+                //ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
                 canSpacebar = false;
-                resultText.text = "¼º°ø!";
+                resultText.text = "ï¿½ï¿½ï¿½ï¿½!";
                 StopColorChange();
                 StartCoroutine(EndGameAfterDelay());
                 return;
@@ -158,7 +158,7 @@ public class CookingMinigame : MonoBehaviour
         }
     }
 
-    // ½ºÆäÀÌ½º¹Ù ÀÌ¹ÌÁö ÀÌµ¿ ¾Ö´Ï¸ÞÀÌ¼Ç
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
     private IEnumerator MoveSpacebarImage()
     {
         spacebarImage.rectTransform.anchoredPosition = spacebarOriginalPos + new Vector2(0f, -3f);
@@ -166,11 +166,11 @@ public class CookingMinigame : MonoBehaviour
         spacebarImage.rectTransform.anchoredPosition = spacebarOriginalPos;
     }
 
-    // À½½Ä ÀÌ¹ÌÁö »ö»ó º¯È­
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­
     private IEnumerator ChangeCookingImageColor()
     {
         float elapsedTime = 0f;
-        Color startColor = Color.white; // Ç×»ó Èò»ö¿¡¼­ ½ÃÀÛ
+        Color startColor = Color.white; // ï¿½×»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Color targetColor = Color.black;
 
         while (elapsedTime < timerDuration)
@@ -181,17 +181,19 @@ public class CookingMinigame : MonoBehaviour
             yield return null;
         }
 
-        // ½ÇÆÐ Ã³¸® (½Ã°£ÃÊ°ú)
+        // ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ (ï¿½Ã°ï¿½ï¿½Ê°ï¿½)
         canSpacebar = false;
-        resultText.text = "½ÇÆÐ!";
+        resultText.text = "ï¿½ï¿½ï¿½ï¿½!";
         yield return new WaitForSeconds(1f);
         interactionUI.HideCookingMiniGameUI();
         interactionUI.ResetUI();
         interaction.ResetInteractionState();
-        cooking.isCooking = false; // Cooking Å¬·¡½ºÀÇ ÇÁ·ÎÆÛÆ¼ »ç¿ë
+        cooking.isCooking = false; // Cooking Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½
+
+        GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
     }
 
-    // ¼º°ø Ã³¸® ÄÚ·çÆ¾ (°ÔÀÓ Á¾·á ÈÄ 1ÃÊ ´ë±â)
+    // ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½)
     private IEnumerator EndGameAfterDelay()
     {
         yield return new WaitForSeconds(1f);
@@ -200,9 +202,11 @@ public class CookingMinigame : MonoBehaviour
         interaction.ResetInteractionState();
         cooking.isCooking = false;
         isCookingSuccess = true;
+
+        GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
     }
 
-    // »ö»ó º¯È­ ÄÚ·çÆ¾ ÁßÁö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½
     private void StopColorChange()
     {
         if (colorChangeCoroutine != null)
@@ -210,6 +214,6 @@ public class CookingMinigame : MonoBehaviour
             StopCoroutine(colorChangeCoroutine);
             colorChangeCoroutine = null;
         }
-        cookingImage.color = Color.white; // »ö»ó ÃÊ±âÈ­
+        cookingImage.color = Color.white; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
     }
 }
