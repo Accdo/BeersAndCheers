@@ -9,11 +9,6 @@ public class Inventory_UI : MonoBehaviour
     [SerializeField] private Canvas canvas;
     private Inventory inventory;
 
-    private void Awake()
-    {
-        
-    }
-
     private void Start()
     {
         inventory = GH_GameManager.instance.player.inventory.GetInventoryByName(inventoryName);
