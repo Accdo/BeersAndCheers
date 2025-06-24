@@ -12,6 +12,10 @@ public class Fermenting : MonoBehaviour, IInteractable
     public InteractionUI interactionUI;
     public GameObject BeerRecipeUI;
 
+    private void Start()
+    {
+        BeerRecipeUI.SetActive(false);
+    }
     public void Interact()
     {
         GH_GameManager.instance.player.MouseVisible(true);
