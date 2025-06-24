@@ -25,6 +25,10 @@ public class Inventory
             {
                 return foodData.foodPrefab;
             }
+            else if (itemData is DeployData deployData)
+            {
+                return deployData.deployPrefab;
+            }
 
             return null;
         }
@@ -110,6 +114,7 @@ public class Inventory
         foreach (Slot slot in slots)
         {
             // 아이템 이름이 같고, 아이템을 추가 가능하면 => 아이템 추가!
+            // ================================================================================================
             if (slot.itemName == item.data.itemName && slot.CanAddItem(item.data.itemName))
             {
                 slot.AddItem(item);
@@ -193,6 +198,11 @@ public class Inventory
             Debug.LogWarning($"Ingredient number {ingredientNum} is out of range for item {item.data.itemName}.");
             return -1;
         }
+        if (item.data is DeployData deploData && ingredientNum >= deploData.ingredients.Length)
+        {
+            Debug.LogWarning($"Ingredient number {ingredientNum} is out of range for item {item.data.itemName}.");
+            return -1;
+        }
 
         foreach (Slot slot in slots)
         {
@@ -200,6 +210,13 @@ public class Inventory
             if (item.data is FoodData foodData)
             {
                 if (slot.itemName == foodData.ingredients[ingredientNum].itemName)
+                {
+                    return slot.count;
+                }
+            }
+            if (item.data is DeployData deployData)
+            {
+                if (slot.itemName == deployData.ingredients[ingredientNum].itemName)
                 {
                     return slot.count;
                 }
@@ -224,6 +241,8 @@ public class Inventory
                 {
                     // 아이템을 추가
                     toSlot.AddItem(fromSlot.itemName, fromSlot.icon, fromSlot.maxAllowed);
+                    // 아이템 데이터를 추가
+                    toInventory.slots[toIndex].itemData = fromSlot.itemData;
                     fromSlot.RemoveItem();
                 }
             }

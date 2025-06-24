@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Recipe_UI : MonoBehaviour
 {
-    public List<Item> recipeArray = new List<Item>();
+    //public List<Item> recipeArray = new List<Item>();
 
     public void SelectRecipe(Item selectedRecipe)
     {

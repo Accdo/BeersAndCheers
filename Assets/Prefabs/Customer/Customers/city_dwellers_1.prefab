@@ -860,6 +860,7 @@ MonoBehaviour:
   customerType: 2
   interactKey: 101
   interactionDistance: 3
+  showInteractionGizmo: 1
 --- !u!195 &5178983638002333210
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -883,3 +883,4 @@ MonoBehaviour:
   customerType: 3
   interactKey: 101
   interactionDistance: 3
+  showInteractionGizmo: 1

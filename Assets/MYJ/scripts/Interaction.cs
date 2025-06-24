@@ -15,7 +15,7 @@ public class Interaction : MonoBehaviour
 
     [Header("reference")]
     public TimingBar timingBar;
-    public Player_MYJ player_MYJ;
+    public Player_LYJ player_LYJ;
 
     private Camera cam;
     private float holdTimer = 0f;
@@ -68,7 +68,7 @@ public class Interaction : MonoBehaviour
                             if (holdTimer >= holdDuration)
                             {
                                 gaugeCompleted = true;
-                                timingBar.StartTimingBar(currentTarget, this, player_MYJ, interactionUI);
+                                timingBar.StartTimingBar(currentTarget, this, player_LYJ, interactionUI);
                             }
                         }
                         else
@@ -88,6 +88,7 @@ public class Interaction : MonoBehaviour
                             {
                                 gaugeCompleted = true;
                                 interactable.Interact();
+                                ResetInteractionState();
                             }
                         }
                         else

@@ -878,6 +878,7 @@ MonoBehaviour:
   customerType: 4
   interactKey: 101
   interactionDistance: 3
+  showInteractionGizmo: 1
 --- !u!4 &4237524694456724337 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: de178b049efa30f44bd81ef9e0174c57, type: 3}
