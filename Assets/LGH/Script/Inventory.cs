@@ -123,7 +123,7 @@ public class Inventory
             {
                 slot.AddItem(item);
 
-                int AverageFreshPoint = slot.freshPoint * (slot.count-1); // 현재 신선도 * 현재 아이템 개수
+                int AverageFreshPoint = slot.freshPoint * (slot.count - 1); // 현재 신선도 * 현재 아이템 개수
                 AverageFreshPoint += GetDefaultFreshPoint(item.data); // 새로 추가되는 아이템
                 AverageFreshPoint /= slot.count; // 평균 신선도 계산
 
@@ -139,7 +139,7 @@ public class Inventory
             if (slot.itemName == "")
             {
                 slot.AddItem(item);
-                
+
                 slot.freshPoint = GetDefaultFreshPoint(item.data);
                 return;
             }
@@ -248,6 +248,20 @@ public class Inventory
         return -1;
     }
 
+    public int GetItemFreshPoint(string itemName)
+    {
+        foreach (Slot slot in slots)
+        {
+            Debug.Log($"인벤 슬롯에 아이템 이름 : {slot.itemName}, 필요한 재료 아이템 이름 : {itemName}");
+            // 아이템 이름이 같고
+            if (slot.itemName == itemName)
+            {
+                return slot.freshPoint;
+            }
+        }
+        return -1;
+    }
+
     // 아이템 이동
     public void MoveSlot(int fromIndex, int toIndex, Inventory toInventory, int numToMove = 1)
     {
@@ -267,7 +281,7 @@ public class Inventory
                     // 도착 슬롯의 아이템 데이터를 추가
                     toInventory.slots[toIndex].itemData = fromSlot.itemData;
 
-                    int AverageFreshPoint = toInventory.slots[toIndex].freshPoint * (toInventory.slots[toIndex].count-1); // 현재 신선도 * 현재 아이템 개수
+                    int AverageFreshPoint = toInventory.slots[toIndex].freshPoint * (toInventory.slots[toIndex].count - 1); // 현재 신선도 * 현재 아이템 개수
                     AverageFreshPoint += fromSlot.freshPoint; // 새로 추가되는 아이템
                     AverageFreshPoint /= toInventory.slots[toIndex].count; // 평균 신선도 계산
 

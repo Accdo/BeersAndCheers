@@ -14,7 +14,14 @@ public class Cooking_UI : MonoBehaviour
     // 플레이어가 가진 재료 아이템 갯수
     private int playerItemCount;
     // 요리에 필요한 재료 아이템 갯수
-    private int cookItemCount;
+    private int[] cookItemCount = new int[6];
+    // 현재 요리재료 슬롯의 개수
+    private int currentCookSlotCount;
+
+    // 요리 재료의 신선도 점수 합계
+    private int ingredientFreshPointTotal = 0;
+    // 요리 재료의 총 갯수
+    private int ingredientCount = 0;
 
 
     public void Refresh()
@@ -27,27 +34,9 @@ public class Cooking_UI : MonoBehaviour
                 if (i < foodData.ingredients.Length)
                 {
                     playerItemCount = GH_GameManager.instance.player.inventory.GetItemCount(SelectItem, i);
-                    cookItemCount = foodData.ingredientCounts[i];
+                    cookItemCount[i] = foodData.ingredientCounts[i];
 
-                    cookingSlots[i].SetItem(foodData.ingredients[i], playerItemCount, cookItemCount);
-                }
-                // 나머지는 빈 슬롯으로 설정
-                else
-                {
-                    cookingSlots[i].SetEmpty();
-                }
-            }
-            if (SelectItem.data is DeployData deployData)
-            {
-                // 요리 재료 개수 까지만 실행
-                if (i < deployData.ingredients.Length)
-                {
-                    playerItemCount = GH_GameManager.instance.player.inventory.GetItemCount(SelectItem, i);
-                    Debug.Log("playerItemCount : " + playerItemCount);
-                    cookItemCount = deployData.ingredientCounts[i];
-                    Debug.Log("cookItemCount : " + cookItemCount);
-
-                    cookingSlots[i].SetItem(deployData.ingredients[i], playerItemCount, cookItemCount);
+                    cookingSlots[i].SetItem(foodData.ingredients[i], playerItemCount, cookItemCount[i]);
                 }
                 // 나머지는 빈 슬롯으로 설정
                 else
@@ -60,133 +49,74 @@ public class Cooking_UI : MonoBehaviour
 
     public void Cook()
     {
+        var foodData = SelectItem.data as FoodData;
+        if (foodData == null)
+        {
+            Debug.Log("foodData 참조 실패");
+            return;
+        }
+        // 요리 재료의 신선도 점수 합계와 총 갯수 초기화
+        ingredientFreshPointTotal = 0;
+        ingredientCount = 0;
+
         for (int i = 0; i < cookingSlots.Count; i++)
         {
-            // 선택된 아이템이 음식 아이템인지 확인
-            if (SelectItem.data is FoodData foodData)
+            // 빈 슬롯인지 확인 후, 아이템 갯수 변수 초기화
+            if (i < foodData.ingredients.Length)
             {
-                // 요리 재료 개수 까지만 실행
-                if (i < foodData.ingredients.Length)
-                {
-                    playerItemCount = GH_GameManager.instance.player.inventory.GetItemCount(SelectItem, i);
-                    cookItemCount = foodData.ingredientCounts[i];
-                }
-                else
-                {
-                    // 나머지 빈 슬롯에 대해 더 이상 실행하지 않음
-                    Debug.Log("No more ingredients to cook.");
-                    break;
-                }
-
-                // 플레이어가 가진 재료 아이템 갯수가 요리에 필요한 재료 아이템 갯수 이상일 때
-                if (playerItemCount >= cookItemCount)
-                {
-                    // 인벤토리 음식재료 제거
-                    for (int j = 0; j < cookItemCount; j++)
-                    {
-                        // 인벤토리에서 재료 아이템 제거
-                        GH_GameManager.instance.player.inventory.RemoveItem(foodData.ingredients[i].itemName);
-                    }
-
-                    // 요리창 새로고침
-                    Refresh();
-
-                    Debug.Log($"Cooking {SelectItem.data.itemName} completed!");
-                }
-                else
-                {
-                    // 플레이어가 가진 재료 아이템 갯수가 요리에 필요한 재료 아이템 갯수 미만일 때
-                    Debug.Log($"Not enough ingredients to cook {SelectItem.data.itemName}. Required: {cookItemCount}, Available: {playerItemCount}");
-                    return;
-                }
+                playerItemCount = GH_GameManager.instance.player.inventory.GetItemCount(SelectItem, i);
+                cookItemCount[i] = foodData.ingredientCounts[i];
             }
             else
             {
-                // 선택된 아이템이 음식 아이템이 아닐 때
-                Debug.Log("Selected item is not a food item.");
-                return;
+                currentCookSlotCount = i;
+                Debug.Log("더 이상 요리 재료가 없습니다.");
+                break;
             }
 
+            // 보유한 요리 재료가 부족할 시 return
+            if (playerItemCount < cookItemCount[i])
+            {
+                Debug.Log($"Not enough ingredients to cook {SelectItem.data.itemName}. Required: {cookItemCount}, Available: {playerItemCount}");
+                return;
+            }
         }
+        for (int i = 0; i < currentCookSlotCount; i++)
+        {
+            // 인벤토리 음식재료 제거
+            for (int j = 0; j < cookItemCount[i]; j++)
+            {
+                // 복잡한 설계 @ @
+                ingredientFreshPointTotal += GH_GameManager.instance.player.inventory.GetItemFreshPoint(foodData.ingredients[i].itemName);
+                ingredientCount++;
+
+                GH_GameManager.instance.player.inventory.RemoveItem(foodData.ingredients[i].itemName);
+            }
+            // 요리창 새로고침
+            Refresh();
+
+            Debug.Log($"Cooking {SelectItem.data.itemName} completed!");
+        }
+
 
         //요리 미니게임 시작
         //cooking.CookingSystem(SelectItem.data.icon);
-        if (SelectItem.data is FoodData foodData2)
-        {
-            GH_GameManager.instance.uiManager.ActiveHotbarUI();
-            cooking.CookingSystem(foodData2.ingredients[0].icon, SelectItem.data.icon);
-        }
 
+        GH_GameManager.instance.uiManager.ActiveHotbarUI();
+        cooking.CookingSystem(foodData.ingredients[0].icon, SelectItem.data.icon);
 
         //실패시 리턴
         if (cookingMinigame.isCookingSuccess) return;
 
-        // 별 문제 없었다면
+
+
+        foodData.freshPoint = ingredientFreshPointTotal / ingredientCount;
+        Debug.Log($"완성된 음식 신선도 평균 : {foodData.freshPoint}");
         // 인벤토리 완성된 음식 추가
         GH_GameManager.instance.player.inventory.Add("Backpack", SelectItem);
         // 인벤 새로고침
         GH_GameManager.instance.uiManager.RefreshAll();
     }
 
-    public void CreateItem()
-    {
-        for (int i = 0; i < cookingSlots.Count; i++)
-        {
-            // 선택된 아이템이 음식 아이템인지 확인
-            if (SelectItem.data is DeployData deployData)
-            {
-                // 요리 재료 개수 까지만 실행
-                if (i < deployData.ingredients.Length)
-                {
-                    playerItemCount = GH_GameManager.instance.player.inventory.GetItemCount(SelectItem, i);
-                    cookItemCount = deployData.ingredientCounts[i];
-                }
-                else
-                {
-                    // 나머지 빈 슬롯에 대해 더 이상 실행하지 않음
-                    Debug.Log("No more ingredients to create.");
-                    break;
-                }
-
-                // 플레이어가 가진 재료 아이템 갯수가 요리에 필요한 재료 아이템 갯수 이상일 때
-                if (playerItemCount >= cookItemCount)
-                {
-                    // 인벤토리 음식재료 제거
-                    for (int j = 0; j < cookItemCount; j++)
-                    {
-                        // 인벤토리에서 재료 아이템 제거
-                        GH_GameManager.instance.player.inventory.RemoveItem(deployData.ingredients[i].itemName);
-                    }
-
-                    // 요리창 새로고침
-                    Refresh();
-
-                    Debug.Log($"Creating {SelectItem.data.itemName} completed!");
-                }
-                else
-                {
-                    // 플레이어가 가진 재료 아이템 갯수가 요리에 필요한 재료 아이템 갯수 미만일 때
-                    Debug.Log($"Not enough ingredients to cook {SelectItem.data.itemName}. Required: {cookItemCount}, Available: {playerItemCount}");
-                    return;
-                }
-            }
-            else
-            {
-                // 선택된 아이템이 음식 아이템이 아닐 때
-                Debug.Log("Selected item is not a deployItem.");
-                return;
-            }
-
-        }
-
-        // 시설 배치 시작
-
-
-        // 별 문제 없었다면
-        // 인벤토리 완성된 맥주 추가
-        GH_GameManager.instance.player.inventory.Add("Backpack", SelectItem);
-        // 인벤 새로고침
-        GH_GameManager.instance.uiManager.RefreshAll();
-    }
 
 }

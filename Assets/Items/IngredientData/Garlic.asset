@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bf7b09ef1fedee449fd3e61839f9857, type: 3}
-  m_Name: Bacon
+  m_Name: Garlic
   m_EditorClassIdentifier: 
-  itemName: Bacon
-  icon: {fileID: 21300000, guid: 6d55905ad73fd0543af2fbd86d642f1e, type: 3}
-  price: 800
+  itemName: Garlic
+  icon: {fileID: -438281954, guid: 7389cd916d704fd4397f3b028dda42be, type: 3}
+  price: 400
   freshPoint: 100

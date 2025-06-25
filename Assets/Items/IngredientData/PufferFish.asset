@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bf7b09ef1fedee449fd3e61839f9857, type: 3}
-  m_Name: Bacon
+  m_Name: PufferFish
   m_EditorClassIdentifier: 
-  itemName: Bacon
-  icon: {fileID: 21300000, guid: 6d55905ad73fd0543af2fbd86d642f1e, type: 3}
-  price: 800
+  itemName: PufferFish
+  icon: {fileID: -1479304035, guid: 13aa01c61bbbc0b40b8a5b85a513f4b2, type: 3}
+  price: 0
   freshPoint: 100
