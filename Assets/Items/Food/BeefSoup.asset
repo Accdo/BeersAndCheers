@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b395889b5de77145b42f44c40b2c4c0, type: 3}
+  m_Name: BeefSoup
+  m_EditorClassIdentifier: 
+  itemName: BeefSoup
+  icon: {fileID: 21300000, guid: 147e796e3c035f841ba97be1aa154014, type: 3}
+  price: 0
+  freshPoint: 100
+  foodPrefab: {fileID: 1686053235572166775, guid: 4a06fc82fd4a4ba48a4584af0001b519, type: 3}
+  ingredients:
+  - {fileID: 11400000, guid: b6db1e80d063e824097052e1a3decacb, type: 2}
+  - {fileID: 11400000, guid: 10cad14efb1983d4fb4e6d19260fc55f, type: 2}
+  - {fileID: 11400000, guid: f31ef4792b3efcf4dbbda02426de98d3, type: 2}
+  - {fileID: 11400000, guid: 1f6f20e94bf49b94b82ef612a817572d, type: 2}
+  - {fileID: 11400000, guid: d6279f29ea5f66043b375ed00ffa8296, type: 2}
+  ingredientCounts: 0200000002000000020000000200000001000000

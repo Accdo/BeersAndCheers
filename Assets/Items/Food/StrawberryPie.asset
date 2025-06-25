@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b395889b5de77145b42f44c40b2c4c0, type: 3}
+  m_Name: StrawberryPie
+  m_EditorClassIdentifier: 
+  itemName: StrawberryPie
+  icon: {fileID: 21300000, guid: 74a2cee5aaa988c44b1cb962baa87c91, type: 3}
+  price: 0
+  freshPoint: 100
+  foodPrefab: {fileID: 2776601802351777021, guid: 2df29ba1dceed02478c8b45f1351a26c, type: 3}
+  ingredients:
+  - {fileID: 11400000, guid: 5f4d551216f04814bac971bc722fe4fe, type: 2}
+  - {fileID: 11400000, guid: 70d9d47707c47074a94ad1b574cedf67, type: 2}
+  - {fileID: 11400000, guid: 397fb4b47740899418243680bcaa1d0b, type: 2}
+  ingredientCounts: 030000000300000003000000
