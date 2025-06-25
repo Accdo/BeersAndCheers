@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Bacon
   icon: {fileID: 21300000, guid: 6d55905ad73fd0543af2fbd86d642f1e, type: 3}
-  price: 1000
+  price: 800
   freshPoint: 100

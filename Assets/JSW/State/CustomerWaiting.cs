@@ -20,7 +20,6 @@ public class CustomerWaiting : CustomerState
             {
                 ai.MoveToQueuePoint(idx);
             }
-            // else 아무것도 하지 않음 (경고도 출력하지 않음)
         }
         else
         {
@@ -31,12 +30,17 @@ public class CustomerWaiting : CustomerState
                 ai.queueIndex = idx;
                 ai.MoveToQueuePoint(idx);
             }
-            // else 아무것도 하지 않음 (경고도 출력하지 않음)
         }
     }
 
     public override void StateUpdate()
     {
         // 좌석 배정은 SeatManager에서 AssignSeats 호출로 처리됨
+        Door door = CustomerSpawnManager.Instance.door;
+        if (door != null && !door.GetDoorState())
+        {
+            stateMachine.ChangeState(ai.exitState);
+        }
+
     }
 }

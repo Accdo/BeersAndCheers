@@ -180,13 +180,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Onion1
+      name: Garlic
       rect:
         serializedVersion: 2
-        x: 380
-        y: 435
-        width: 15
-        height: 15
+        x: 311
+        y: 415
+        width: 25
+        height: 25
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -254,7 +254,7 @@ TextureImporter:
         width: 25
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -283,8 +283,8 @@ TextureImporter:
     nameFileIdTable:
       Beer: 437911813
       Cheese1: -189331145
+      Garlic: -438281954
       Lettuce: 2058808909
-      Onion1: -438281954
       chicken1: -1720986274
       steak1: 871707824
   mipmapLimitGroupName: 
