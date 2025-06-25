@@ -22,7 +22,6 @@ public class MoneyManager : MonoBehaviour
         currentMoney += amount;
         Debug.Log($"돈이 추가되었습니다. 현재 돈: {currentMoney}");
     }
-    // 돈을 제거하는 메서드
     public void RemoveMoney(int amount)
     {
         if (currentMoney >= amount)
