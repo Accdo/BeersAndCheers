@@ -29,7 +29,7 @@ public class GoldManager : MonoBehaviour
     {
         if (moneyText != null)
         {
-            moneyText.text = "$ " + money.ToString();
+            moneyText.text = money.ToString() + " G";
         }
         else
         {

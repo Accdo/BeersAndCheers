@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36b0fc289ebaea4b9bece56d8a6d702, type: 3}
+  m_Name: Beer
+  m_EditorClassIdentifier: 
+  itemName: Beer
+  icon: {fileID: 437911813, guid: 7389cd916d704fd4397f3b028dda42be, type: 3}
+  price: 0
+  deployPrefab: {fileID: 2295552480941103910, guid: 7649f5840e13abb479c3692e05189ac6, type: 3}
+  ingredients:
+  - {fileID: 11400000, guid: 397fb4b47740899418243680bcaa1d0b, type: 2}
+  - {fileID: 11400000, guid: b4ab8a4b1aec1ab48a301bdb4089dd07, type: 2}
+  - {fileID: 11400000, guid: ec71e1f48d44b2744b56ac63d4c74013, type: 2}
+  ingredientCounts: 010000000100000001000000

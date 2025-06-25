@@ -13,13 +13,53 @@ public class InventoryManager : MonoBehaviour
     public Inventory hotbar;
     public int hotbarSlotCount;
 
+    [Header("상자")]
+    public Inventory storagebox;
+    public int storageboxSlotCount;
+
+    [Header("냉동 상자")]
+    public Inventory freezeBox;
+    public int freezeBoxSlotCount;
+
+
+    [Header("신선도 감소 간격")]
+    public float decreaseInterval = 60f; // 1분
+    private float timer = 0f;
+
     private void Awake()
     {
         backpack = new Inventory(backpackSlotCount);
         hotbar = new Inventory(hotbarSlotCount);
+        storagebox = new Inventory(storageboxSlotCount);
+        freezeBox = new Inventory(freezeBoxSlotCount);
 
         inventoryByName.Add("Backpack", backpack);
         inventoryByName.Add("Hotbar", hotbar);
+        inventoryByName.Add("StorageBox", storagebox);
+        inventoryByName.Add("FreezeBox", freezeBox);
+    }
+    void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer >= decreaseInterval)
+        {
+            DecreaseFreshness(backpack);
+            DecreaseFreshness(hotbar);
+            DecreaseFreshness(storagebox);
+            GH_GameManager.instance.uiManager.RefreshAll(); // UI 갱신
+            timer = 0f;
+        }
+    }
+
+    void DecreaseFreshness(Inventory inventory)
+    {
+        foreach (var slot in inventory.slots)
+        {
+            if (slot.itemData is FoodData || slot.itemData is IngredientData)
+            {
+                slot.freshPoint = Mathf.Max(0, slot.freshPoint - 1);
+            }
+        }
     }
 
     public void Add(string inventoryName, Item item)

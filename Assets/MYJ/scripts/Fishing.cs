@@ -14,7 +14,7 @@ public class Fishing : MonoBehaviour,IInteractable
     public float castAnimationTime = 1.5f;
     public float biteMinTime = 2f;
     public float biteMaxTime = 5f;
-    public float hitDuration = 2f;
+    public float hitDuration = 1f;
 
     [Header("References")]
     public string requiredToolName = "FishingRod"; //인벤토리에서 낚시대 찾는거 넣기
@@ -26,6 +26,7 @@ public class Fishing : MonoBehaviour,IInteractable
     private bool isFishing = false;
     private bool canCatch = false;
     private Coroutine fishingRoutine;
+    private Interaction interaction;
 
     public void Interact()
     {
@@ -33,6 +34,17 @@ public class Fishing : MonoBehaviour,IInteractable
         if (isFishing) return;
 
         fishingRoutine = StartCoroutine(FishingSystem());
+    }
+    private void Start()
+    {
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player")?.GetComponent<Player_MYJ>();
+            Debug.Log($"[Fishing] Player ref found at Start: {player}");
+        }
+
+        if (interaction == null)
+            interaction = GetComponentInParent<Interaction>();
     }
 
     IEnumerator FishingSystem()
@@ -93,8 +105,13 @@ public class Fishing : MonoBehaviour,IInteractable
     private void StartMiniGame()
     {
         Debug.Log("미니게임 시작!");
-        interactionUI.ShowFishingMiniGameUI();
         isFishing = false;
+        interactionUI.ShowFishingMiniGameUI();
+
+        FishingMiniGame.Instance.StartGame((success) =>
+        {
+            EndFishing(success);
+        });
     }
 
     /*private bool IsHoldingFishingRod() //인벤토리 로직에 맞게 수정
@@ -115,8 +132,11 @@ public class Fishing : MonoBehaviour,IInteractable
         }
 
         interactionUI.ResetFishingUI();
+        interactionUI.ResetUI();
         isFishing = false;
         player?.EndOtherWork();
+        interaction?.ResetInteractionState();
+        interaction?.letsinteraction();
     }
 
     private void OnDisable()
@@ -126,5 +146,6 @@ public class Fishing : MonoBehaviour,IInteractable
         canCatch = false;
 
         player?.EndOtherWork();
+        interaction?.ResetInteractionState();
     }
 }
