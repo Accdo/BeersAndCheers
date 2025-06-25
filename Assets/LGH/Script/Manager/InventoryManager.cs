@@ -110,6 +110,18 @@ public class InventoryManager : MonoBehaviour
         return 0;
     }
 
+    // 인벤토리에 있는 아이템의 신선도 반환
+    public int GetItemFreshPoint(string itemName)
+    {
+        Debug.Log($"GetItemFreshPoint called for item: {itemName}");
+        if (backpack.GetItemFreshPoint(itemName) != -1)
+            return backpack.GetItemFreshPoint(itemName);
+        if (hotbar.GetItemFreshPoint(itemName) != -1)
+            return hotbar.GetItemFreshPoint(itemName);
+
+        return -1;
+    }
+
     public Inventory GetInventoryByName(string inventoryName)
     {
         if (inventoryByName.ContainsKey(inventoryName))

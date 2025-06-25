@@ -71,7 +71,7 @@ public class UI_Manager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             // 맥주 시설 패널 생성
-            ToggleDeployUI();
+            ToggleBeerUI();
         }
 
         if (Input.GetKeyDown(KeyCode.U))
@@ -87,7 +87,7 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
-    public void ToggleDeployUI()
+    public void ToggleBeerUI()
     {
         if (DeployPanel != null)
         {
