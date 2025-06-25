@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Pizza
   icon: {fileID: 21300000, guid: 96165046080399d42a874591eea23032, type: 3}
-  freshPoint: 100
-  foodPrefab: {fileID: 919132149155446097, guid: 4fa065e1b29f7be4f8b2ba6ad219bdfb, type: 3}
   price: 1000
+  freshPoint: 100
+  foodPrefab: {fileID: 2195945097614120833, guid: 3d04329293e75274097a8afc5b8d0fd5, type: 3}
+  ingredients: []
+  ingredientCounts: 

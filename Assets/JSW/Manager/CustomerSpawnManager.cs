@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class CustomerSpawnManager : MonoBehaviour
 {
@@ -14,14 +15,18 @@ public class CustomerSpawnManager : MonoBehaviour
     [Header("생성 확률(0~1)")]
     [Range(0f, 1f)]
     public float spawnProbability = 0.7f;
+    [Header("퀘스트 손님 생성 확률(0~1)")]
+    [Range(0f, 1f)]
+    public float questCustomerSpawnChance = 0.05f;
     [Header("특별 손님 생성 확률(0~1)")]
     [Range(0f, 1f)]
-    public float specialSpawnProbability = 0.1f;
+    public float specialSpawnProbability = 0.05f;
     [Header("손님 생성 ON/OFF 용 문 할당")]
     public Door door;
 
     private float timer = 0f;
     private HashSet<CustomerType> spawnedSpecialCustomers = new HashSet<CustomerType>();
+    private bool isQuestCustomerSpawned = false;
 
     public static CustomerSpawnManager Instance { get; private set; }
     private void Awake()
@@ -48,13 +53,31 @@ public class CustomerSpawnManager : MonoBehaviour
         {
             timer = 0f;
             
-            // 일반 손님 생성
+            // 일반 손님 또는 퀘스트 손님 생성 시도
             if (Random.value < spawnProbability)
             {
-                int teamSize = Random.Range(1, 2);
                 if (SeatManager.Instance.CanAcceptNewCustomer(1))
                 {
-                    SpawnRandomCustomer();
+                    bool willTryToSpawnQuestGiver = !isQuestCustomerSpawned && Random.value < questCustomerSpawnChance;
+
+                    if (willTryToSpawnQuestGiver)
+                    {
+                        // 퀘스트 손님으로 만들지 여부 결정
+                        if (QuestManager.Instance != null && QuestManager.Instance.HasAvailableQuest())
+                        {
+                            Debug.Log("<color=green>[SpawnManager] 모든 조건 충족! 퀘스트 손님을 생성합니다.</color>");
+                            SpawnCustomer(true);
+                        }
+                        else
+                        {
+                             // QuestManager.HasAvailableQuest()에서 이미 원인 로그가 찍히므로 여기선 생략
+                             SpawnCustomer(false);
+                        }
+                    }
+                    else
+                    {
+                        SpawnCustomer(false);
+                    }
                 }
             }
 
@@ -69,11 +92,19 @@ public class CustomerSpawnManager : MonoBehaviour
         }
     }
 
-    void SpawnRandomCustomer()
+    void SpawnCustomer(bool makeAsQuestGiver)
     {
         if (customerPrefabs.Count == 0 || spawnPoint == null) return;
+
         int idx = Random.Range(0, customerPrefabs.Count);
         GameObject obj = Instantiate(customerPrefabs[idx], spawnPoint.position, spawnPoint.rotation);
+        
+        CustomerAI customerAI = obj.GetComponent<CustomerAI>();
+        if (customerAI != null && makeAsQuestGiver)
+        {
+            customerAI.isQuestCustomer = true;
+            isQuestCustomerSpawned = true;
+        }
     }
 
     void SpawnRandomSpecialCustomer()
@@ -112,6 +143,13 @@ public class CustomerSpawnManager : MonoBehaviour
         spawnedSpecialCustomers.Remove(customerType);
     }
 
+    // 퀘스트 손님이 떠날 때 호출될 함수
+    public void OnQuestCustomerLeft()
+    {
+        isQuestCustomerSpawned = false;
+        Debug.Log("<color=orange>[SpawnManager] 퀘스트 손님이 퇴장했으므로, 다음 퀘스트 손님 생성이 가능합니다.</color>");
+    }
+
     //void SpawnCustomerGroup(int teamSize)
     //{
     //    CustomerGroup group = new CustomerGroup();
@@ -126,5 +164,4 @@ public class CustomerSpawnManager : MonoBehaviour
     //    }
     //    SeatManager.Instance.AddGroupToQueue(group);
     //}
-
 }

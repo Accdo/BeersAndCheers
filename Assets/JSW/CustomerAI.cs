@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Collections;
 using UnityEngine.UI;
+using System.Linq;
 
 #region 손님 타입, 개성
 public enum CustomerType
@@ -45,16 +46,17 @@ public class CustomerAI : MonoBehaviour
     public float timer = 0f; // 타이머
     public float waitingTime = 0f; // 대기 시간
     public float maxWaitingTime = 60f; // 최대 대기 시간
+    public float satisfactionFeedbackDuration = 2.5f; // 만족도 피드백 표시 시간
 
     [Header("Satisfaction UI")]
     public GameObject satisfactionUI; // 만족도 UI 오브젝트
     public GameObject happyIcon;
     public GameObject neutralIcon;
     public GameObject angryIcon;
-    public float satisfactionFeedbackDuration = 2.5f; // 만족도 피드백 표시 시간
     #endregion
 
     #region 주문 관련
+    [Header("주문 관련")]
     public bool hasOrdered = false;
     public bool hasReceivedFood = false;
     public bool hasSpecialRequest = false; // 특별 요청 여부
@@ -63,6 +65,7 @@ public class CustomerAI : MonoBehaviour
     public FoodData hintedFood; // 대화에서 언급된 음식
     public float eatingTime = 10f;
     private InventoryManager inventory; // 인벤토리 매니저
+    public GameObject spawnedFoodPrefab;
     #endregion
 
     #region 주문 UI
@@ -72,6 +75,13 @@ public class CustomerAI : MonoBehaviour
     public GameObject specialOrderPrefab;
     public Image specialRequestImage; // 특별 요청 이미지 (대화 전)
     public Image specialRequestTalkedImage; // 특별 요청 이미지 (대화 후)
+    #endregion
+
+    #region 퀘스트
+    [Header("퀘스트")]
+    public bool hasGivenQuest = false;
+    public bool isQuestCustomer = false; // 퀘스트 손님 여부
+    private bool hasOfferedQuest = false; // 🔥 추가: 이번 방문에서 퀘스트 제안을 이미 했는가?
     #endregion
 
     #region State
@@ -110,7 +120,6 @@ public class CustomerAI : MonoBehaviour
         walkState = new CustomerWalk(this, "Walk", stateMachine, agent);
         seatState = new CustomerSeat(this, "Sit", stateMachine, agent);
         exitState = new CustomerExit(this, "Walk", stateMachine, agent);
-        inventory = FindAnyObjectByType<InventoryManager>();
 
     }
 
@@ -119,6 +128,7 @@ public class CustomerAI : MonoBehaviour
         stateMachine.ChangeState(waitingState);
         LoadDialogue();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        inventory = FindAnyObjectByType<InventoryManager>();
 
         AssignRandomPersonality();
 
@@ -144,6 +154,14 @@ public class CustomerAI : MonoBehaviour
         UILookAtPlayer(orderBubblePrefab, player);
         UILookAtPlayer(specialOrderPrefab, player);
         UILookAtPlayer(satisfactionUI, player);
+
+        // 퀘스트 상호작용은 퀘스트를 제안한 후에만 가능
+        if (isQuestCustomer && hasOfferedQuest && !hasGivenQuest)
+        {
+            if (player != null)
+                NearCheckQuest();
+            return; 
+        }
 
         // 특별주문이 있거나 음식을 기다리는 상태일 때 상호작용 체크
         if (player != null && (hasSpecialRequest || (hasOrdered && !hasReceivedFood)))
@@ -209,86 +227,146 @@ public class CustomerAI : MonoBehaviour
         }
     }
 
-    //프리팹 내부에 있는 스크립터블 오브젝트인 푸드데이터를 가져오는 함수
-    private FoodData GetFoodData(GameObject foodPrefab)
+    // 퀘스트 상호작용 함수 수정
+    private void NearCheckQuest()
     {
-        if (foodPrefab == null) return null;
-        // 프리팹에서 FoodData 컴포넌트 찾기
-        Item item = foodPrefab.GetComponent<Item>();
-        if (item != null)
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        isPlayerNearby = distanceToPlayer <= interactionDistance;
+
+        if (DialogueManager.Instance == null) return;
+        
+        // 🔥 수정: hasGivenQuest 플래그를 정확히 확인하여 중복 제안 차단
+        if (isQuestCustomer && !hasGivenQuest && isPlayerNearby && isSeated)
         {
-            // FoodData가 있으면 반환
-            if (item.data is FoodData foodData)
+            DialogueManager.Instance.ShowInteractableText(true, this, distanceToPlayer, "퀘스트 받기");
+            if (Input.GetKeyDown(interactKey))
             {
-                return foodData;
+                // TryGiveQuest는 UI를 열어주는 역할만 
+                TryGiveQuest();
             }
         }
-        // FoodData가 없으면 경고 메시지 출력
-        return null;
+        else
+        {
+            // 그 외의 모든 경우엔 상호작용 텍스트를 끔
+            DialogueManager.Instance.ShowInteractableText(false, this, distanceToPlayer);
+        }
     }
 
     // 실제로 음식을 전달하는 함수
     private void GiveFoodToCustomer()
     {
-        // 이미 음식을 받았다면 리턴
+        // --- 1. 사전 조건 확인 ---
         if (hasReceivedFood)
         {
             Debug.Log("이미 음식을 받았습니다!");
             return;
         }
-
-        // 주문한 음식이 있는지 먼저 확인
+        if (inventory == null)
+        {
+            Debug.LogError("InventoryManager를 찾을 수 없습니다!");
+            return;
+        }
         if (orderedItems == null || orderedItems.Count == 0)
         {
             Debug.LogWarning("손님이 주문한 음식이 없습니다.");
             return;
         }
 
-        // 주문한 음식 이름 가져오기
+        // --- 2. 아이템 검색 ---
         string orderedFoodName = orderedItems[0].itemName;
-        Debug.Log($"주문한 음식: {orderedFoodName}");
-
-        // 핫바에서 먼저 찾기
-        GameObject foodPrefab = inventory.GetItemPrefab(orderedFoodName);
-        FoodData reciveFood = GetFoodData(foodPrefab);
-        if (foodPrefab != null)
+        GameObject foundPrefab = inventory.GetItemPrefab(orderedFoodName);
+      
+        // --- 3. 검색 결과에 따라 처리 ---
+        if (foundPrefab == null)
         {
-            Debug.Log($"찾은 음식 프리팹: {foodPrefab.name}");
+            Debug.LogWarning($"[GiveFoodToCustomer] 인벤토리에서 '{orderedFoodName}'을(를) 찾지 못했습니다.");
+            return; // 아이템이 없으면 여기서 즉시 종료
+        }
+        
+        // --- 4. 찾은 아이템으로 로직 수행 ---
+        Debug.Log($"[GiveFoodToCustomer] 인벤토리에서 '{foundPrefab.name}'(을)를 찾았습니다.");
+        FoodData receivedFoodData = GetFoodData(foundPrefab);
 
-            // 대소문자 구분 없이 비교
-            bool isCorrectOrder = reciveFood.itemName.Equals(orderedFoodName, StringComparison.OrdinalIgnoreCase);
+        if (receivedFoodData == null)
+        {
+            Debug.LogWarning($"'{foundPrefab.name}'은(는) 유효한 음식이 아닙니다.");
+            return;
+        }
 
-            if (isCorrectOrder)
-            {
-                Debug.Log("올바른 음식 전달!");
+        // 주문이 맞는지 확인 (대소문자, 공백 등 무시)
+        bool isCorrectOrder = receivedFoodData.itemName.Trim().Equals(orderedFoodName.Trim(), System.StringComparison.OrdinalIgnoreCase);
 
-                // 특별주문이고 대화를 했고, 추측한 음식이 맞는 경우
-                if (hasSpecialRequest && hasTalkedAboutSpecialRequest && hintedFood != null)
-                {
-                    bool isCorrectGuess = reciveFood.itemName.Equals(hintedFood.itemName, StringComparison.OrdinalIgnoreCase);
-                    if (isCorrectGuess)
-                    {
-                        Debug.Log("추측한 음식이 정확합니다! 추가 만족도 획득!");
-                        // 추측 성공 시 추가 만족도
-                        SatisfactionScoreUpDown(25f);
-                    }
-                }
+        if (isCorrectOrder)
+        {
+            Debug.Log("올바른 음식을 전달했습니다.");
+            Vector3 spawnPos = transform.position + transform.forward * 1f + Vector3.up * 1f;
+            spawnedFoodPrefab = Instantiate(foundPrefab, spawnPos, Quaternion.identity);
 
-                // 주문한 음식의 FoodData를 사용
-                ReceiveFood(new List<FoodData> { orderedItems[0] });
-                // 음식 아이템 제거
-                inventory.RemoveItem(orderedFoodName);
-            }
-            else
-            {
-                Debug.Log($"잘못된 음식 전달! 주문: {orderedFoodName}, 전달: {foodPrefab.name}");
-                // 잘못된 음식 전달 시 만족도 감소
-                StartCoroutine(EatingTime());
-            }
+            ReceiveFood(new List<FoodData> { orderedItems[0] });
+            
+            // 인벤토리에서 아이템을 제거할 때는, 실제로 받은 아이템의 정확한 이름으로 요청
+            inventory.RemoveItem(receivedFoodData.itemName);
         }
         else
         {
-            Debug.Log($"주문한 음식 {orderedFoodName}이(가) 인벤토리에 없습니다!");
+            Debug.Log($"잘못된 음식을 전달했습니다! (주문: {orderedFoodName}, 전달: {receivedFoodData.itemName})");
+            SatisfactionScoreUpDown(-15f);
+            StartCoroutine(ShowSatisfactionFeedbackForDuration());
+            StartCoroutine(EatingTime());
+        }
+    }
+
+    // 아이템 프리팹에서 FoodData를 안전하게 추출하는 함수
+    private FoodData GetFoodData(GameObject foodPrefab)
+    {
+        if (foodPrefab == null)
+        {
+            return null;
+        }
+        
+        Item itemComponent = foodPrefab.GetComponent<Item>();
+        if (itemComponent != null && itemComponent.data is FoodData foodData)
+        {
+            return foodData;
+        }
+
+        return null;
+    }
+
+    // `ReceiveFood` 함수도 혹시 모를 문제를 방지하기 위해 조금 더 안전하게 만듭니다.
+    public void ReceiveFood(List<FoodData> deliveredItems)
+    {
+        if (!hasOrdered || hasReceivedFood) return;
+
+        // 현재는 1개씩만 주문하므로 첫 번째 아이템만 확인
+        if (deliveredItems != null && deliveredItems.Count > 0 && orderedItems != null && orderedItems.Count > 0)
+        {
+            string orderedFoodName = orderedItems[0].itemName;
+            string deliveredFoodName = deliveredItems[0].itemName;
+
+            // 주문한 음식과 전달된 음식이 같은지 확인
+            bool isCorrectOrder = deliveredFoodName.Trim().Equals(orderedFoodName.Trim(), System.StringComparison.OrdinalIgnoreCase);
+
+            if (isCorrectOrder)
+            {
+                hasReceivedFood = true;
+                HideOrderBubble();
+                HideGauge();
+                HideSpecialRequestImage();
+                HideSpecialRequestTalkedImage();
+                HideSatisfactionIcons();
+
+                if (DialogueManager.Instance != null)
+                {
+                    DialogueManager.Instance.ShowInteractableText(false, this, 0f);
+                }
+
+                SatisfactionScoreUpDown(10f);
+                CheckRecommendedFood(deliveredItems[0]);
+                StartCoroutine(ShowSatisfactionFeedbackForDuration());
+                StartCoroutine(EatingTime());
+            }
+            // `else` (잘못된 음식 전달) 부분은 GiveFoodToCustomer에서 이미 처리하므로 여기서는 생략
         }
     }
 
@@ -599,123 +677,6 @@ public class CustomerAI : MonoBehaviour
         }
     }
 
-    public void ReceiveFood(List<FoodData> deliveredItems)
-    {
-        if (hasOrdered && !hasReceivedFood)
-        {
-            // 현재는 1개씩만 주문하므로 첫 번째 아이템만 확인
-            if (deliveredItems.Count > 0 && orderedItems.Count > 0)
-            {
-                string orderedFoodName = orderedItems[0].itemName;
-                string deliveredFoodName = deliveredItems[0].itemName;
-
-                // 주문한 음식과 전달된 음식이 같은지 확인
-                bool isCorrectOrder = deliveredFoodName.Equals(orderedFoodName, StringComparison.OrdinalIgnoreCase);
-
-                if (isCorrectOrder)
-                {
-                    hasReceivedFood = true;
-                    HideOrderBubble();
-                    HideGauge();
-                    HideSpecialRequestImage();
-                    HideSpecialRequestTalkedImage();
-
-                    // 상호작용 텍스트 숨기기
-                    if (DialogueManager.Instance != null)
-                    {
-                        DialogueManager.Instance.ShowInteractableText(false, this, 0f);
-                    }
-
-                    // 만족도 증가
-                    SatisfactionScoreUpDown(10f);
-
-                    // 추천 메뉴 확인
-                    CheckRecommendedFood(deliveredItems[0]);
-
-                    // ★ 애니메이션 반응 적용
-                    StartCoroutine(ShowSatisfactionFeedbackForDuration());
-
-                    StartCoroutine(EatingTime());
-                }
-                else
-                {
-                    // 잘못된 음식 전달 시 만족도 감소
-                    SatisfactionScoreUpDown(-15f);
-                    StartCoroutine(ShowSatisfactionFeedbackForDuration());
-                    StartCoroutine(EatingTime());
-                }
-            }
-        }
-    }
-
-    private IEnumerator ShowSatisfactionFeedbackForDuration()
-    {
-        // 1. 만족도에 맞는 아이콘 표시
-        HideSatisfactionIcons(); 
-
-        if (satisfactionScore >= 70)
-        {
-            if (happyIcon != null) happyIcon.SetActive(true);
-        }
-        else if (satisfactionScore >= 40)
-        {
-            if (neutralIcon != null) neutralIcon.SetActive(true);
-        }
-        else
-        {
-            if (angryIcon != null) angryIcon.SetActive(true);
-        }
-
-        // 2. 만족도와 성격에 맞는 애니메이션 재생
-        float sitMotionValue = 0f;
-
-        if (satisfactionScore >= 80)
-            sitMotionValue = 1f; // thumbs up
-        else if (satisfactionScore >= 60)
-            sitMotionValue = 0.66f; // clap
-        else if (satisfactionScore >= 40)
-            sitMotionValue = 0.33f; // talk
-        else
-            sitMotionValue = 0f; // idle
-
-        if (personality == CustomerPersonality.Generous && sitMotionValue < 1f)
-            sitMotionValue = 0.66f;
-        if (personality == CustomerPersonality.Impatient && sitMotionValue > 0.33f)
-            sitMotionValue = 0.33f;
-
-        anim.SetFloat("SitMotion", sitMotionValue);
-        
-        // 3. 설정된 시간만큼 기다림
-        yield return new WaitForSeconds(satisfactionFeedbackDuration);
-
-        // 4. 아이콘 숨기기
-        HideSatisfactionIcons();
-    }
-
-    //앉은 상태에서 모션 컨트롤
-    private void SetSitMotionByPersonalityAndSatisfaction()
-    {
-        float sitMotionValue = 0f;
-
-        // 1. 만족도 기준
-        if (satisfactionScore >= 80)
-            sitMotionValue = 1f; // thumbs up
-        else if (satisfactionScore >= 60)
-            sitMotionValue = 0.66f; // clap
-        else if (satisfactionScore >= 40)
-            sitMotionValue = 0.33f; // talk
-        else
-            sitMotionValue = 0f; // idle
-
-        // 2. 성격별로 추가 가중치
-        if (personality == CustomerPersonality.Generous && sitMotionValue < 1f)
-            sitMotionValue = 0.66f; // 관대한 손님은 박수라도 침
-        if (personality == CustomerPersonality.Impatient && sitMotionValue > 0.33f)
-            sitMotionValue = 0.33f; // 성급한 손님은 만족해도 talk까지만
-
-        anim.SetFloat("SitMotion", sitMotionValue);
-    }
-
     #endregion
 
     #region 대화 시스템
@@ -837,6 +798,31 @@ public class CustomerAI : MonoBehaviour
         }
     }
     #endregion
+    
+    #region 퀘스트
+    public bool TryGiveQuest()
+    {
+        if (hasGivenQuest || QuestManager.Instance == null) return false;
+
+        QuestData questData = QuestManager.Instance.GetRandomQuest();
+        if (questData == null) return false;
+        
+        if (QuestUI.Instance != null)
+        {
+            // 퀘스트 창을 열고, 퀘스트 데이터와 '나 자신(this)'의 정보를 전달
+            QuestUI.Instance.ToggleQuestPanel(); 
+            QuestUI.Instance.ShowQuestDetail(questData, null, this);
+
+            // 퀘스트 창을 띄운 후에는 상호작용 텍스트를 즉시 숨깁니다.
+            if (DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.ShowInteractableText(false, this, 0f);
+            }
+        }
+        
+        return true;
+    }
+    #endregion
 
     #region Gizmos
     private void OnDrawGizmos()
@@ -908,19 +894,37 @@ public class CustomerAI : MonoBehaviour
     #region 퇴장
     public void CustormerExit()
     {
+        // isExiting 변수는 이 함수 내에서만 사용되므로 멤버 변수로 만들 필요가 없습니다.
+        // 기존 코드에 isExiting 체크가 없다면 추가해주는 것이 안전합니다.
+        // if (isExiting) return; // 만약 이와 유사한 체크가 이미 있다면 그대로 두세요.
+
+        // 손님이 나갈 때 퀘스트 관련 상태 초기화
+        if (isQuestCustomer)
+        {
+            CustomerSpawnManager.Instance?.OnQuestCustomerLeft();
+        }
+        hasGivenQuest = false; // �� 추가: 다음 방문을 위해 초기화
+        hasOfferedQuest = false; 
+
+        stateMachine.ChangeState(exitState);
         HideOrderBubble();
         HideGauge();
         HideSpecialRequestImage();
         HideSpecialRequestTalkedImage();
         HideSatisfactionIcons();
 
+        // 생성된 음식 프리팹 삭제
+        if (spawnedFoodPrefab != null)
+        {
+            Destroy(spawnedFoodPrefab);
+            spawnedFoodPrefab = null;
+        }
+
         // 상호작용 텍스트 숨기기
         if (DialogueManager.Instance != null)
         {
             DialogueManager.Instance.ShowInteractableText(false, this, 0f);
         }
-
-        stateMachine.ChangeState(exitState);
     }
 
     public void DestroyCustomer(int time = 0)
@@ -937,10 +941,86 @@ public class CustomerAI : MonoBehaviour
     }
     #endregion
 
+    private IEnumerator ShowSatisfactionFeedbackForDuration()
+    {
+        // 1. 만족도에 맞는 아이콘 표시
+        HideSatisfactionIcons(); 
+
+        if (satisfactionScore >= 70)
+        {
+            if (happyIcon != null) happyIcon.SetActive(true);
+        }
+        else if (satisfactionScore >= 40)
+        {
+            if (neutralIcon != null) neutralIcon.SetActive(true);
+        }
+        else
+        {
+            if (angryIcon != null) angryIcon.SetActive(true);
+        }
+
+        // 2. 만족도와 성격에 맞는 애니메이션 재생
+        float sitMotionValue = 0f;
+
+        if (satisfactionScore >= 80)
+            sitMotionValue = 1f; // thumbs up
+        else if (satisfactionScore >= 60)
+            sitMotionValue = 0.66f; // clap
+        else if (satisfactionScore >= 40)
+            sitMotionValue = 0.33f; // talk
+        else
+            sitMotionValue = 0f; // idle
+
+        if (personality == CustomerPersonality.Generous && sitMotionValue < 1f)
+            sitMotionValue = 0.66f;
+        if (personality == CustomerPersonality.Impatient && sitMotionValue > 0.33f)
+            sitMotionValue = 0.33f;
+
+        anim.SetFloat("SitMotion", sitMotionValue);
+        
+        // 3. 설정된 시간만큼 기다림
+        yield return new WaitForSeconds(satisfactionFeedbackDuration);
+
+        // 4. 아이콘 숨기기
+        HideSatisfactionIcons();
+    }
+
     private void HideSatisfactionIcons()
     {
         if (happyIcon != null) happyIcon.SetActive(false);
         if (neutralIcon != null) neutralIcon.SetActive(false);
         if (angryIcon != null) angryIcon.SetActive(false);
+    }
+
+    public void UpdateQuestIcon()
+    {
+        if (specialRequestImage != null)
+        {
+            // 퀘스트 손님이고 아직 퀘스트를 받지 않았으면 아이콘 표시
+            bool shouldShow = isQuestCustomer && !hasGivenQuest;
+            specialRequestImage.gameObject.SetActive(shouldShow);
+        }
+    }
+
+    // 🔥 추가: 퀘스트를 제안하는 로직
+    public void TryOfferQuest()
+    {
+        // 중복 제안 방지
+        if (hasOfferedQuest) return;
+
+        // 퀘스트 매니저에 나를 "퀘스트 제공자"로 등록 시도
+        if (QuestManager.Instance.TrySetQuestGiver(this))
+        {
+            hasOfferedQuest = true; // 제안 완료!
+            UpdateQuestIcon(); // 퀘스트 아이콘 표시
+            Debug.Log($"<color=cyan>{name} 손님이 퀘스트 제안을 시작합니다.</color>");
+        }
+    }
+
+    // QuestManager가 호출할 함수
+    public void ConfirmQuestGiven()
+    {
+        this.hasGivenQuest = true;
+        UpdateQuestIcon(); // 퀘스트 제안 아이콘 숨기기
     }
 }
