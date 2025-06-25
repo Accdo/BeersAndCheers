@@ -61,7 +61,20 @@ public class FurniturePlacement : MonoBehaviour
             {
                 originalMaterial = renderer.material;
             }
+
+            // Tapping 컴포넌트에 BeerMiniGame 설정
+            Tapping tapping = currentFurniture.GetComponent<Tapping>();
+            if (tapping != null)
+            {
+                tapping.beerMiniGame = Object.FindFirstObjectByType<BeerMiniGame>(FindObjectsInactive.Include); // 씬에서 BeerMiniGame 찾기
+                if (tapping.beerMiniGame == null)
+                {
+                    Debug.LogError("No BeerMiniGame found in the scene!");
+                }
+            }
         }
+
+
     }
 
     void UpdatePlacement()
