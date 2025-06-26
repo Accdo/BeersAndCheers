@@ -9275,6 +9275,14 @@ MonoBehaviour:
   gatherableTypes:
   - prefab: {fileID: 8168257009234658824, guid: b17237a1b787f5842adfc13ea2178117, type: 3}
     poolSize: 10
+  - prefab: {fileID: 6965956484264118601, guid: b1894ccb6f4594f4c96c3cb106bf0a2b, type: 3}
+    poolSize: 10
+  - prefab: {fileID: 863546763990780396, guid: 6f75e5dcad3441e4d9c06313c8dd1d13, type: 3}
+    poolSize: 10
+  - prefab: {fileID: 8161198795115713758, guid: ccb309186cfeb104da864accb1759a08, type: 3}
+    poolSize: 10
+  - prefab: {fileID: 8192230188045188881, guid: 655e1b8189335024e87d882e41754004, type: 3}
+    poolSize: 10
   spawnArea: {fileID: 1319516625}
 --- !u!1001 &239058072
 PrefabInstance:
@@ -18676,6 +18684,10 @@ PrefabInstance:
     - target: {fileID: 2944046536659444081, guid: 54525128344f24940a9b8ef9b5896cf0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293704320908231540, guid: 54525128344f24940a9b8ef9b5896cf0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -31904,9 +31916,9 @@ MonoBehaviour:
   biteMaxTime: 5
   hitDuration: 2
   requiredToolName: FishingRod
-  player: {fileID: 0}
-  interactionUI: {fileID: 0}
-  interaction: {fileID: 0}
+  player: {fileID: 2075677242}
+  interactionUI: {fileID: 1737243700}
+  interaction: {fileID: 805162867}
 --- !u!65 &643274467
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62735,7 +62747,7 @@ Transform:
   m_GameObject: {fileID: 1319516624}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.30662525, z: -0, w: 0.9518303}
-  m_LocalPosition: {x: -108.64759, y: -54.875565, z: 91.6262}
+  m_LocalPosition: {x: -108.64759, y: -22, z: 91.6262}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75658,7 +75670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryPanel: {fileID: 545178452}
-  hotbarPanel: {fileID: 0}
+  hotbarPanel: {fileID: 1738622555}
   inventoryUIs:
   - {fileID: 1169010917}
   - {fileID: 1738622556}
