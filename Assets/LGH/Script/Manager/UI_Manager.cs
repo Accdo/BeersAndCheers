@@ -85,6 +85,11 @@ public class UI_Manager : MonoBehaviour
             // 냉동 상자 패널 생성
             ToggleFreezeBoxUI();
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            GH_GameManager.instance.recipeManager.UnlockRecipe(Recipe.Sandwitch);
+        }
     }
 
     public void ToggleBeerUI()
@@ -103,7 +108,7 @@ public class UI_Manager : MonoBehaviour
                 GH_GameManager.instance.player.MouseVisible(false);
                 DeployPanel.SetActive(false);
                 CookingPanel.SetActive(false);
-               
+
             }
         }
     }
