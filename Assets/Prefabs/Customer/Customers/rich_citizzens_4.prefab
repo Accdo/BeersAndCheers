@@ -1030,6 +1030,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b03761e59faef3e4e8ecf466fee542ba, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b03761e59faef3e4e8ecf466fee542ba, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b03761e59faef3e4e8ecf466fee542ba, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b03761e59faef3e4e8ecf466fee542ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1068,6 +1080,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b03761e59faef3e4e8ecf466fee542ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b03761e59faef3e4e8ecf466fee542ba, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b03761e59faef3e4e8ecf466fee542ba, type: 3}
       propertyPath: m_Name
@@ -1184,11 +1200,11 @@ MonoBehaviour:
   timer: 0
   waitingTime: 0
   maxWaitingTime: 60
+  satisfactionFeedbackDuration: 2.5
   satisfactionUI: {fileID: 4349428416360667529}
   happyIcon: {fileID: 1676852777311012167}
   neutralIcon: {fileID: 1918328995907580246}
   angryIcon: {fileID: 5557300409959201697}
-  satisfactionFeedbackDuration: 2.5
   hasOrdered: 0
   hasReceivedFood: 0
   hasSpecialRequest: 0
@@ -1196,12 +1212,15 @@ MonoBehaviour:
   orderedItems: []
   hintedFood: {fileID: 0}
   eatingTime: 10
+  spawnedFoodPrefab: {fileID: 0}
   orderBubblePrefab: {fileID: 326511407846047063}
   CircleGaugeUnfill: {fileID: 3617450050984313589}
   CircleGaugeFill: {fileID: 7444688415694605524}
   specialOrderPrefab: {fileID: 7241047466142651207}
   specialRequestImage: {fileID: 4632169487596994127}
   specialRequestTalkedImage: {fileID: 6246212046118339908}
+  hasGivenQuest: 0
+  isQuestCustomer: 0
   customerType: 4
   personality: 0
   interactKey: 101
