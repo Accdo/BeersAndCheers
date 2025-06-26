@@ -1,21 +1,19 @@
 using UnityEngine;
 
-public class Tree : MonoBehaviour, IInteractable
+public class Mushroom : MonoBehaviour, IInteractable
 {
-    public float respawnDelay = 10f;
+    public float respawnDelay = 5f;
     public GameObject prefabReference;
 
-    public string GetCursorType() => "Tree";
-    public string GetInteractionID() => "Tree";
+    public string GetCursorType() => "Hand";
+    public string GetInteractionID() => "Mushroom";
     public InteractionType GetInteractionType() => InteractionType.GaugeThenTiming;
-
     public void Interact()
     {
-        Debug.Log("나무 벌목 완료!");
+        Debug.Log("버섯 채집중");
         gameObject.SetActive(false);
         Invoke(nameof(Respawn), respawnDelay);
     }
-
     public void Respawn()
     {
         objectSpawner.Instance.RespawnObject(prefabReference);
