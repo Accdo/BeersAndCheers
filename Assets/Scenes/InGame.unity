@@ -6189,6 +6189,7 @@ MonoBehaviour:
   requiredToolName: FishingRod
   player: {fileID: 0}
   interactionUI: {fileID: 0}
+  interaction: {fileID: 0}
 --- !u!65 &175195966
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31905,6 +31906,7 @@ MonoBehaviour:
   requiredToolName: FishingRod
   player: {fileID: 0}
   interactionUI: {fileID: 0}
+  interaction: {fileID: 0}
 --- !u!65 &643274467
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42060,6 +42062,7 @@ MonoBehaviour:
   holdDuration: 1.5
   timingBar: {fileID: 1082990230}
   player_LYJ: {fileID: 2075677242}
+  isBusy: 0
 --- !u!4 &805215412 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aa3c43b3650727940a8e8e2b8bb64899, type: 3}
@@ -54580,6 +54583,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 49bb1aa95bda9e944a2f20a4ae7e6dba, type: 3}
       propertyPath: m_Name
       value: well
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 49bb1aa95bda9e944a2f20a4ae7e6dba, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2878253128101704460, guid: 49bb1aa95bda9e944a2f20a4ae7e6dba, type: 3}
       propertyPath: m_LocalPosition.x
@@ -96918,6 +96925,7 @@ MonoBehaviour:
   requiredToolName: FishingRod
   player: {fileID: 0}
   interactionUI: {fileID: 0}
+  interaction: {fileID: 0}
 --- !u!65 &1957139380
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -103594,6 +103602,10 @@ PrefabInstance:
     - target: {fileID: 2371700773118557740, guid: e3748b1d274d7c343af6c531b768966f, type: 3}
       propertyPath: m_Name
       value: "\uC190\uB2D8 \uBC30\uCE58\uC6A9 \uD504\uB9AC\uD339 \uBB36\uC74C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2371700773118557740, guid: e3748b1d274d7c343af6c531b768966f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
