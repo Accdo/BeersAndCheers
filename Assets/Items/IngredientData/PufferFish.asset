@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: PufferFish
   icon: {fileID: -1479304035, guid: 13aa01c61bbbc0b40b8a5b85a513f4b2, type: 3}
-  price: 0
+  price: 800
   freshPoint: 100

@@ -4,15 +4,20 @@ public class Shop_UI : MonoBehaviour
 {
     public void BuyItem(Item item)
     {
-        // 아이템 구매 로직을 여기에 구현합니다.
-
-        if(!item || item.data == null)
+        // 아이템이 null이거나 데이터가 없는 경우
+        if (!item || item.data == null)
             return;
+
+        // 인벤토리가 꽉 찼는지 확인
+        if (GH_GameManager.instance.player.inventory.IsFull("Backpack", item.data.itemName))
+        {
+            Debug.Log("인벤토리가 꽉 찼습니다 : IsFull");
+            return;
+        }
 
         // 플레이어가 아이템을 구매할 수 있는지 확인
         if (!GH_GameManager.instance.goldManager.RemoveMoney(item.data.price))
         {
-            Debug.Log("Not enough gold to buy this item.");
             return;
         }
 

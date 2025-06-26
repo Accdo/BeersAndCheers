@@ -25,7 +25,6 @@ public class Slot_UI : MonoBehaviour
 
             if (slot.itemData is FoodData || slot.itemData is IngredientData)
             {
-                //Debug.Log("Fresh Point: " + slot.freshPoint / 100f);
                 ShowFreshGage(slot.freshPoint / 100f);
             }
         }
@@ -33,13 +32,21 @@ public class Slot_UI : MonoBehaviour
 
     public void ShowFreshGage(float freshPoint)
     {
+        // 신선도 게이지가 0 이하일 때
         if (freshPoint <= 0)
         {
             itemIcon.color = new Color(0.6f, 0, 0, 1);
             return;
         }
+
         freshGage.fillAmount = freshPoint;
-        freshGage.color = new Color(0, 0.6f, 0, 1);
+
+        if (freshPoint <= 0.3f)
+            freshGage.color = new Color(0.6f, 0, 0, 1);
+        else if (freshPoint <= 0.6f)
+            freshGage.color = new Color(0.8f, 0.25f, 0, 1);
+        else
+            freshGage.color = new Color(0, 0.6f, 0, 1);
     }
 
     public void SetEmpty()

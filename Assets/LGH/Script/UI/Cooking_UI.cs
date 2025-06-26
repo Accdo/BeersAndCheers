@@ -24,7 +24,6 @@ public class Cooking_UI : MonoBehaviour
     // 요리 재료의 총 갯수
     private int ingredientCount = 0;
 
-
     public void Refresh()
     {
         for (int i = 0; i < cookingSlots.Count; i++)
@@ -108,6 +107,7 @@ public class Cooking_UI : MonoBehaviour
 
         //요리 미니게임 시작
         //cooking.CookingSystem(SelectItem.data.icon);
+
 
         GH_GameManager.instance.uiManager.ActiveHotbarUI();
         cooking.CookingSystem(foodData.ingredients[0].icon, SelectItem);
