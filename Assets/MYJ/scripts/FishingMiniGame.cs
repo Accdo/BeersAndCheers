@@ -9,7 +9,7 @@ public class FishingMiniGame : MonoBehaviour
 
     [Header("Game Settings")]
     public int fishGoal = 3;
-    public float totalTimeLimit = 10f;          // 전체 제한 시간 (초)
+    public float totalTimeLimit = 5f;          // 전체 제한 시간 (초)
     public float minSpawnDelay = 0.4f;          // 물고기 등장 간 최소 대기시간
     public float maxSpawnDelay = 1.2f;          // 물고기 등장 간 최대 대기시간
     public float minVisibleTime = 1.0f;         // 물고기 등장 시간 최소
@@ -37,7 +37,8 @@ public class FishingMiniGame : MonoBehaviour
     public void StartGame(Action<bool> callback)
     {
         // 플레이어 이동 제한 시작
-        Player_MYJ player = GameObject.FindWithTag("Player")?.GetComponent<Player_MYJ>();
+        Player_LYJ player = GameObject.FindWithTag("Player")?.GetComponent<Player_LYJ>();
+        player?.MouseVisible(true);
         player?.StartOtherWork();
 
         catchCount = 0;
@@ -151,7 +152,8 @@ public class FishingMiniGame : MonoBehaviour
         miniGamePanel.SetActive(false);
 
         // 플레이어 이동 제한 해제
-        Player_MYJ player = GameObject.FindWithTag("Player")?.GetComponent<Player_MYJ>();
+        Player_LYJ player = GameObject.FindWithTag("Player")?.GetComponent<Player_LYJ>();
+        player?.MouseVisible(false);
         player?.EndOtherWork();
 
         // 성공 여부 콜백 호출
