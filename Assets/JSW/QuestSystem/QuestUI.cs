@@ -76,12 +76,19 @@ public class QuestUI : MonoBehaviour
         
         bool isActive = !questPanel.activeSelf;
         questPanel.SetActive(isActive);
-        GH_GameManager.instance.player.MouseVisible(isActive);
-
+        
+        // 마우스 커서 표시/숨김과 함께 플레이어의 다른 작업 상태도 제어
         if (isActive)
         {
+            GH_GameManager.instance.player.MouseVisible(true);
+            GH_GameManager.instance.player.StartOtherWork(); // 카메라 회전 비활성화
             UpdateQuestList();
             questDetailPanel.SetActive(false); // 퀘스트창 열 때 항상 상세정보는 닫음
+        }
+        else
+        {
+            GH_GameManager.instance.player.MouseVisible(false);
+            GH_GameManager.instance.player.EndOtherWork(); // 카메라 회전 다시 활성화
         }
     }
     

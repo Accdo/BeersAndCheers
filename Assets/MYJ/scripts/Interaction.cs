@@ -21,6 +21,7 @@ public class Interaction : MonoBehaviour
     private float holdTimer = 0f;
     private bool gaugeCompleted = false;
     private IInteractable currentTarget;
+    public bool isBusy = false;
 
     private void Start()
     {
@@ -30,7 +31,8 @@ public class Interaction : MonoBehaviour
 
     void Update()
     {
-        letsinteraction();
+        if (!isBusy)
+            letsinteraction();
     }
 
     public void letsinteraction() //상호작용

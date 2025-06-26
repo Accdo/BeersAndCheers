@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Fishing : MonoBehaviour,IInteractable
+public class Fishing : MonoBehaviour, IInteractable
 {
     #region 상호작용
     public string GetCursorType() => "Fish";
@@ -20,13 +20,13 @@ public class Fishing : MonoBehaviour,IInteractable
     public string requiredToolName = "FishingRod"; //인벤토리에서 낚시대 찾는거 넣기
     /*public Animator playerAnimator; //애니메이션*/
 
-    [SerializeField] private Player_MYJ player;
+    [SerializeField] private Player_LYJ player;
     public InteractionUI interactionUI;
+    public Interaction interaction;
 
     private bool isFishing = false;
     private bool canCatch = false;
     private Coroutine fishingRoutine;
-    private Interaction interaction;
 
     public void Interact()
     {
@@ -39,17 +39,15 @@ public class Fishing : MonoBehaviour,IInteractable
     {
         if (player == null)
         {
-            player = GameObject.FindWithTag("Player")?.GetComponent<Player_MYJ>();
+            player = GameObject.FindWithTag("Player")?.GetComponent<Player_LYJ>();
             Debug.Log($"[Fishing] Player ref found at Start: {player}");
         }
-
-        if (interaction == null)
-            interaction = GetComponentInParent<Interaction>();
     }
 
     IEnumerator FishingSystem()
     {
         isFishing = true;
+        interaction.isBusy = true;
         Debug.Log($"player reference: {player}");
         player?.StartOtherWork();
         interactionUI.ResetUI();
@@ -105,8 +103,10 @@ public class Fishing : MonoBehaviour,IInteractable
     private void StartMiniGame()
     {
         Debug.Log("미니게임 시작!");
+        GH_GameManager.instance.uiManager.ActiveHotbarUI(false);
         isFishing = false;
         interactionUI.ShowFishingMiniGameUI();
+       
 
         FishingMiniGame.Instance.StartGame((success) =>
         {
@@ -130,13 +130,11 @@ public class Fishing : MonoBehaviour,IInteractable
         {
             Debug.Log("낚시 실패!");
         }
-
+        interaction.isBusy = false;
         interactionUI.ResetFishingUI();
-        interactionUI.ResetUI();
+        GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
         isFishing = false;
         player?.EndOtherWork();
-        interaction?.ResetInteractionState();
-        interaction?.letsinteraction();
     }
 
     private void OnDisable()
@@ -146,6 +144,6 @@ public class Fishing : MonoBehaviour,IInteractable
         canCatch = false;
 
         player?.EndOtherWork();
-        interaction?.ResetInteractionState();
+
     }
 }
