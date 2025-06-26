@@ -28,6 +28,7 @@ public class BeerMiniGame : MonoBehaviour
 
     private void Initialize()
     {
+        GH_GameManager.instance.uiManager.ActiveHotbarUI(false);
         // √ ±‚»≠
         if (beerFillImage == null || resultText == null || spacebarImage == null || successImage == null)
         {
@@ -35,6 +36,7 @@ public class BeerMiniGame : MonoBehaviour
             return;
         }
 
+        isGameEnded = false;
         beerFillImage.fillAmount = 0.1f;
         resultText.text = "";
         successImage.gameObject.SetActive(false);
@@ -116,6 +118,7 @@ public class BeerMiniGame : MonoBehaviour
         }
 
         gameObject.SetActive(false);
+        GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
 
     }
 

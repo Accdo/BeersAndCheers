@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FurniturePlacement : MonoBehaviour
+public class CraftManager : MonoBehaviour
 {
     [SerializeField] private GameObject furniturePrefab;
     [SerializeField] private float sphereRadius = 1f;
@@ -45,7 +45,7 @@ public class FurniturePlacement : MonoBehaviour
         }
     }
 
-    void StartPlacement()
+    public void StartPlacement()
     {
         if (!isPlacing)
         {
