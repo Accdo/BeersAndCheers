@@ -3,14 +3,26 @@ using System.Collections.Generic;
 
 public class ItemManager : MonoBehaviour
 {
-    // 아직 사용 안함
-    public Item[] items;
+    [Header("기본 아이템")]
+    public Item[] defaultItems;
+    [Header("음식 아이템")]
+    public Item[] foodItems;
+    [Header("재료 아이템")]
+    public Item[] ingredientItems;
 
     private Dictionary<string, Item> nameToItemDict = new Dictionary<string, Item>();
 
     private void Awake()
     {
-        foreach (Item item in items)
+        foreach (Item item in defaultItems)
+        {
+            AddItem(item);
+        }
+        foreach (Item item in foodItems)
+        {
+            AddItem(item);
+        }
+        foreach (Item item in ingredientItems)
         {
             AddItem(item);
         }
