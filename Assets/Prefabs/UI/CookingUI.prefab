@@ -409,13 +409,14 @@ GameObject:
   - component: {fileID: 1035243546820238892}
   - component: {fileID: 4059689216576440545}
   - component: {fileID: 3881327931664550553}
+  - component: {fileID: 8724215497235681593}
   m_Layer: 5
   m_Name: CookingUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1035243546820238892
 RectTransform:
   m_ObjectHideFlags: 0
@@ -425,8 +426,8 @@ RectTransform:
   m_GameObject: {fileID: 2862308356481261991}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.38, y: 0.38, z: 0.38}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2773394942194285653}
   - {fileID: 7814514989918971387}
@@ -482,6 +483,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8724215497235681593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2862308356481261991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 833a3e56fb14840419a4091340202003, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerDuration: 10
+  rotationSpeeds:
+  - 300
+  - 400
+  - 500
+  spacebarImage: {fileID: 7028823874198005856}
+  cookingImage: {fileID: 2613815775804334295}
+  perfectZoneImages:
+  - {fileID: 1794988735478578011}
+  - {fileID: 6002055407083680833}
+  - {fileID: 4395452777969545477}
+  lineImage: {fileID: 2752747530529105119}
+  resultText: {fileID: 5237258150297606083}
+  interactionUI: {fileID: 0}
+  interaction: {fileID: 0}
+  cooking: {fileID: 0}
+  cooking_ui: {fileID: 0}
+  isCookingSuccess: 0
+  selectItem: {fileID: 0}
 --- !u!1 &5181711125770941776
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +526,7 @@ GameObject:
   - component: {fileID: 7144491428596220568}
   - component: {fileID: 5237258150297606083}
   m_Layer: 5
-  m_Name: TMP
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

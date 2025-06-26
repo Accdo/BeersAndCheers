@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b395889b5de77145b42f44c40b2c4c0, type: 3}
   m_Name: Beer
   m_EditorClassIdentifier: 
-  itemName: Item Name
-  icon: {fileID: 0}
+  itemName: Beer
+  icon: {fileID: 21300000, guid: 4ae517329e1335f4984b82c967891e2c, type: 3}
   price: 0
-  freshPoint: 100
+  freshPoint: 54
   foodPrefab: {fileID: 2295552480941103910, guid: 7649f5840e13abb479c3692e05189ac6, type: 3}
-  ingredients: []
-  ingredientCounts: 
+  ingredients:
+  - {fileID: 11400000, guid: 397fb4b47740899418243680bcaa1d0b, type: 2}
+  - {fileID: 11400000, guid: b4ab8a4b1aec1ab48a301bdb4089dd07, type: 2}
+  - {fileID: 11400000, guid: ec71e1f48d44b2744b56ac63d4c74013, type: 2}
+  ingredientCounts: 010000000100000001000000
