@@ -312,6 +312,7 @@ MonoBehaviour:
       maxAllowed: 99
       icon: {fileID: 0}
       itemData: {fileID: 0}
+      freshPoint: 0
   itemIcon: {fileID: 4213653194816405180}
   quantityText: {fileID: 3158780761464206589}
   freshGage: {fileID: 3191765097354216234}

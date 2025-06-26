@@ -144,6 +144,21 @@ public class Inventory
                 return;
             }
         }
+
+        //Debug.LogWarning("인벤토리가 꽉찼습니다 : " + item.data.itemName);
+    }
+
+    public bool IsFull(string itemName)
+    {
+        foreach (Slot slot in slots)
+        {
+            // 찾는 아이템이 있고, 아이템 최대 개수가 아니면
+            if (slot.itemName == itemName && slot.CanAddItem(itemName))
+                return false;
+            else if (slot.itemName == "") // 슬롯이 비어있다면
+                return false;
+        }
+        return true;
     }
 
     // 아이템 신선도의 기본값을 가져오는 함수

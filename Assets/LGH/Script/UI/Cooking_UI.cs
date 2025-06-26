@@ -96,17 +96,17 @@ public class Cooking_UI : MonoBehaviour
 
             Debug.Log($"Cooking {SelectItem.data.itemName} completed!");
         }
-
+        
 
         //요리 미니게임 시작
         //cooking.CookingSystem(SelectItem.data.icon);
 
 
-        GH_GameManager.instance.uiManager.ActiveHotbarUI();
-        cooking.CookingSystem(foodData.ingredients[0].icon, SelectItem.data.icon);
+        // GH_GameManager.instance.uiManager.ActiveHotbarUI();
+        // cooking.CookingSystem(foodData.ingredients[0].icon, SelectItem.data.icon);
 
-        //실패시 리턴
-        if (cookingMinigame.isCookingSuccess) return;
+        // //실패시 리턴
+        // if (cookingMinigame.isCookingSuccess) return;
 
 
 

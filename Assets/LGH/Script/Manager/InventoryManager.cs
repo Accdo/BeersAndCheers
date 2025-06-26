@@ -68,7 +68,16 @@ public class InventoryManager : MonoBehaviour
         {
             inventoryByName[inventoryName].Add(item);
         }
+    }
 
+    public bool IsFull(string inventoryName, string itemName)
+    {
+        if (inventoryByName.ContainsKey(inventoryName))
+        {
+            return inventoryByName[inventoryName].IsFull(itemName);
+        }
+
+        return true; // 인벤토리가 존재하지 않으면 가득 찼다고 간주
     }
 
     public void RemoveItem(string itemName)
@@ -122,6 +131,7 @@ public class InventoryManager : MonoBehaviour
         return -1;
     }
 
+    // 인벤토리 UI가 가지고 있어야 할 실제 인벤토리 객체 반환
     public Inventory GetInventoryByName(string inventoryName)
     {
         if (inventoryByName.ContainsKey(inventoryName))
