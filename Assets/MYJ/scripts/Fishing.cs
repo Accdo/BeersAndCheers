@@ -103,8 +103,10 @@ public class Fishing : MonoBehaviour, IInteractable
     private void StartMiniGame()
     {
         Debug.Log("미니게임 시작!");
+        GH_GameManager.instance.uiManager.ActiveHotbarUI(false);
         isFishing = false;
         interactionUI.ShowFishingMiniGameUI();
+       
 
         FishingMiniGame.Instance.StartGame((success) =>
         {
@@ -130,6 +132,7 @@ public class Fishing : MonoBehaviour, IInteractable
         }
         interaction.isBusy = false;
         interactionUI.ResetFishingUI();
+        GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
         isFishing = false;
         player?.EndOtherWork();
     }
