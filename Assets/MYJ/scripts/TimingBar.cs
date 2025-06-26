@@ -16,6 +16,11 @@ public class TimingBar : MonoBehaviour
 
     private Interaction interactionRef;
 
+    public int requiredSuccesses = 5;
+    private bool isTree = false;
+    private int successCount = 0;
+    private int failCount = 0;
+
     private void Update()
     {
         if (!barMoving) return;
@@ -45,11 +50,17 @@ public class TimingBar : MonoBehaviour
         player_LYJ = player;
         interactionUI = ui;
 
+        isTree = target is Tree;
+        successCount = 0;
+        failCount = 0;
+
         barMoving = true;
         elapsed = 0f;
 
         interactionUI.ShowTimingBar();
         player_LYJ.StartOtherWork();
+
+        RandomizeTargetZone();
     }
     private void CheckResult()
     {
@@ -59,14 +70,58 @@ public class TimingBar : MonoBehaviour
         if (barRect.Overlaps(targetRect))
         {
             Debug.Log("성공!");
-            currentTarget?.Interact();
+            successCount++;
+
+            if (isTree && successCount >= 5)
+            {
+                currentTarget?.Interact();
+                FinishTimingBar();
+            }
+            else if (!isTree)
+            {
+                currentTarget?.Interact();
+                FinishTimingBar();
+            }
+            else
+            {
+                // 다음 타이밍 시도
+                elapsed = 0f;
+                barMoving = true;
+                RandomizeTargetZone(); // 랜덤 위치로 다음 타이밍
+            }
         }
         else
         {
             Debug.Log("실패!");
-        }
+            failCount++;
 
-        FinishTimingBar(); // Interaction으로 UI 복구
+            if (isTree && failCount >= 3)
+            {
+                Debug.Log("나무 베기 실패!");
+                FinishTimingBar();
+            }
+            else if (!isTree)
+            {
+                FinishTimingBar();
+            }
+            else
+            {
+                elapsed = 0f;
+                barMoving = true;
+                RandomizeTargetZone();
+            }
+        }
+    }
+
+    private void RandomizeTargetZone()
+    {
+        float range = 180f - targetZone.sizeDelta.x; // 전체 범위 - 타겟 너비
+        float randomX = Random.Range(-range / 2f, range / 2f);
+
+        if (isHorizontal)
+            targetZone.anchoredPosition = new Vector2(randomX, targetZone.anchoredPosition.y);
+        else
+            targetZone.anchoredPosition = new Vector2(targetZone.anchoredPosition.x, randomX); // 수직일 경우
     }
 
     private void FinishTimingBar()

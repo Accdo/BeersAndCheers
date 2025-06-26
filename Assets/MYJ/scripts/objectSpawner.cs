@@ -65,19 +65,20 @@ public class objectSpawner : MonoBehaviour
 
     private Vector3 GetRandomPosition()
     {
-        Vector3 center = spawnArea.center + spawnArea.transform.position;
+        Vector3 center = spawnArea.transform.TransformPoint(spawnArea.center);
         Vector3 size = spawnArea.size;
 
-        Vector3 localPos = new Vector3(
+        Vector3 localOffset = new Vector3(
             Random.Range(-size.x / 2f, size.x / 2f),
             0,
             Random.Range(-size.z / 2f, size.z / 2f)
         );
 
-        Vector3 worldPos = spawnArea.transform.TransformPoint(localPos + spawnArea.center);
+        Vector3 worldOffset = spawnArea.transform.TransformDirection(localOffset);
+        Vector3 worldPos = center + worldOffset;
 
         if (Terrain.activeTerrain)
-            worldPos.y = Terrain.activeTerrain.SampleHeight(worldPos);
+            worldPos.y = Terrain.activeTerrain.SampleHeight(worldPos) + Terrain.activeTerrain.transform.position.y;
 
         return worldPos;
     }
