@@ -130,7 +130,7 @@ public class Player_LYJ : MonoBehaviour
 
     private void TryRun()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && !doingOtherWork) // 공중에서도 대쉬속도 나오게 할지말지
+        if (Input.GetKey(KeyCode.LeftShift) && !doingOtherWork && isGrounded) // 공중에서도 대쉬속도 나오게 할지말지
         {
             isRun = true;
             appliedSpeed = runSpeed;
