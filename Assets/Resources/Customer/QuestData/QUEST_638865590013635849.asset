@@ -19,7 +19,7 @@ MonoBehaviour:
     \uC74C\uC2DD \uD310\uB9E4\uAC00\uC758 1.5\uBC30\uB97C \uBCF4\uC0C1\uC73C\uB85C
     \uC81C\uACF5\uD569\uB2C8\uB2E4)"
   questIcon: {fileID: 21300000, guid: 793498d97c3967648bc91c08ddf89a85, type: 3}
-  questType: 0
+  questType: 2
   objectives:
   - objectiveID: 
     description: "Sandwich 1\uAC1C \uC81C\uC791"
@@ -30,13 +30,7 @@ MonoBehaviour:
     killCount: 0
     requiredFood: {fileID: 11400000, guid: 2bdfe6fdb259dd547ae52eb87329f893, type: 2}
     foodCount: 1
-  rewards:
-  - type: 1
-    rewardItem: {fileID: 0}
-    itemAmount: 0
-    moneyAmount: 0
-    satisfactionBonus: 0
-    unlockFood: {fileID: 0}
+  rewards: []
   isRepeatable: 0
   timeLimit: 0
   requiredLevel: 0

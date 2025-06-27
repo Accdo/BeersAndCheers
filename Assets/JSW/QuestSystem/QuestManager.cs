@@ -48,42 +48,33 @@ public class QuestManager : MonoBehaviour
     // 랜덤 퀘스트 선택
     public QuestData GetRandomQuest()
     {
-        if (this.availableQuests == null || this.availableQuests.Count == 0)
-        {
-            Debug.LogWarning("사용 가능한 퀘스트가 없습니다!");
-            return null;
-        }
-        // 이미 진행 중인 퀘스트의 ID 목록을 가져옴
         var activeQuestIDs = activeQuests.Select(q => q.questData.questID).ToList();
+        var completedQuestIDs = completedQuests.Select(q => q.questData.questID).ToList();
 
-        // 사용 가능한 퀘스트 목록에서 이미 진행 중인 퀘스트를 제외
-        var questPool = this.availableQuests.Where(q => !activeQuestIDs.Contains(q.questID)).ToList();
+        var questPool = this.availableQuests.Where(q =>
+            !activeQuestIDs.Contains(q.questID) &&
+            (q.isRepeatable || !completedQuestIDs.Contains(q.questID))
+        ).ToList();
 
         if (questPool.Count == 0)
-        {
-            Debug.LogWarning("모든 퀘스트가 이미 진행 중입니다!");
             return null;
-        }
 
-        // 랜덤 선택
         int randomIndex = UnityEngine.Random.Range(0, questPool.Count);
         return questPool[randomIndex];
     }
     public bool HasAvailableQuest()
     {
         if (this.availableQuests == null || this.availableQuests.Count == 0)
-        {
-            Debug.LogError("[QuestManager] 퀘스트 생성 실패: 'Available Quests' 리스트가 비어있습니다! 인스펙터에서 퀘스트 데이터를 할당해주세요.");
             return false;
-        }
 
         var activeQuestIDs = activeQuests.Select(q => q.questData.questID).ToList();
-        bool hasQuest = this.availableQuests.Any(q => !activeQuestIDs.Contains(q.questID));
+        var completedQuestIDs = completedQuests.Select(q => q.questData.questID).ToList();
 
-        if (!hasQuest)
-        {
-            Debug.LogWarning($"[QuestManager] 퀘스트 생성 실패: 모든 퀘스트가 이미 진행 중입니다. (진행중인 퀘스트 수: {activeQuests.Count})");
-        }
+        // 반복 불가 퀘스트는 완료된 경우 제외
+        bool hasQuest = this.availableQuests.Any(q =>
+            !activeQuestIDs.Contains(q.questID) &&
+            (q.isRepeatable || !completedQuestIDs.Contains(q.questID))
+        );
 
         return hasQuest;
     }
