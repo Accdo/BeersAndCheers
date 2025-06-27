@@ -175,6 +175,7 @@ public class QuestReward
     public int itemAmount = 1;
     public int moneyAmount = 0;
     public float satisfactionBonus = 0f;
+    public FoodData unlockFood;
 }
 
 public enum QuestType
@@ -195,5 +196,6 @@ public enum RewardType
 {
     Item,
     Money,
-    Satisfaction
+    Satisfaction,
+    UnlockFood
 } 
