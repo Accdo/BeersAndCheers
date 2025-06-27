@@ -482,7 +482,6 @@ public class QuestManager : MonoBehaviour
                 case RewardType.Satisfaction:
                     break;
                 case RewardType.UnlockFood:
-                    // 기존 코드 삭제
                     break;
             }
         }
