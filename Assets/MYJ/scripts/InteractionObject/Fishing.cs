@@ -128,9 +128,14 @@ public class Fishing : MonoBehaviour, IInteractable
             
             Item randomFish = FishItem[Random.Range(0, FishItem.Length)];
 
-            GH_GameManager.instance.player.inventory.Add("Backpack", randomFish);
+            int count = Random.Range(1, 4);
 
-            Debug.Log($"»πµÊ«— π∞∞Ì±‚: {randomFish.name}");
+            for(int i = 0; i < count; i++)
+            {
+                GH_GameManager.instance.player.inventory.Add("Backpack", randomFish);
+            }
+            
+            Debug.Log($"»πµÊ«— π∞∞Ì±‚: {randomFish.name} x {count}");
         }
         else
         {

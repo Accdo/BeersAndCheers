@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: TomatoSeed
   m_EditorClassIdentifier: 
   itemName: TomatoSeed
-  icon: {fileID: 0}
-  price: 0
-  cropPrefab: {fileID: 0}
-  growTime: 0
-  yieldAmount: 0
+  icon: {fileID: 21300000, guid: 9f4444b87c41d5e4e9b90f8aed205625, type: 3}
+  price: 100
+  plantedPrefab: {fileID: 919132149155446097, guid: abfe213d6069c7d4b84c428a905c8a08, type: 3}
+  wateredPrefab: {fileID: 6662174415517180126, guid: 81dad7d5552c9a341b390c79338fe0a4, type: 3}
+  grownPrefab: {fileID: 2906742830765859135, guid: 78da2ace1ab76ce478600ebe37fa10fe, type: 3}
+  growTime: 1
+  yieldAmount: 2
