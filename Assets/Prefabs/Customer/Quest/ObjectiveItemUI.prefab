@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 170.7981, y: 50}
+  m_SizeDelta: {x: 129.4875, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3325633863424349551
 CanvasRenderer:
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -0.63238525, w: 0}
+  m_margin: {x: 0, y: 0, z: 0.11898804, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -421,7 +421,7 @@ GameObject:
   - component: {fileID: 8247840199439790481}
   - component: {fileID: 8513237906550523773}
   - component: {fileID: 4821995194969305528}
-  - component: {fileID: 7072233538956436570}
+  - component: {fileID: 3247987107257125553}
   m_Layer: 0
   m_Name: ObjectiveItemUI
   m_TagString: Untagged
@@ -448,8 +448,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -640.47156, y: 56.8}
-  m_SizeDelta: {x: 240.0568, y: 50}
+  m_AnchoredPosition: {x: -649.3573, y: 56.8}
+  m_SizeDelta: {x: 222.2852, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8513237906550523773
 MonoBehaviour:
@@ -492,7 +492,7 @@ MonoBehaviour:
   descriptionText: {fileID: 2203483969830415886}
   progressText: {fileID: 4024027996992858229}
   checkMark: {fileID: 7939895885739113367}
---- !u!114 &7072233538956436570
+--- !u!114 &3247987107257125553
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -509,6 +509,6 @@ MonoBehaviour:
   m_MinHeight: -1
   m_PreferredWidth: -1
   m_PreferredHeight: -1
-  m_FlexibleWidth: 1
+  m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
