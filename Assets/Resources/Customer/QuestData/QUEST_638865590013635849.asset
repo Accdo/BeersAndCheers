@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0d829d1556ef5e4fba938f41127e437, type: 3}
+  m_Name: QUEST_638865590013635849
+  m_EditorClassIdentifier: 
+  questID: QUEST_638865590013635849
+  questTitle: "\uB9DB\uC788\uB294 \uC0CC\uB4DC\uC704\uCE58!"
+  questDescription: "\uB9DB\uC788\uB294 \uC0CC\uB4DC\uC704\uCE58\uB97C \uC190\uB2D8\uC5D0\uAC8C
+    \uB300\uC811\uD574\uC57C \uD569\uB2C8\uB2E4.\n(* \uC774 \uD018\uC2A4\uD2B8\uB294
+    \uC74C\uC2DD \uD310\uB9E4\uAC00\uC758 1.5\uBC30\uB97C \uBCF4\uC0C1\uC73C\uB85C
+    \uC81C\uACF5\uD569\uB2C8\uB2E4)"
+  questIcon: {fileID: 21300000, guid: 793498d97c3967648bc91c08ddf89a85, type: 3}
+  questType: 2
+  objectives:
+  - objectiveID: 
+    description: "Sandwich 1\uAC1C \uC81C\uC791"
+    type: 2
+    requiredItem: {fileID: 0}
+    requiredAmount: 0
+    enemyData: {fileID: 0}
+    killCount: 0
+    requiredFood: {fileID: 11400000, guid: 2bdfe6fdb259dd547ae52eb87329f893, type: 2}
+    foodCount: 1
+  rewards: []
+  isRepeatable: 0
+  timeLimit: 0
+  requiredLevel: 0
+  questStartDialogue: {fileID: 0}
+  questCompleteDialogue: {fileID: 0}
+  questFailDialogue: {fileID: 0}

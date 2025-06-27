@@ -80,6 +80,7 @@ public class QuestUI : MonoBehaviour
         // 마우스 커서 표시/숨김과 함께 플레이어의 다른 작업 상태도 제어
         if (isActive)
         {
+            RefreshQuestProgressFromInventoryOnly();
             GH_GameManager.instance.player.MouseVisible(true);
             GH_GameManager.instance.player.StartOtherWork(); // 카메라 회전 비활성화
             UpdateQuestList();
@@ -172,7 +173,7 @@ public class QuestUI : MonoBehaviour
             Destroy(child.gameObject);
         }
         
-        foreach (var reward in questData.rewards)
+        foreach (var reward in questData.GetFinalRewards())
         {
             GameObject rewardItem = Instantiate(rewardItemPrefab, rewardListContent);
             RewardItemUI rewardUI = rewardItem.GetComponent<RewardItemUI>();
@@ -229,7 +230,7 @@ public class QuestUI : MonoBehaviour
         
         var questGiver = activeQuest.customer;
         
-        questManager.CompleteQuest(selectedQuest.questID);
+        questManager.CompleteQuest(selectedQuest);
         questGiver?.CustormerExit();
         
         questDetailPanel.SetActive(false);
@@ -277,5 +278,53 @@ public class QuestUI : MonoBehaviour
         {
             questNotification.SetActive(false);
         }
+    }
+
+    // 1. 목표 진행도만 갱신 (퀘스트 완료는 하지 않음)
+    public void RefreshQuestProgressFromInventoryOnly()
+    {
+        if (questManager == null) return;
+        foreach (var quest in questManager.GetActiveQuests())
+        {
+            foreach (var obj in quest.objectives)
+            {
+                var def = quest.questData.objectives.Find(o => o.objectiveID == obj.objectiveID);
+                if (def != null && def.type == ObjectiveType.CollectItem && def.requiredItem != null)
+                {
+                    int currentCount = GetItemCountFromInventory(def.requiredItem.itemName);
+                    obj.currentAmount = Mathf.Min(currentCount, obj.requiredAmount);
+                    obj.isCompleted = obj.currentAmount >= obj.requiredAmount;
+                }
+            }
+        }
+        UpdateQuestList();
+    }
+
+    private int GetItemCountFromInventory(string itemName)
+    {
+        int totalCount = 0;
+        var inventoryManager = GH_GameManager.instance.player.inventory;
+        if (inventoryManager != null)
+        {
+            // 백팩 체크
+            if (inventoryManager.backpack != null)
+            {
+                foreach (var slot in inventoryManager.backpack.slots)
+                {
+                    if (slot.itemName == itemName)
+                        totalCount += slot.count;
+                }
+            }
+            // 핫바 체크
+            if (inventoryManager.hotbar != null)
+            {
+                foreach (var slot in inventoryManager.hotbar.slots)
+                {
+                    if (slot.itemName == itemName)
+                        totalCount += slot.count;
+                }
+            }
+        }
+        return totalCount;
     }
 } 

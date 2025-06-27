@@ -14,15 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - speakerName: "\uBD80\uC790"
-    text: "\uC800\uB294 \uBD80\uC720\uD55C \uBD80\uC790~ \uC785\uB2C8\uB2E4"
-    recommendedFood: {fileID: 11400000, guid: 5b24a0e790c319046b9745673cb26b29, type: 2}
+    text: "\uC5EC\uAE30\uAC00 \uD3C9\uBBFC\uB4E4\uC774 \uC8FC\uB85C \uC624\uB294
+      \uAC00\uAC8C\uC778\uAC00?"
+    recommendedFood: {fileID: 11400000, guid: df48cb6923d2eb34a9a435a7d7e0ae1c, type: 2}
   - speakerName: "\uD50C\uB808\uC774\uC5B4"
-    text: "\uC544 \uB124 \uADF8\uB7EC\uC2DC\uAD6C\uB098"
+    text: "\uB135 \uC5B4\uC11C\uC624\uC2ED\uC2DC\uC694."
     recommendedFood: {fileID: 0}
   - speakerName: "\uBD80\uC790"
-    text: "\uD0DC\uB3C4\uAC00 \uC880 \uB9D8\uC5D0 \uB4E4\uC9C0 \uC54A\uC9C0\uB9CC
-      \uBB50..."
+    text: "\uB098\uB294 \uAD6C\uC6B4 \uBE75\uC744 \uC6D0\uD558\uB124"
     recommendedFood: {fileID: 0}
   - speakerName: "\uBD80\uC790"
-    text: "\uAE30\uB984\uC9C0\uACE0 \uB9DB\uC788\uB294 \uAC78\uB85C \uAC00\uC838\uC624\uC138\uC694"
+    text: "\uBD80\uB4DC\uB7EC\uC6B4 \uBE75\uC774\uBA74 \uC88B\uACA0\uC5B4"
+    recommendedFood: {fileID: 0}
+  - speakerName: "\uBD80\uC790"
+    text: "\uBC84\uD130\uAC00 \uD48D\uBD80\uD558\uAC8C \uB4E4\uC5B4\uAC00\uC11C \uBD80\uB4DC\uB7EC\uC6B4
+      \uBE75 \uB9D0\uC774\uC57C"
+    recommendedFood: {fileID: 0}
+  - speakerName: "\uBD80\uC790"
+    text: "\uB610 \uC644\uC131\uB41C \uC0C1\uD0DC\uC5D0\uC11C \uBC84\uD130\uAC00
+      \uBD80\uB4DC\uB7FD\uAC8C \uB179\uC544\uB0B4\uB9AC\uB294 \uBAA8\uC2B5!"
+    recommendedFood: {fileID: 0}
+  - speakerName: "\uBD80\uC790"
+    text: "\uADF8 \uBAA8\uC2B5\uC774 \uCC38 \uAD70\uCE68\uC774 \uB3C8\uB2E8 \uB9D0\uC774\uC57C"
+    recommendedFood: {fileID: 0}
+  - speakerName: "\uD50C\uB808\uC774\uC5B4"
+    text: "\uB124! \uC5B4\uC11C \uC900\uBE44\uD574\uB4DC\uB9AC\uACA0\uC2B5\uB2C8\uB2E4."
     recommendedFood: {fileID: 0}
