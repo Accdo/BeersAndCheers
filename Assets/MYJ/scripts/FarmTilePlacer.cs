@@ -36,7 +36,8 @@ public class FarmTilePlacer : MonoBehaviour
                 break;
 
             case FarmTile.TileState.Planted:
-                /*// 예시: 물뿌리개 아이템이 있는 경우만 물을 줄 수 있게
+            case FarmTile.TileState.WaterPrompt:
+                /*//물뿌리개 아이템이 있는 경우만 물을 줄 수 있게
                 if (slot != null && slot.itemData.itemName == "물뿌리개") // or WateringCanData 타입 확인
                 {
                     bool watered = tile.TryWater();
