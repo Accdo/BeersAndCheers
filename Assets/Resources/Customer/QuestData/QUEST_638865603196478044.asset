@@ -15,7 +15,9 @@ MonoBehaviour:
   questID: QUEST_638865603196478044
   questTitle: "\uCD5C\uACE0\uC758 \uBC84\uAC70\uB97C \uBD80\uD0C1\uD574!"
   questDescription: "\uBC84\uAC70 \uD558\uB098\uB9CC \uB9CC\uB4E4\uC5B4\uC8FC\uC138\uC694.
-    \uD2B9\uBCC4\uD55C \uC190\uB2D8\uC744 \uC704\uD55C \uC694\uB9AC\uC785\uB2C8\uB2E4."
+    \uD2B9\uBCC4\uD55C \uC190\uB2D8\uC744 \uC704\uD55C \uC694\uB9AC\uC785\uB2C8\uB2E4.\n(*
+    \uC774 \uD018\uC2A4\uD2B8\uB294 \uC74C\uC2DD \uD310\uB9E4\uAC00\uC758 1.5\uBC30\uB97C
+    \uBCF4\uC0C1\uC73C\uB85C \uC81C\uACF5\uD569\uB2C8\uB2E4)"
   questIcon: {fileID: 21300000, guid: 0e2f7df6ce7299940a251d1eb0f33124, type: 3}
   questType: 2
   objectives:
@@ -29,11 +31,12 @@ MonoBehaviour:
     requiredFood: {fileID: 0}
     foodCount: 0
   rewards:
-  - type: 0
+  - type: 1
     rewardItem: {fileID: 0}
     itemAmount: 0
     moneyAmount: 0
     satisfactionBonus: 0
+    unlockFood: {fileID: 0}
   isRepeatable: 0
   timeLimit: 0
   requiredLevel: 0

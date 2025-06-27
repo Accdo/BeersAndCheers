@@ -271,7 +271,7 @@ public class QuestManager : MonoBehaviour
 
                 Debug.Log($"퀘스트 완료: {def.requiredItem.itemName} {actuallyRemoved}/{amountToRemove}개 제거됨");
 
-                // 🔥 아이템이 부족하면 퀘스트 완료 중단!
+                //아이템이 부족하면 퀘스트 완료 중단!
                 if (actuallyRemoved < amountToRemove)
                 {
                     // 목표 미달성 처리
@@ -482,12 +482,22 @@ public class QuestManager : MonoBehaviour
                 case RewardType.Satisfaction:
                     break;
                 case RewardType.UnlockFood:
+                    if (reward.unlockFood != null)
+                    {
+                        UnlockFoodAndRecipe(reward.unlockFood);
+                    }
                     break;
             }
         }
     }
 
+    private void UnlockFoodAndRecipe(FoodData foodData)
+    {
+        FoodManager.Instance.UnlockFood(foodData);
 
+        string recipeName = foodData.itemName; 
+        GH_GameManager.instance.recipeManager.UnlockRecipe(recipeName);
+    }
 }
 
 // ======= 퀘스트 진행/완료 데이터 구조 =======
