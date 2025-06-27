@@ -7,34 +7,38 @@ public class EnemyMoveState : State_LYJ<Enemy>
     {
         base.Enter(owner);
         this.owner = owner;
-        owner.NavMeshAgent.isStopped = false;
+        if (owner.NavMeshAgent != null)
+        {
+            if (owner.NavMeshAgent.isOnNavMesh)
+            {
+                owner.NavMeshAgent.isStopped = false;
+            }
+        }
+        owner.Anim.SetBool("Walk", true);
     }
 
     public override void Run()
     {
         base.Run();
-        if (owner.Target != null && Vector3.Distance(transform.position, owner.Target.transform.position) <= owner.Data.AttackRange)
+        if (owner.ChaseTarget != null && Vector3.Distance(owner.transform.position, owner.ChaseTarget.transform.position) <= owner.Data.AttackRange * 1.5f)
         {
             owner.ChangeState(EnemyStates.Attack);
             return;
         }
-        if (!owner.Target)
+        if (owner.ChaseTarget != null && Vector3.Distance(owner.transform.position, owner.ChaseTarget.transform.position) > owner.Data.AttackRange * 1.5f)
         {
-            owner.NavMeshAgent.SetDestination(owner.FirstPos);
+            owner.NavMeshAgent.SetDestination(owner.ChaseTarget.transform.position);
         }
-        if (owner.Target != null && Vector3.Distance(owner.transform.position, owner.Target.transform.position) > owner.Data.AttackRange)
+        if (!owner.ChaseTarget)
         {
-            owner.NavMeshAgent.SetDestination(owner.Target.transform.position);
-        }
-        if (Vector3.Distance(owner.transform.position,owner.FirstPos) < 0.1f && !owner.Target)
-        {
-            owner.ChangeState(EnemyStates.Idle);
+            owner.ChangeState(EnemyStates.Stray);
             return;
         }
     }
 
     public override void Exit()
     {
+        owner.Anim.SetBool("Walk", false);
         base.Exit();
     }
 }
