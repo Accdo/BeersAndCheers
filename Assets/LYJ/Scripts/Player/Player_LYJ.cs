@@ -34,9 +34,11 @@ public class Player_LYJ : MonoBehaviour
     #region 동작 상태
     private bool isGrounded;
     private bool isRun;
+    private bool isWalk;
     private bool doingOtherWork;
     Coroutine currentOtherWork;
     [HideInInspector] public bool IsRun => isRun;
+    [HideInInspector] public bool IsWalk => isWalk;
     #endregion
 
     [Header("카메라")]
@@ -120,7 +122,7 @@ public class Player_LYJ : MonoBehaviour
 
     private void TryRun()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && !doingOtherWork) // 공중에서도 대쉬속도 나오게 할지말지
+        if (Input.GetKey(KeyCode.LeftShift) && !doingOtherWork && isGrounded) // 공중에서도 대쉬속도 나오게 할지말지
         {
             isRun = true;
             appliedSpeed = runSpeed;
@@ -138,6 +140,8 @@ public class Player_LYJ : MonoBehaviour
 
         float moveDirX = Input.GetAxisRaw("Horizontal");
         float moveDirZ = Input.GetAxisRaw("Vertical");
+
+        isWalk = moveDirX != 0 || moveDirZ != 0;
 
         Vector3 moveX = transform.right * moveDirX;
         Vector3 moveZ = transform.forward * moveDirZ;

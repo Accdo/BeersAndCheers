@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
+    [SerializeField] private Player_LYJ player; // temp
     [SerializeField] private Hand currentHand;
     [SerializeField] private LayerMask hitTarget;
     private bool isAttacking;
@@ -18,6 +19,7 @@ public class HandController : MonoBehaviour
     {
         // 나중에 애니메이터 교체를 이벤트로 작성 (anim.runtime... = currenthand.anim)
         TryAttack();
+        ControlAnim();
     }
 
     private void TryAttack()
@@ -49,6 +51,12 @@ public class HandController : MonoBehaviour
         yield return new WaitForSeconds(1 / currentHand.AttackSpeed);
 
         isAttacking = false;
+    }
+
+    private void ControlAnim()
+    {
+        anim.SetBool("Walk", player.IsWalk);
+        anim.SetBool("Run", player.IsRun);
     }
 
     private void OnDrawGizmosSelected()
