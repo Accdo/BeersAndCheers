@@ -209,28 +209,28 @@ public class QuestManager : MonoBehaviour
                 // 이미 완료된 퀘스트는 다시 처리하지 않음
                 if (!completedQuests.Any(q => q.questData.questID == quest.questData.questID))
                 {
-                    CompleteQuest(quest.questData.questID);
+                    CompleteQuest(quest.questData);
                 }
             }
         }
     }
 
     // 퀘스트 완료 시 호출
-    public void CompleteQuest(string questID)
+    public void CompleteQuest(QuestData quest)
     {
-        var quest = GetActiveQuest(questID);
-        if (quest == null) return; // 이미 완료된 퀘스트는 무시
-        if (!IsQuestComplete(quest)) return;
+        var questToComplete = GetActiveQuest(quest.questID);
+        if (questToComplete == null) return; // 이미 완료된 퀘스트는 무시
+        if (!IsQuestComplete(questToComplete)) return;
 
-        activeQuests.Remove(quest);
+        activeQuests.Remove(questToComplete);
 
-        RemoveQuestRequirements(quest);
-        GiveRewards(quest.questData.rewards);
+        RemoveQuestRequirements(questToComplete);
+        GiveRewards(quest.rewards);
 
         completedQuests.Add(new CompletedQuest
         {
-            questData = quest.questData,
-            customer = quest.customer,
+            questData = quest,
+            customer = questToComplete.customer,
             completionTime = Time.time
         });
 
@@ -241,6 +241,7 @@ public class QuestManager : MonoBehaviour
         {
             GH_GameManager.instance.uiManager.RefreshAll();
         }
+      
     }
 
     // 퀘스트 완료 시 요구사항 아이템을 인벤토리에서 안전하게 제거
@@ -483,7 +484,11 @@ public class QuestManager : MonoBehaviour
                         MoneyManager.instance?.AddMoney(reward.moneyAmount);
                     // }
                     break;
-                    // 필요시 만족도, 경험치 등 추가
+                case RewardType.Satisfaction:
+                    break;
+                case RewardType.UnlockFood:
+                    // 기존 코드 삭제
+                    break;
             }
         }
     }

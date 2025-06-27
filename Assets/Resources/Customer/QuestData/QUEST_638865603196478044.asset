@@ -10,30 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0d829d1556ef5e4fba938f41127e437, type: 3}
-  m_Name: Quest02
+  m_Name: QUEST_638865603196478044
   m_EditorClassIdentifier: 
-  questID: 02
-  questTitle: "\uC6B0\uC720\uAC00 \uD544\uC694\uD574"
-  questDescription: "\uC774 \uC190\uB2D8\uC740 \uC6B0\uC720\uAC00 \uD544\uC694\uD569\uB2C8\uB2E4!"
-  questIcon: {fileID: 21300000, guid: 6631e8fb3278ce042a131a59dc145156, type: 3}
-  questType: 0
+  questID: QUEST_638865603196478044
+  questTitle: "\uCD5C\uACE0\uC758 \uBC84\uAC70\uB97C \uBD80\uD0C1\uD574!"
+  questDescription: "\uBC84\uAC70 \uD558\uB098\uB9CC \uB9CC\uB4E4\uC5B4\uC8FC\uC138\uC694.
+    \uD2B9\uBCC4\uD55C \uC190\uB2D8\uC744 \uC704\uD55C \uC694\uB9AC\uC785\uB2C8\uB2E4."
+  questIcon: {fileID: 21300000, guid: 0e2f7df6ce7299940a251d1eb0f33124, type: 3}
+  questType: 2
   objectives:
   - objectiveID: 
-    description: "Milk 3\uAC1C \uC218\uC9D1"
+    description: "Burger 1\uAC1C \uC218\uC9D1"
     type: 0
-    requiredItem: {fileID: 11400000, guid: 9bc3f56748e079840873d32570e7f719, type: 2}
-    requiredAmount: 3
+    requiredItem: {fileID: 11400000, guid: 1ce6909772c4eb947b98cc23782e25fd, type: 2}
+    requiredAmount: 1
     enemyData: {fileID: 0}
     killCount: 0
     requiredFood: {fileID: 0}
     foodCount: 0
   rewards:
   - type: 0
-    rewardItem: {fileID: 11400000, guid: 397fb4b47740899418243680bcaa1d0b, type: 2}
-    itemAmount: 3
+    rewardItem: {fileID: 0}
+    itemAmount: 0
     moneyAmount: 0
     satisfactionBonus: 0
-  isRepeatable: 1
+  isRepeatable: 0
   timeLimit: 0
   requiredLevel: 0
   questStartDialogue: {fileID: 0}

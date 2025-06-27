@@ -89,6 +89,7 @@ public class CustomerAI : MonoBehaviour
     public CustomerWalk walkState { get; private set; }
     public CustomerSeat seatState { get; private set; }
     public CustomerExit exitState { get; private set; }
+    public CustomerWandering wanderingState { get; private set; }
     #endregion
 
     [Header("Customer Type")]
@@ -116,6 +117,7 @@ public class CustomerAI : MonoBehaviour
         agent.angularSpeed = agentAngularSpeed;
 
         //스테이트
+        wanderingState = new CustomerWandering(this, "Walk", stateMachine, agent);
         waitingState = new CustomerWaiting(this, "Wait", stateMachine, agent);
         walkState = new CustomerWalk(this, "Walk", stateMachine, agent);
         seatState = new CustomerSeat(this, "Sit", stateMachine, agent);
@@ -125,7 +127,7 @@ public class CustomerAI : MonoBehaviour
 
     void Start()
     {
-        stateMachine.ChangeState(waitingState);
+        stateMachine.ChangeState(wanderingState);
         LoadDialogue();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         inventory = FindAnyObjectByType<InventoryManager>();
@@ -299,7 +301,7 @@ public class CustomerAI : MonoBehaviour
         if (isCorrectOrder)
         {
             Debug.Log("올바른 음식을 전달했습니다.");
-            Vector3 spawnPos = transform.position + transform.forward * 1f + Vector3.up * 1f;
+            Vector3 spawnPos = transform.position + transform.forward * 0.6f + Vector3.up * 1f;
             spawnedFoodPrefab = Instantiate(foundPrefab, spawnPos, Quaternion.identity);
 
             ReceiveFood(new List<FoodData> { orderedItems[0] });
@@ -342,10 +344,10 @@ public class CustomerAI : MonoBehaviour
         if (deliveredItems != null && deliveredItems.Count > 0 && orderedItems != null && orderedItems.Count > 0)
         {
             string orderedFoodName = orderedItems[0].itemName;
-            string deliveredFoodName = deliveredItems[0].itemName;
+            FoodData deliveredFood = deliveredItems[0]; // 전달받은 음식 데이터
 
             // 주문한 음식과 전달된 음식이 같은지 확인
-            bool isCorrectOrder = deliveredFoodName.Trim().Equals(orderedFoodName.Trim(), System.StringComparison.OrdinalIgnoreCase);
+            bool isCorrectOrder = deliveredFood.itemName.Trim().Equals(orderedFoodName.Trim(), System.StringComparison.OrdinalIgnoreCase);
 
             if (isCorrectOrder)
             {
@@ -361,8 +363,29 @@ public class CustomerAI : MonoBehaviour
                     DialogueManager.Instance.ShowInteractableText(false, this, 0f);
                 }
 
-                SatisfactionScoreUpDown(10f);
-                CheckRecommendedFood(deliveredItems[0]);
+                // --- 신선도에 따른 만족도 추가 계산 (0-100 기준) ---
+                float freshness = deliveredFood.freshPoint; // FoodData에서 신선도 가져오기 (0 ~ 100)
+                float freshnessBonus = 0f;
+
+                if (freshness >= 90)
+                {
+                    freshnessBonus = 15f; // 매우 신선함
+                    Debug.Log($"<color=green>매우 신선한 음식 (신선도: {freshness:F0})! 만족도 +{freshnessBonus}</color>");
+                }
+                else if (freshness >= 70)
+                {
+                    freshnessBonus = 5f; // 신선함
+                    Debug.Log($"<color=cyan>신선한 음식 (신선도: {freshness:F0}). 만족도 +{freshnessBonus}</color>");
+                }
+                else if (freshness < 40)
+                {
+                    freshnessBonus = -15f; // 신선하지 않음
+                    Debug.Log($"<color=red>신선하지 않은 음식 (신선도: {freshness:F0}). 만족도 {freshnessBonus}</color>");
+                }
+                SatisfactionScoreUpDown(freshnessBonus);
+                // ------------------------------------
+
+                CheckRecommendedFood(deliveredFood);
                 StartCoroutine(ShowSatisfactionFeedbackForDuration());
                 StartCoroutine(EatingTime());
             }
@@ -903,7 +926,7 @@ public class CustomerAI : MonoBehaviour
         {
             CustomerSpawnManager.Instance?.OnQuestCustomerLeft();
         }
-        hasGivenQuest = false; // �� 추가: 다음 방문을 위해 초기화
+        hasGivenQuest = false; // 다음 방문을 위해 초기화
         hasOfferedQuest = false; 
 
         stateMachine.ChangeState(exitState);

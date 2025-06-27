@@ -44,5 +44,11 @@ public class FoodManager : MonoBehaviour
         return availableFoods.Find(food => food.itemName == name);
     }
 
-   
+    public void UnlockFood(FoodData food)
+    {
+        if (!availableFoods.Contains(food))
+        {
+            availableFoods.Add(food);
+        }
+    }
 } 
