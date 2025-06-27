@@ -24239,6 +24239,7 @@ MonoBehaviour:
   SelectItem: {fileID: 0}
   cooking: {fileID: 0}
   cookingMinigame: {fileID: 0}
+  fermentingUI: {fileID: 0}
 --- !u!224 &544299763
 RectTransform:
   m_ObjectHideFlags: 0
@@ -68478,7 +68479,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: availableFoods.Array.size
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: 'availableFoods.Array.data[0]'
@@ -68503,35 +68504,35 @@ PrefabInstance:
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: 'availableFoods.Array.data[5]'
       value: 
-      objectReference: {fileID: 11400000, guid: 9e203a26ec030f5428aabfcac2eb22e2, type: 2}
+      objectReference: {fileID: 11400000, guid: f2fa995c5000cfc4c9ed056e25d767c2, type: 2}
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: 'availableFoods.Array.data[6]'
       value: 
-      objectReference: {fileID: 11400000, guid: f2fa995c5000cfc4c9ed056e25d767c2, type: 2}
+      objectReference: {fileID: 11400000, guid: 4c2fcb869eb473f49954d88cff144977, type: 2}
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: 'availableFoods.Array.data[7]'
       value: 
-      objectReference: {fileID: 11400000, guid: 4c2fcb869eb473f49954d88cff144977, type: 2}
+      objectReference: {fileID: 11400000, guid: df48cb6923d2eb34a9a435a7d7e0ae1c, type: 2}
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: 'availableFoods.Array.data[8]'
       value: 
-      objectReference: {fileID: 11400000, guid: df48cb6923d2eb34a9a435a7d7e0ae1c, type: 2}
+      objectReference: {fileID: 11400000, guid: f19a6a75154e86d47a82193d86b2ad70, type: 2}
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: 'availableFoods.Array.data[9]'
       value: 
-      objectReference: {fileID: 11400000, guid: f19a6a75154e86d47a82193d86b2ad70, type: 2}
+      objectReference: {fileID: 11400000, guid: 2bdfe6fdb259dd547ae52eb87329f893, type: 2}
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: 'availableFoods.Array.data[10]'
       value: 
-      objectReference: {fileID: 11400000, guid: 2bdfe6fdb259dd547ae52eb87329f893, type: 2}
+      objectReference: {fileID: 11400000, guid: 3f06775c526a1ad439cb35241018e353, type: 2}
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: 'availableFoods.Array.data[11]'
       value: 
-      objectReference: {fileID: 11400000, guid: 3f06775c526a1ad439cb35241018e353, type: 2}
+      objectReference: {fileID: 11400000, guid: 801043c6973ed484ba6e31f80c7916f9, type: 2}
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: 'availableFoods.Array.data[12]'
       value: 
-      objectReference: {fileID: 11400000, guid: 801043c6973ed484ba6e31f80c7916f9, type: 2}
+      objectReference: {fileID: 11400000, guid: 014e91806215da04ab8887c0d1dec352, type: 2}
     - target: {fileID: 3326726764280422620, guid: be8160db00ba6494aa1b033b0e8bff65, type: 3}
       propertyPath: 'availableFoods.Array.data[13]'
       value: 
@@ -75911,6 +75912,7 @@ MonoBehaviour:
   itemManager: {fileID: 0}
   uiManager: {fileID: 0}
   goldManager: {fileID: 0}
+  recipeManager: {fileID: 0}
   player: {fileID: 0}
 --- !u!1001 &1600518841
 PrefabInstance:

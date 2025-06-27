@@ -474,15 +474,10 @@ public class QuestManager : MonoBehaviour
                     }
                     break;
                 case RewardType.Money:
-                    // if (GH_GameManager.instance != null && GH_GameManager.instance.goldManager != null)
-                    // {
-                    //     GH_GameManager.instance.goldManager.AddMoney(reward.moneyAmount);
-                    // }
-                    // else
-                    // {
-                        // JSW의 MoneyManager를 백업으로 사용
-                        MoneyManager.instance?.AddMoney(reward.moneyAmount);
-                    // }
+                    if (GH_GameManager.instance != null && GH_GameManager.instance.goldManager != null)
+                    {
+                        GH_GameManager.instance.goldManager.AddMoney(reward.moneyAmount);
+                    }
                     break;
                 case RewardType.Satisfaction:
                     break;
