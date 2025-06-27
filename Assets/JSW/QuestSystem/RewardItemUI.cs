@@ -27,6 +27,13 @@ public class RewardItemUI : MonoBehaviour
             case RewardType.Satisfaction:
                 text = $"만족도 +{reward.satisfactionBonus}";
                 break;
+            case RewardType.UnlockFood:
+                if (reward.unlockFood != null)
+                {
+                    text = $"<color=#FFD700><b>{reward.unlockFood.itemName}\n레시피 해금!</b></color>";
+                    icon = reward.unlockFood.icon;
+                }
+                break;
         }
 
         if (rewardText != null)

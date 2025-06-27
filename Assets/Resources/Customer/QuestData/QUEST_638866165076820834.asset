@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0d829d1556ef5e4fba938f41127e437, type: 3}
+  m_Name: QUEST_638866165076820834
+  m_EditorClassIdentifier: 
+  questID: QUEST_638866165076820834
+  questTitle: "\uC0CC\uB4DC\uC704\uCE58 \uD574\uAE08"
+  questDescription: "\uC774 \uD018\uC2A4\uD2B8\uB97C \uC644\uB8CC\uD558\uBA74 \uC0CC\uB4DC\uC704\uCE58\uB97C
+    \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4!\n(*\uB808\uC2DC\uD53C \uD574\uAE08
+    \uD018\uC2A4\uD2B8\uC785\uB2C8\uB2E4. \uC774 \uD018\uC2A4\uD2B8\uB97C \uC644\uB8CC\uD558\uBA74
+    \uD574\uB2F9 \uB808\uC2DC\uD53C\uAC00 \uD574\uAE08\uB429\uB2C8\uB2E4)"
+  questIcon: {fileID: 21300000, guid: 2603f65ce587f504cab56029eb0ff834, type: 3}
+  questType: 0
+  objectives:
+  - objectiveID: 
+    description: "Honey 2\uAC1C \uC218\uC9D1"
+    type: 0
+    requiredItem: {fileID: 11400000, guid: 6e1073061f9fc024d8002f10bcfd05d2, type: 2}
+    requiredAmount: 2
+    enemyData: {fileID: 0}
+    killCount: 0
+    requiredFood: {fileID: 0}
+    foodCount: 0
+  rewards:
+  - type: 3
+    rewardItem: {fileID: 0}
+    itemAmount: 0
+    moneyAmount: 0
+    satisfactionBonus: 0
+    unlockFood: {fileID: 11400000, guid: 2bdfe6fdb259dd547ae52eb87329f893, type: 2}
+  isRepeatable: 0
+  timeLimit: 0
+  requiredLevel: 0
+  questStartDialogue: {fileID: 0}
+  questCompleteDialogue: {fileID: 0}
+  questFailDialogue: {fileID: 0}

@@ -648,16 +648,15 @@ public class CustomerAI : MonoBehaviour
 
     public void GiveMoneyToPlayer(int amount)
     {
-        var moneyManager = MoneyManager.instance;
+        var goldManager = GH_GameManager.instance.goldManager;
 
-        if (moneyManager != null)
+        if (goldManager != null)
         {
-            moneyManager.AddMoney(amount);
-            Debug.Log($"돈이 추가되었습니다: {amount}. 현재 돈: {moneyManager.currentMoney}");
+            goldManager.AddMoney(amount);
         }
         else
         {
-            Debug.LogWarning("MoneyManager가 초기화되지 않았습니다!");
+            Debug.LogWarning("goldManager가 초기화되지 않았습니다!");
         }
 
     }

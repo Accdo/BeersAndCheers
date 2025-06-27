@@ -271,7 +271,7 @@ public class QuestManager : MonoBehaviour
 
                 Debug.Log($"퀘스트 완료: {def.requiredItem.itemName} {actuallyRemoved}/{amountToRemove}개 제거됨");
 
-                // 🔥 아이템이 부족하면 퀘스트 완료 중단!
+                //아이템이 부족하면 퀘스트 완료 중단!
                 if (actuallyRemoved < amountToRemove)
                 {
                     // 목표 미달성 처리
@@ -474,26 +474,30 @@ public class QuestManager : MonoBehaviour
                     }
                     break;
                 case RewardType.Money:
-                    // if (GH_GameManager.instance != null && GH_GameManager.instance.goldManager != null)
-                    // {
-                    //     GH_GameManager.instance.goldManager.AddMoney(reward.moneyAmount);
-                    // }
-                    // else
-                    // {
-                        // JSW의 MoneyManager를 백업으로 사용
-                        MoneyManager.instance?.AddMoney(reward.moneyAmount);
-                    // }
+                    if (GH_GameManager.instance != null && GH_GameManager.instance.goldManager != null)
+                    {
+                        GH_GameManager.instance.goldManager.AddMoney(reward.moneyAmount);
+                    }
                     break;
                 case RewardType.Satisfaction:
                     break;
                 case RewardType.UnlockFood:
-                    // 기존 코드 삭제
+                    if (reward.unlockFood != null)
+                    {
+                        UnlockFoodAndRecipe(reward.unlockFood);
+                    }
                     break;
             }
         }
     }
 
+    private void UnlockFoodAndRecipe(FoodData foodData)
+    {
+        FoodManager.Instance.UnlockFood(foodData);
 
+        string recipeName = foodData.itemName; 
+        GH_GameManager.instance.recipeManager.UnlockRecipe(recipeName);
+    }
 }
 
 // ======= 퀘스트 진행/완료 데이터 구조 =======
