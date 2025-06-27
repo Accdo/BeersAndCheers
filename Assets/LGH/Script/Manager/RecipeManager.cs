@@ -1,41 +1,33 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Recipe
-{
-    Sandwitch,
-    Pancake,
-    Pufferfishball,
-    StarfishPasta
-}
-
 public class RecipeManager : MonoBehaviour
 {
     public GameObject[] recipeLock;
     public GameObject[] recipeSlot;
 
-    public void UnlockRecipe(Recipe recipe)
+    public void UnlockRecipe(string recipeName)
     {
-        switch (recipe)
+        switch (recipeName)
         {
-            case Recipe.Sandwitch:
+            case "Sandwich":
                 recipeLock[0].SetActive(false);
                 recipeSlot[0].GetComponent<Button>().enabled = true;
                 break;
-            case Recipe.Pancake:
+            case "Pancake":
                 recipeLock[1].SetActive(false);
                 recipeSlot[1].GetComponent<Button>().enabled = true;
                 break;
-            case Recipe.Pufferfishball:
+            case "PufferFishBall":
                 recipeLock[2].SetActive(false);
                 recipeSlot[2].GetComponent<Button>().enabled = true;
                 break;
-            case Recipe.StarfishPasta:
+            case "StarfishPasta":
                 recipeLock[3].SetActive(false);
                 recipeSlot[3].GetComponent<Button>().enabled = true;
                 break;
             default:
-                Debug.LogWarning("Unknown recipe name: " + recipe);
+                Debug.LogWarning("Unknown recipe name: " + recipeName);
                 break;
         }
     }
