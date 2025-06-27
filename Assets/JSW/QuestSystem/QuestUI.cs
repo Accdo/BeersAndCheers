@@ -229,7 +229,7 @@ public class QuestUI : MonoBehaviour
         
         var questGiver = activeQuest.customer;
         
-        questManager.CompleteQuest(selectedQuest.questID);
+        questManager.CompleteQuest(selectedQuest);
         questGiver?.CustormerExit();
         
         questDetailPanel.SetActive(false);

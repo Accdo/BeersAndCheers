@@ -30,9 +30,37 @@ public class QuestData : ScriptableObject
     public DialogueScript questCompleteDialogue;
     public DialogueScript questFailDialogue;
 
-    /// <summary>
-    /// 인스펙터에서 값이 변경될 때 모든 목표의 Description 업데이트
-    /// </summary>
+    public List<QuestReward> GetFinalRewards()
+    {
+        List<QuestReward> finalRewards = new List<QuestReward>(rewards);
+
+        if (questType == QuestType.FoodCooking)
+        {
+            int totalFoodPrice = 0;
+            foreach (var objective in objectives)
+            {
+                if (objective.type == ObjectiveType.CookFood && objective.requiredFood != null)
+                {
+                    totalFoodPrice += objective.requiredFood.price * objective.foodCount;
+                }
+            }
+
+            if (totalFoodPrice > 0)
+            {
+                // 계산된 가격의 1.5배를 새로운 돈 보상으로 추가합니다.
+                int dynamicMoneyReward = Mathf.RoundToInt(totalFoodPrice * 1.5f);
+                finalRewards.Add(new QuestReward {
+                    type = RewardType.Money,
+                    moneyAmount = dynamicMoneyReward
+                });
+            }
+        }
+        
+
+        return finalRewards;
+    }
+
+    // 인스펙터에서 값이 변경될 때 모든 목표의 Description 업데이트
     private void OnValidate()
     {
         if (objectives != null)
@@ -46,8 +74,6 @@ public class QuestData : ScriptableObject
                 }
             }
 
-            // 첫 번째 목표의 아이콘을 퀘스트 아이콘으로 자동 설정
-            // (몬스터 사냥 퀘스트는 EnemyData에 아이콘이 없어 수동 설정 필요)
             if (objectives.Count > 0 && objectives[0] != null)
             {
                 var firstObjective = objectives[0];
@@ -149,6 +175,7 @@ public class QuestReward
     public int itemAmount = 1;
     public int moneyAmount = 0;
     public float satisfactionBonus = 0f;
+    public FoodData unlockFood;
 }
 
 public enum QuestType
@@ -169,5 +196,6 @@ public enum RewardType
 {
     Item,
     Money,
-    Satisfaction
+    Satisfaction,
+    UnlockFood
 } 

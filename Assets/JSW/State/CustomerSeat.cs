@@ -28,7 +28,7 @@ public class CustomerSeat : CustomerState
             // 퀘스트 손님인 경우
             if (ai.isQuestCustomer)
             {
-                // 🔥 수정: 자리에 앉는 순간, 퀘스트 제안을 딱 한 번 시도
+                // 자리에 앉는 순간, 퀘스트 제안을 딱 한 번 시도
                 ai.TryOfferQuest();
                 return; // 퀘스트 손님은 일반/특별 주문을 하지 않으므로 여기서 종료
             }
