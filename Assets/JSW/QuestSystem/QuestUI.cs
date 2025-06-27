@@ -172,7 +172,7 @@ public class QuestUI : MonoBehaviour
             Destroy(child.gameObject);
         }
         
-        foreach (var reward in questData.rewards)
+        foreach (var reward in questData.GetFinalRewards())
         {
             GameObject rewardItem = Instantiate(rewardItemPrefab, rewardListContent);
             RewardItemUI rewardUI = rewardItem.GetComponent<RewardItemUI>();

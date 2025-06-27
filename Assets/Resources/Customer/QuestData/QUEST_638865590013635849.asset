@@ -31,11 +31,12 @@ MonoBehaviour:
     requiredFood: {fileID: 11400000, guid: 2bdfe6fdb259dd547ae52eb87329f893, type: 2}
     foodCount: 1
   rewards:
-  - type: 0
+  - type: 1
     rewardItem: {fileID: 0}
     itemAmount: 0
     moneyAmount: 0
     satisfactionBonus: 0
+    unlockFood: {fileID: 0}
   isRepeatable: 0
   timeLimit: 0
   requiredLevel: 0
