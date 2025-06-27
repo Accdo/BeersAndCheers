@@ -88,7 +88,7 @@ public class UI_Manager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            GH_GameManager.instance.recipeManager.UnlockRecipe(Recipe.Sandwitch);
+            GH_GameManager.instance.recipeManager.UnlockRecipe("Sandwich");
         }
     }
 
