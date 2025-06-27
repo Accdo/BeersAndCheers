@@ -93,15 +93,17 @@ public class UI_Manager : MonoBehaviour
         {
             if (!DeployPanel.activeSelf)
             {
+                GH_GameManager.instance.player.StartOtherWork();
                 GH_GameManager.instance.player.MouseVisible(true);
                 DeployPanel.SetActive(true);
             }
             else
             {
+                GH_GameManager.instance.player.EndOtherWork();
                 GH_GameManager.instance.player.MouseVisible(false);
                 DeployPanel.SetActive(false);
-
                 CookingPanel.SetActive(false);
+               
             }
         }
     }
@@ -130,6 +132,7 @@ public class UI_Manager : MonoBehaviour
         {
             if (!RecipePanel.activeSelf)
             {
+                GH_GameManager.instance.player.StartOtherWork();
                 GH_GameManager.instance.player.MouseVisible(true);
                 RecipePanel.SetActive(true);
             }

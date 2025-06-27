@@ -8,6 +8,7 @@ public class Cooking : MonoBehaviour, IInteractable
 
     public InteractionUI interactionUI;
     public CuttingMinigame cuttingMinigame;
+    public CookingMinigame cookingMinigame;
     public UI_Manager UI_manager;
 
     public bool isCooking = false;
@@ -22,14 +23,15 @@ public class Cooking : MonoBehaviour, IInteractable
         //CookingRoutine = StartCoroutine(CookingSystem());
     }
 
-    public void CookingSystem(Sprite sprite, Sprite sprite2)
+    public void CookingSystem(Sprite sprite, Item item)
     {
         
         interactionUI.ResetUI();
         isCooking = true;
         interactionUI.ShowCuttingMiniGameUI();
-        cuttingMinigame.ImageSet(sprite,sprite2);
+        cuttingMinigame.ImageSet(sprite,item.data.icon);
         cuttingMinigame.StartCuttingMinigame();
+        cookingMinigame.SetItem(item);
         UI_manager.ToggleRecipeUI();
     }
 
