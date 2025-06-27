@@ -8,35 +8,58 @@ public class EnemyAttackState : State_LYJ<Enemy>
     {
         base.Enter(owner);
         this.owner = owner;
-        owner.NavMeshAgent.isStopped = true;
+        if (owner.NavMeshAgent != null)
+        {
+            if (owner.NavMeshAgent.isOnNavMesh)
+            {
+                owner.NavMeshAgent.isStopped = true;
+            }
+        }
     }
 
     public override void Run()
     {
         base.Run();
-        if (!owner.Target || Vector3.Distance(owner.transform.position, owner.Target.transform.position) > owner.Data.AttackRange)
+        if (owner.CanAttack && (!owner.ChaseTarget || Vector3.Distance(owner.transform.position, owner.ChaseTarget.transform.position) > owner.Data.AttackRange * 1.5f))
         {
             owner.ChangeState(EnemyStates.Move);
             return;
         }
-        if (owner.CanAttack)
+        if (owner.CanAttack && owner.ChaseTarget && Vector3.Distance(owner.transform.position, owner.ChaseTarget.transform.position) <= owner.Data.AttackRange * 1.5f)
         {
             StartCoroutine(AttackCoroutine());
+            return;
         }
     }
 
     IEnumerator AttackCoroutine()
     {
         owner.CanAttack = false;
+        owner.Anim.SetTrigger("Attack");
+        yield return new WaitForSeconds(owner.Data.AttackFirstDelay);
 
-        if (owner.Target is Player_LYJ player)
+        Vector3 centerPoint = owner.transform.position + (owner.transform.forward * (owner.Data.AttackRange *1.5f)) + (owner.transform.up * owner.Data.AttackHeight);
+        Collider[] hitTargets = Physics.OverlapSphere(centerPoint, owner.Data.AttackRange, owner.HitTarget);
+
+        foreach (var target in hitTargets)
         {
-            player.Damage(owner.Data.AttackPower);
+            var player = target.GetComponent<Player_LYJ>();
+            if (player != null)
+            {
+                player.Damage(owner.Data.AttackPower);
+            }
         }
 
-        yield return new WaitForSeconds(owner.Data.AttackDelay);
+        yield return new WaitForSeconds(owner.Data.AttackTotalDelay - owner.Data.AttackFirstDelay);
 
         owner.CanAttack = true;
+        if (owner.ChaseTarget != null && Vector3.Distance(owner.transform.position, owner.ChaseTarget.transform.position) <= owner.Data.AttackRange * 1.5f)
+        {
+        }
+        else
+        {
+            owner.ChangeState(EnemyStates.Move);
+        }
     }
 
     public override void Exit()
