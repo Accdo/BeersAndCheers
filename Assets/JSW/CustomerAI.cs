@@ -146,6 +146,13 @@ public class CustomerAI : MonoBehaviour
     {
         stateMachine.currentState?.StateUpdate();
 
+        bool closeTarvernTime = TravernManager.instance.CloseTavernTime();
+        if (hasReceivedFood && closeTarvernTime)
+        {
+            ResultOfStisfaciton();
+            stateMachine.ChangeState(exitState);
+        }
+
         //음식 받기전 까지 대기 시간 증가 하면서 만족도 낮추기
         if (hasOrdered && !hasReceivedFood)
         {
@@ -643,6 +650,7 @@ public class CustomerAI : MonoBehaviour
         else if (satisfactionScore < 30)
             finalPrice = 0;
 
+        PlateManager.instance.PushPlateStack();
         GiveMoneyToPlayer(finalPrice);
     }
 
