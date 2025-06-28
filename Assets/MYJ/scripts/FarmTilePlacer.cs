@@ -54,6 +54,7 @@ public class FarmTilePlacer : MonoBehaviour
                 bool watered = tile.TryWater();
                 if (watered)
                 {
+                    SoundManager.Instance.Play("FishingSFX");
                     Debug.Log("물을 주었습니다.");
                 }
                 break;

@@ -55,6 +55,9 @@ public class Fishing : MonoBehaviour, IInteractable
 
         /*playerAnimator.SetTrigger("Cast");*/
         Debug.Log("애니메이션 실행");
+        SoundManager.Instance.Play("FishTool1SFX");
+        yield return new WaitForSeconds(1f);
+        SoundManager.Instance.Play("FishTool2SFX");
 
         yield return new WaitForSeconds(castAnimationTime);
 
@@ -75,7 +78,7 @@ public class Fishing : MonoBehaviour, IInteractable
         canCatch = true;
         interactionUI.ShowFishingHitUI();
         Debug.Log($"Hit UI 활성화");
-
+        SoundManager.Instance.Play("FishHitSFX");
         float timer = 0f;
         bool hitSuccess = false;
 
@@ -125,7 +128,7 @@ public class Fishing : MonoBehaviour, IInteractable
         if (success)
         {
             Debug.Log("낚시 성공! 아이템 획득 처리");
-            
+            SoundManager.Instance.Play("SuccessSFX");
             Item randomFish = FishItem[Random.Range(0, FishItem.Length)];
 
             int count = Random.Range(1, 4);
@@ -140,6 +143,7 @@ public class Fishing : MonoBehaviour, IInteractable
         else
         {
             Debug.Log("낚시 실패!");
+            SoundManager.Instance.Play("FailureSFX");
         }
         interaction.isBusy = false;
         interactionUI.ResetFishingUI();
