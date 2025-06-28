@@ -4,7 +4,7 @@ using static Inventory;
 
 public class FarmTile : MonoBehaviour, IInteractable
 {
-    public enum TileState { Empty, Planted, Watered, Grown }
+    public enum TileState { Empty, Planted, WaterPrompt, Watered, Grown }
     public TileState state;
 
     public string GetCursorType() => "Farm";
@@ -12,9 +12,15 @@ public class FarmTile : MonoBehaviour, IInteractable
     public InteractionType GetInteractionType() => InteractionType.Instant;
 
     private float growTimer;
+
     private SeedItemData currentSeed;
-    public GameObject cropPrefab;
-    public Item Tomato;
+
+    private GameObject cropInstance;
+
+    [SerializeField] private GameObject waterIcon;
+    [SerializeField] private GameObject harvestIcon;
+
+    private bool waterPromptShown = false;
 
     public bool IsPlantable() => state == TileState.Empty;
 
@@ -34,16 +40,32 @@ public class FarmTile : MonoBehaviour, IInteractable
         currentSeed = seedData;
         growTimer = 0f;
         state = TileState.Planted;
+        waterPromptShown = false;
 
-        cropPrefab = Instantiate(currentSeed.plantedPrefab, transform.position + Vector3.up * 0.1f, Quaternion.identity, transform);
+        if (cropInstance != null)
+            Destroy(cropInstance);
+
+        cropInstance = Instantiate(currentSeed.plantedPrefab, transform.position + Vector3.up * 0.1f, currentSeed.plantedPrefab.transform.rotation);
+
+        waterIcon?.SetActive(false);
+        harvestIcon?.SetActive(false);
         return true;
     }
 
     public bool TryWater()
     {
-        if(state == TileState.Planted)
+
+        if(state == TileState.WaterPrompt)
         {
             state = TileState.Watered;
+            growTimer = 0f;
+
+            if (cropInstance != null)
+                Destroy(cropInstance);
+
+            cropInstance = Instantiate(currentSeed.wateredPrefab, transform.position + Vector3.up * 0.1f, currentSeed.wateredPrefab.transform.rotation);
+            waterIcon?.SetActive(false);
+
             Debug.Log("물을 주었습니다");
             return true;
         }
@@ -54,15 +76,28 @@ public class FarmTile : MonoBehaviour, IInteractable
 
     public void Update()
     {
-        if (state == TileState.Watered && currentSeed != null)
+        growTimer += Time.deltaTime;
+
+        if (state == TileState.Planted && !waterPromptShown && growTimer >= 5f)
         {
-            growTimer += Time.deltaTime;
+            state = TileState.WaterPrompt;
+            waterPromptShown = true;
+            waterIcon?.SetActive(true);
+            Debug.Log("물을 주세요!");
+        }
+
+        if (state == TileState.Watered && growTimer >= currentSeed.growTime)
+        {
             if (growTimer >= currentSeed.growTime)
             {
                 state = TileState.Grown;
-                Destroy(cropPrefab);
 
-                cropPrefab = Instantiate(currentSeed.grownPrefab, transform.position + Vector3.up * 0.1f, Quaternion.identity, transform);
+                if (cropInstance != null)
+                    Destroy(cropInstance);
+
+                cropInstance = Instantiate(currentSeed.grownPrefab, transform.position + Vector3.up * 0.1f, currentSeed.grownPrefab.transform.rotation);
+                harvestIcon?.SetActive(true);
+
                 Debug.Log($"{currentSeed.itemName}이(가) 성장했습니다!");
             }
         }
@@ -73,16 +108,23 @@ public class FarmTile : MonoBehaviour, IInteractable
         if (state == TileState.Grown)
         {
             Debug.Log($"{currentSeed.itemName} 수확 완료! 수확량: {currentSeed.yieldAmount}");
-            Destroy(cropPrefab);
+
+            if (cropInstance != null)
+                Destroy(cropInstance);
+
+            //보상
+            for (int i = 0; i< currentSeed.yieldAmount; i++)
+            {
+                GH_GameManager.instance.player.inventory.Add("Backpack", currentSeed.harvestItem);
+            }
+
             currentSeed = null;
             state = TileState.Empty;
-            //보상
-            int randomCount = Random.Range(1, 4);
+            growTimer = 0f;
+            waterPromptShown = false;
 
-            for (int i = 0; i < randomCount; i++)
-            {
-                GH_GameManager.instance.player.inventory.Add("Backpack", Tomato);
-            }
+            waterIcon?.SetActive(false);
+            harvestIcon?.SetActive(false);
         }
     }
     public void Interact()
