@@ -10,14 +10,15 @@ public class Cooking : MonoBehaviour, IInteractable
     public CuttingMinigame cuttingMinigame;
     public CookingMinigame cookingMinigame;
     public UI_Manager UI_manager;
-
-    public bool isCooking = false;
+    public Interaction interaction;
 
     private Coroutine CookingRoutine;
 
     public void Interact()
     {
-        if (isCooking) return;
+        interaction.isBusy = true;
+        interactionUI.ResetUI();
+
         // 레시피 시설 패널 생성
         UI_manager.ToggleRecipeUI();
         //CookingRoutine = StartCoroutine(CookingSystem());
@@ -27,7 +28,6 @@ public class Cooking : MonoBehaviour, IInteractable
     {
         
         interactionUI.ResetUI();
-        isCooking = true;
         interactionUI.ShowCuttingMiniGameUI();
         cuttingMinigame.ImageSet(sprite,item.data.icon);
         cuttingMinigame.StartCuttingMinigame();

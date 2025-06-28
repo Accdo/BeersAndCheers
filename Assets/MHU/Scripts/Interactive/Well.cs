@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal.Execution;
 using UnityEngine;
 
 public class Well : MonoBehaviour, IInteractable
@@ -5,8 +6,12 @@ public class Well : MonoBehaviour, IInteractable
     public string GetCursorType() => "Well";
     public string GetInteractionID() => "Well";
     public InteractionType GetInteractionType() => InteractionType.MiniGame;
+
+    public Item waterPail;
+
     public void Interact()
     {
-        Debug.Log("돌 상호작용중...");
+        GH_GameManager.instance.player.inventory.Add("Hotbar", waterPail);
+
     }
 }
