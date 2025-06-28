@@ -9,17 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c3ab8e428f6c33469351a5e2a320992, type: 3}
-  m_Name: Golem
+  m_Script: {fileID: 11500000, guid: 6d585b1681c8e48429b75fb799452cf2, type: 3}
+  m_Name: TestAnimal
   m_EditorClassIdentifier: 
-  enemyName: Golem
-  health: 100
-  moveSpeed: 3.5
-  attackFirstDelay: 1
-  attackTotalDelay: 3.2
-  attackPower: 1
-  attackRange: 1.4
-  attackHeight: 1.5
-  fleshType: 0
+  animalName: Test
+  health: 50
+  moveSpeed: 5
   dropItems: []
-  spawnZone: {x: 3, y: 5}
