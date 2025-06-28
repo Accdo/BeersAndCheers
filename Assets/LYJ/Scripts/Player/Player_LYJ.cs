@@ -41,7 +41,6 @@ public class Player_LYJ : MonoBehaviour
     Coroutine currentOtherWork;
     [HideInInspector] public bool IsRun => isRun;
     [HideInInspector] public bool IsWalk => isWalk;
-    private bool isMujeok;
     #endregion
 
     [Header("카메라")]
@@ -174,24 +173,16 @@ public class Player_LYJ : MonoBehaviour
     {
         CurrentHealth = maxHealth;
     }
-        public void TempHeal()
-    {
-        currentHealth = maxHealth;
-    }
-
-    public void Mujeok(bool value)
-    {
-        isMujeok = value;
-    }
-
     public void TempHeal()
     {
         currentHealth = maxHealth;
     }
+
     public void Mujeok(bool value)
     {
         isMujeok = value;
     }
+
 
     #region 다른일 컨트롤 (움직임 제어)
 
