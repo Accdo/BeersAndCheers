@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392dcd6b059b555498bec96d20dcf157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MushroomItem: {fileID: 7124241651581610687, guid: 82ee017a3ca911245a8438119bcd1cd5, type: 3}
   respawnDelay: 5
   prefabReference: {fileID: 863546763990780396}
 --- !u!135 &-2878077860527399939

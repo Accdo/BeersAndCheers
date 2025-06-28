@@ -6,19 +6,9 @@ public class Sound
 {
     public string name;
     public AudioClip clip;
-    public SoundCategory category;
     public bool loop = false;
     public float volume = 1f;
     public bool is3D = false;
-}
-
-public enum SoundCategory
-{
-    BGM,
-    Mission,
-    Customer,
-    Monster,
-    Player
 }
 
 public class SoundManager : MonoBehaviour
@@ -26,7 +16,11 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
 
     [Header("사운드 리스트")]
-    public List<Sound> sounds;
+    public List<Sound> bgmSounds;
+    public List<Sound> missionSounds;
+    public List<Sound> barSounds;
+    public List<Sound> monsterSounds;
+    public List<Sound> playerSounds;
 
     private Dictionary<string, Sound> soundDict = new();
     private Dictionary<string, AudioSource> loopedSources = new();
@@ -49,13 +43,11 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        foreach (var sound in sounds)
-        {
-            if (!soundDict.ContainsKey(sound.name))
-                soundDict[sound.name] = sound;
-            else
-                Debug.LogWarning($"중복된 사운드 이름: {sound.name}");
-        }
+        RegisterSounds(bgmSounds);
+        RegisterSounds(missionSounds);
+        RegisterSounds(barSounds);
+        RegisterSounds(monsterSounds);
+        RegisterSounds(playerSounds);
 
         bgmSource = gameObject.AddComponent<AudioSource>();
         bgmSource.loop = true;
@@ -69,11 +61,22 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    private void RegisterSounds(List<Sound> list)
+    {
+        foreach (var sound in list)
+        {
+            if (!soundDict.ContainsKey(sound.name))
+                soundDict[sound.name] = sound;
+            else
+                Debug.LogWarning($"중복된 사운드 이름: {sound.name}");
+        }
+    }
+
     public void Play(string name)
     {
         if (!soundDict.TryGetValue(name, out var sound)) return;
 
-        if (sound.category == SoundCategory.BGM)
+        if (bgmSounds.Contains(sound))
         {
             PlayBGM(sound);
             return;
