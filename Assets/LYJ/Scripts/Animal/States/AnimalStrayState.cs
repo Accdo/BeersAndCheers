@@ -1,13 +1,14 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyStrayState : State_LYJ<Enemy>
+public class AnimalStrayState : State_LYJ<Animal>
 {
     private const float STRAY_RADIUS = 15f;
-    private Enemy owner;
+    private Animal owner;
     private float strayStartTime;
     private float strayingTime;
-    public override void Enter(Enemy owner)
+    public override void Enter(Animal owner)
     {
         base.Enter(owner);
         this.owner = owner;
@@ -19,7 +20,7 @@ public class EnemyStrayState : State_LYJ<Enemy>
             }
         }
         owner.Anim.SetBool("Walk", true);
-        strayingTime = Random.Range(4f, 6f);
+        strayingTime = Random.Range(2f, 6f);
         strayStartTime = Time.time;
         SetDestination();
     }
@@ -27,17 +28,9 @@ public class EnemyStrayState : State_LYJ<Enemy>
     public override void Run()
     {
         base.Run();
-        if (owner.ChaseTarget != null)
-        {
-            if (Vector3.Distance(owner.transform.position, owner.ChaseTarget.transform.position) > owner.Data.AttackRange * 1.5f)
-            {
-                owner.ChangeState(EnemyStates.Move);
-                return;
-            }
-        }
         if (Time.time - strayStartTime >= strayingTime)
         {
-            owner.ChangeState(EnemyStates.Idle);
+            owner.ChangeState(AnimalStates.Idle);
             return;
         }
         if (!owner.NavMeshAgent.pathPending && owner.NavMeshAgent.remainingDistance < 0.5f)

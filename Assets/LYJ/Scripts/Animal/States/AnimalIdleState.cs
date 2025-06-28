@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class EnemyIdleState : State_LYJ<Enemy>
+public class AnimalIdleState : State_LYJ<Animal>
 {
-    private Enemy owner;
+    private Animal owner;
     private float idleStartTime;
     private float idleTime;
-    public override void Enter(Enemy owner)
+    public override void Enter(Animal owner)
     {
         base.Enter(owner);
         this.owner = owner;
@@ -17,25 +17,16 @@ public class EnemyIdleState : State_LYJ<Enemy>
             }
         }
         owner.Anim.SetBool("Idle", true);
-        idleTime = Random.Range(3f, 5f);
+        idleTime = Random.Range(3f, 7f);
         idleStartTime = Time.time;
-
     }
 
     public override void Run()
     {
         base.Run();
-        if (owner.ChaseTarget != null)
-        {
-            if (Vector3.Distance(owner.transform.position, owner.ChaseTarget.transform.position) > owner.Data.AttackRange * 1.5f)
-            {
-                owner.ChangeState(EnemyStates.Move);
-                return;
-            }
-        }
         if (Time.time - idleStartTime >= idleTime)
         {
-            owner.ChangeState(EnemyStates.Stray);
+            owner.ChangeState(AnimalStates.Stray);
             return;
         }
     }

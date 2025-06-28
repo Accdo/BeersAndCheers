@@ -1,12 +1,11 @@
 using UnityEngine;
 
-public class EnemyDieState : State_LYJ<Enemy>
+public class AnimalDieState : State_LYJ<Animal>
 {
     private const float DIE_TO_DESTROY_TIME = 15f; // 시체가 유지될 시간
-    private Enemy owner;
+    private Animal owner;
     private float dieStartTime;
-
-    public override void Enter(Enemy owner)
+    public override void Enter(Animal owner)
     {
         base.Enter(owner);
         this.owner = owner;
@@ -44,7 +43,6 @@ public class EnemyDieState : State_LYJ<Enemy>
     {
         owner.IsDead = true;
         owner.Coll.enabled = false;
-        owner.ReleaseTarget();
         owner.NavMeshAgent.ResetPath();
         owner.NavMeshAgent.enabled = false;
         owner.Hud.gameObject.SetActive(false);
