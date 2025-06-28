@@ -35,6 +35,8 @@ public class UI_Manager : MonoBehaviour
     public GameObject storageboxPanel; // 상자
     public GameObject freezeboxPanel; // 냉동 상자
 
+    public Interaction interaction;
+
     private void Awake()
     {
         Initialize();
@@ -108,7 +110,6 @@ public class UI_Manager : MonoBehaviour
                 GH_GameManager.instance.player.MouseVisible(false);
                 DeployPanel.SetActive(false);
                 CookingPanel.SetActive(false);
-
             }
         }
     }
@@ -143,12 +144,18 @@ public class UI_Manager : MonoBehaviour
             }
             else
             {
-                GH_GameManager.instance.player.EndOtherWork();
+                //GH_GameManager.instance.player.EndOtherWork();
                 GH_GameManager.instance.player.MouseVisible(false);
                 RecipePanel.SetActive(false);
                 CookingPanel.SetActive(false);
+
             }
         }
+    }
+    public void UIEndOtherWork()
+    {
+        interaction.isBusy = false;
+        GH_GameManager.instance.player.EndOtherWork();
     }
 
     public void ToggleCookingUI()
@@ -177,12 +184,14 @@ public class UI_Manager : MonoBehaviour
         {
             if (!storageboxPanel.activeSelf)
             {
+                GH_GameManager.instance.player.StartOtherWork();
                 GH_GameManager.instance.player.MouseVisible(true);
                 storageboxPanel.SetActive(true);
                 RefreshInventory("StorageBox");
             }
             else
             {
+                GH_GameManager.instance.player.EndOtherWork();
                 GH_GameManager.instance.player.MouseVisible(false);
                 storageboxPanel.SetActive(false);
             }
@@ -195,14 +204,18 @@ public class UI_Manager : MonoBehaviour
         {
             if (!freezeboxPanel.activeSelf)
             {
+                GH_GameManager.instance.player.StartOtherWork();
                 GH_GameManager.instance.player.MouseVisible(true);
                 freezeboxPanel.SetActive(true);
                 RefreshInventory("FreezeBox");
+                interaction.isBusy = false;
             }
             else
             {
+                GH_GameManager.instance.player.EndOtherWork();
                 GH_GameManager.instance.player.MouseVisible(false);
                 freezeboxPanel.SetActive(false);
+                interaction.isBusy = false;
             }
         }
     }
