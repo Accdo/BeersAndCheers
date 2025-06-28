@@ -28,6 +28,7 @@ public class PlayerHUD : MonoBehaviour
     private void OnPlayerDiedUI(object data)
     {
         Debug.Log("플레이어 사망");
+        
     }
 
 }
