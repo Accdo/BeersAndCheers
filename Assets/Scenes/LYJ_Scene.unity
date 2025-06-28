@@ -276,7 +276,7 @@ GameObject:
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &555375074
 Transform:
   m_ObjectHideFlags: 0
@@ -486,6 +486,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 121801006744219093, guid: 54525128344f24940a9b8ef9b5896cf0, type: 3}
+      propertyPath: m_Radius
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 1811318271663635834, guid: 54525128344f24940a9b8ef9b5896cf0, type: 3}
       propertyPath: m_Name
       value: Player
@@ -765,6 +769,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b8d25af1150fb5c419b4558610889c7f, type: 3}
       propertyPath: m_Layer
       value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b8d25af1150fb5c419b4558610889c7f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6751623215983457664, guid: b8d25af1150fb5c419b4558610889c7f, type: 3}
       propertyPath: m_Layer
@@ -1214,7 +1222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1934772479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1232,8 +1240,8 @@ MonoBehaviour:
   currentFloor: 1
   spawnZones:
   - {fileID: 555375075}
-  IsInDungeon: 0
-  inDungeonPortal: {fileID: 0}
+  IsInDungeon: 1
+  inDungeonPortal: {fileID: 1383803741}
 --- !u!4 &1934772480
 Transform:
   m_ObjectHideFlags: 0
