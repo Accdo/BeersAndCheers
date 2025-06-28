@@ -213,6 +213,7 @@ public class CookingMinigame : MonoBehaviour
         GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
         GH_GameManager.instance.player.EndOtherWork();
         GH_GameManager.instance.player.MouseVisible(false);
+        interaction.isBusy = false;
     }
 
     // 게임 성공 후 종료 처리 코루틴
@@ -232,6 +233,7 @@ public class CookingMinigame : MonoBehaviour
 
         GH_GameManager.instance.player.EndOtherWork();
         GH_GameManager.instance.player.MouseVisible(false);
+        interaction.isBusy = false;
 
     }
 
