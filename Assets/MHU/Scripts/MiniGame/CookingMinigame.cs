@@ -28,7 +28,7 @@ public class CookingMinigame : MonoBehaviour
 
     public InteractionUI interactionUI; // 상호작용 UI 관리 클래스
     public Interaction interaction; // 상호작용 상태 관리 클래스
-    public Cooking cooking; // 요리 상태 관리 클래스
+
     public Cooking_UI cooking_ui; // 요리 UI 관리 클래스
 
     public bool isCookingSuccess = false; // 요리 성공 여부 플래그
@@ -163,7 +163,7 @@ public class CookingMinigame : MonoBehaviour
             {
                 // 게임 성공 처리
                 canSpacebar = false;
-                resultText.text = "성공!";
+                resultText.text = "성공";
                 StopColorChange();
                 StartCoroutine(EndGameAfterDelay());
                 return;
@@ -203,14 +203,16 @@ public class CookingMinigame : MonoBehaviour
 
         // 게임 실패 처리 (시간 초과)
         canSpacebar = false;
-        resultText.text = "실패!";
+        resultText.text = "실패";
         yield return new WaitForSeconds(1f);
         interactionUI.HideCookingMiniGameUI();
         interactionUI.ResetUI();
-        interaction.ResetInteractionState();
-        cooking.isCooking = false; // 요리 상태 비활성화
+
         isCookingSuccess = false;
+
         GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
+        GH_GameManager.instance.player.EndOtherWork();
+        GH_GameManager.instance.player.MouseVisible(false);
     }
 
     // 게임 성공 후 종료 처리 코루틴
@@ -219,8 +221,7 @@ public class CookingMinigame : MonoBehaviour
         yield return new WaitForSeconds(1f);
         interactionUI.HideCookingMiniGameUI();
         interactionUI.ResetUI();
-        interaction.ResetInteractionState();
-        cooking.isCooking = false; // 요리 상태 비활성화
+
         isCookingSuccess = true; // 요리 성공 플래그 설정
         cooking_ui.Cook(); // 요리 완료 처리
         GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
@@ -228,6 +229,9 @@ public class CookingMinigame : MonoBehaviour
         GH_GameManager.instance.player.inventory.Add("Backpack", selectItem);
         // 인벤 새로고침
         GH_GameManager.instance.uiManager.RefreshAll();
+
+        GH_GameManager.instance.player.EndOtherWork();
+        GH_GameManager.instance.player.MouseVisible(false);
 
     }
 
