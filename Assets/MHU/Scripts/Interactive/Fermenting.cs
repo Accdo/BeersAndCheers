@@ -8,23 +8,25 @@ public class Fermenting : MonoBehaviour, IInteractable
     public InteractionType GetInteractionType() => InteractionType.MiniGame;
     #endregion
 
-
     public InteractionUI interactionUI;
-    public GameObject BeerRecipeUI;
     public FermentingUI fermentingUI;
     public CraftManager craftManager;
     public UI_Manager ui_Manager;
+    public Interaction interaction;
+    public Cooking_UI cookingUI;
 
-    private void Start()
-    {
-        BeerRecipeUI.SetActive(false);
-    }
-
+    [SerializeField] public int fermentingID; // 각 발효통의 고유 ID
     public void Interact()
     {
+        // Cooking_UI에 현재 발효통의 ID 전달
+        cookingUI.SetCurrentFermentingUI(fermentingID);
+
         // 발효중이 아니고
         if (!fermentingUI.isFermenting)
         {
+            interaction.isBusy = true;
+            interactionUI.ResetUI();
+
             // 발효된게 0개이면
             if (fermentingUI.fermentingBeer == 0)
             {
@@ -39,6 +41,8 @@ public class Fermenting : MonoBehaviour, IInteractable
                 craftManager.StartPlacement();
                 // 발효 개수 초기화
                 fermentingUI.fermentingBeer = 0;
+                // 텍스트 없애기
+                fermentingUI.successText.text = "";
             }
 
         }

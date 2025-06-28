@@ -17,6 +17,7 @@ MonoBehaviour:
   price: 100
   plantedPrefab: {fileID: 919132149155446097, guid: abfe213d6069c7d4b84c428a905c8a08, type: 3}
   wateredPrefab: {fileID: 6662174415517180126, guid: 81dad7d5552c9a341b390c79338fe0a4, type: 3}
-  grownPrefab: {fileID: 2906742830765859135, guid: 78da2ace1ab76ce478600ebe37fa10fe, type: 3}
-  growTime: 1
+  grownPrefab: {fileID: 8951325823710037509, guid: 9f23fb608a8bce1488901357fad3ee44, type: 3}
+  growTime: 10
   yieldAmount: 2
+  harvestItem: {fileID: 1437270633312063743, guid: 8187e730eb50c514abff950f303b4ee2, type: 3}

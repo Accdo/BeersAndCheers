@@ -146,6 +146,18 @@ public class CustomerAI : MonoBehaviour
     {
         stateMachine.currentState?.StateUpdate();
 
+        bool closeTarvernTime = TravernManager.instance.CloseTavernTime();
+
+        if (closeTarvernTime)
+        {
+            if (hasReceivedFood)
+            {
+                ResultOfStisfaciton();
+            }
+
+            CustormerExit();
+        }
+
         //음식 받기전 까지 대기 시간 증가 하면서 만족도 낮추기
         if (hasOrdered && !hasReceivedFood)
         {
@@ -643,6 +655,7 @@ public class CustomerAI : MonoBehaviour
         else if (satisfactionScore < 30)
             finalPrice = 0;
 
+        PlateManager.instance.PushPlateStack();
         GiveMoneyToPlayer(finalPrice);
     }
 
@@ -916,9 +929,6 @@ public class CustomerAI : MonoBehaviour
     #region 퇴장
     public void CustormerExit()
     {
-        // isExiting 변수는 이 함수 내에서만 사용되므로 멤버 변수로 만들 필요가 없습니다.
-        // 기존 코드에 isExiting 체크가 없다면 추가해주는 것이 안전합니다.
-        // if (isExiting) return; // 만약 이와 유사한 체크가 이미 있다면 그대로 두세요.
 
         // 손님이 나갈 때 퀘스트 관련 상태 초기화
         if (isQuestCustomer)

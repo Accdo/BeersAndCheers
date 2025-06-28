@@ -26,6 +26,7 @@ public class CuttingMinigame : MonoBehaviour
     public void StartCuttingMinigame()
     {
         InitSet();
+        GH_GameManager.instance.player.StartOtherWork();
     }
 
     void Update()
@@ -71,6 +72,7 @@ public class CuttingMinigame : MonoBehaviour
 
     public void InitSet()
     {
+        
         resultText.text = "";
         currentCutIndex = 0;
 

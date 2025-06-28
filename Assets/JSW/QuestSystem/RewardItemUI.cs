@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
@@ -23,6 +23,7 @@ public class RewardItemUI : MonoBehaviour
                 break;
             case RewardType.Money:
                 text = $"골드 +{reward.moneyAmount}";
+                icon = Resources.Load<Sprite>("Customer/UI/GoldIcon");
                 break;
             case RewardType.Satisfaction:
                 text = $"만족도 +{reward.satisfactionBonus}";

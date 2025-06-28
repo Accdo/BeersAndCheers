@@ -6,6 +6,8 @@ public class SeedItemData : ItemData
     public GameObject plantedPrefab;
     public GameObject wateredPrefab;
     public GameObject grownPrefab;
+
     public float growTime;
     public int yieldAmount;
+    public Item harvestItem;
 }
