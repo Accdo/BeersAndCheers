@@ -147,7 +147,7 @@ public class CustomerAI : MonoBehaviour
         stateMachine.currentState?.StateUpdate();
 
         bool closeTarvernTime = TavernManager.instance.CloseTavernTime();
-        if (hasReceivedFood && closeTarvernTime)
+        if (closeTarvernTime)
         {
             if (hasReceivedFood)
             {
