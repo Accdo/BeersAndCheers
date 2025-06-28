@@ -8,7 +8,7 @@ public class Cooking_UI : MonoBehaviour
 
     public Item SelectItem;
 
-    public Cooking cooking;
+    public Stove cooking;
     public CookingMinigame cookingMinigame;
     public FermentingUI fermentingUI;
     [SerializeField] public FermentingUI[] fermentingUIs;

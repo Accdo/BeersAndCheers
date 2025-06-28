@@ -41,6 +41,11 @@ public class Washer : MonoBehaviour,IInteractable
         {
             useCount--;
             washingMinigame.WashingMiniGameStart();
+            if(useCount == 0)
+            {
+                // π∞ ªË¡¶
+                washerWater.SetActive(false);
+            }
         }
         
     }
