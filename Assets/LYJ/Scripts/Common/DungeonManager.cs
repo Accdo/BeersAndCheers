@@ -33,6 +33,7 @@ public class DungeonManager : MonoBehaviour // 프리팹화, 층마다 배치
     void Awake()
     {
         IsInDungeon = false;
+        ChangeFloor(1);
     }
 
     void Start()
@@ -129,12 +130,12 @@ public class DungeonManager : MonoBehaviour // 프리팹화, 층마다 배치
         remainEnemy--;
         if (remainEnemy <= 0)
         {
-            CreatePortal();
+            CreateNextFloorPortal();
         }
     }
 
-    private void CreatePortal()
+    private void CreateNextFloorPortal()
     {
-        Instantiate(inDungeonPortal, PlaceXYZ.DUNGEON_XYZ, Quaternion.identity, null);
+        Instantiate(inDungeonPortal, PlaceXYZ.DUNGEON_CLEAR_XYZ, Quaternion.identity, null); // 생성 위치 나중에 조정할 필요가 있을듯
     }
 }

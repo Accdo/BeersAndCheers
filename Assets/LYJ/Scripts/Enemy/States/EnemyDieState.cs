@@ -52,6 +52,11 @@ public class EnemyDieState : State_LYJ<Enemy>
 
     private void DropItem()
     {
+        if (owner.Data.DropItems.Count == 0)
+        {
+            Debug.Log("아이템 미존재");
+            return;
+        }
         GameObject dropedItem = Instantiate(owner.Data.DropItems[0], owner.transform); // 수정필요
         dropedItem.transform.parent = null;
     }

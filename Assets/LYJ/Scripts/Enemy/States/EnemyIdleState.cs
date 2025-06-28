@@ -17,7 +17,7 @@ public class EnemyIdleState : State_LYJ<Enemy>
             }
         }
         owner.Anim.SetBool("Idle", true);
-        idleTime = Random.Range(3, 5);
+        idleTime = Random.Range(3f, 5f);
         idleStartTime = Time.time;
 
     }

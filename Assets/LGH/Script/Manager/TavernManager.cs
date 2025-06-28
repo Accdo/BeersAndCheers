@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections;
 
 enum GameTimeState
 {
@@ -92,22 +93,7 @@ public class TavernManager : MonoBehaviour
     // 플레이어가 침대 상호작용 시 호출
     public void Sleeping(object data = null)
     {
-        // 페이드 인 페이드 아웃
-        FadeIn();
-
-        // 플레이어 위치 이동
-        GH_GameManager.instance.player.transform.position = RespawnPoint.transform.position;
-
-        // 피가 100
-        // Player_LYJ 스크립트에 HP 100으로 초기화 함수 추가 예정 ~~~
-
-        // 다음날로 넘어감
-        //
-
-        // 시간이 08:00으로 초기화
-        gameTime.Timer = 0f; // 시간을 초기화
-
-        FadeOut();
+        StartCoroutine(Sleeping());
     }
 
 
@@ -138,5 +124,27 @@ public class TavernManager : MonoBehaviour
     public void FadeOut()
     {
         fadeImage.DOFade(1f, fadeDuration);
+    }
+    IEnumerator Sleeping()
+    {
+        // 페이드 인 페이드 아웃
+        FadeOut();
+        GH_GameManager.instance.player.TempHeal();
+        GH_GameManager.instance.player.Mujeok(true); // 무적 상태로 변경
+        yield return new WaitForSeconds(fadeDuration);
+
+        // 플레이어 위치 이동
+        GH_GameManager.instance.player.transform.position = RespawnPoint.transform.position;
+
+        // 피가 100
+        GH_GameManager.instance.player.Heal();
+
+        gameTime.NextDay();
+
+        // 시간이 08:00으로 초기화
+        gameTime.Timer = 0f; // 시간을 초기화
+
+        GH_GameManager.instance.player.Mujeok(false); // 무적 상태로 변경
+        FadeIn();
     }
 }
