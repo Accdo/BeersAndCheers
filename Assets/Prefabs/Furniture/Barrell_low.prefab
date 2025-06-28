@@ -121,5 +121,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beea2ca9e4f6b84458bd55670e508dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionUI: {fileID: 0}
-  BeerMiniGameUI: {fileID: 0}
+  beerMiniGame: {fileID: 0}
+  maxExecutions: 2

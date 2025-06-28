@@ -11,6 +11,7 @@ public class Cooking_UI : MonoBehaviour
     public Cooking cooking;
     public CookingMinigame cookingMinigame;
     public FermentingUI fermentingUI;
+    [SerializeField] public FermentingUI[] fermentingUIs;
 
     // 플레이어가 가진 재료 아이템 갯수
     private int playerItemCount;
@@ -23,6 +24,11 @@ public class Cooking_UI : MonoBehaviour
     private int ingredientFreshPointTotal = 0;
     // 요리 재료의 총 갯수
     private int ingredientCount = 0;
+
+    public void SetCurrentFermentingUI(int id)
+    {
+        fermentingUI = fermentingUIs[id];
+    }
 
     public void Refresh()
     {
@@ -49,6 +55,8 @@ public class Cooking_UI : MonoBehaviour
 
     public void Cook()
     {
+        if(fermentingUI.isFermenting) return;
+
         var foodData = SelectItem.data as FoodData;
         if (foodData == null)
         {
@@ -102,6 +110,7 @@ public class Cooking_UI : MonoBehaviour
         if (SelectItem.data.itemName == "Beer")
         {
             fermentingUI.StartFermentation();
+            GH_GameManager.instance.uiManager.ToggleBeerUI();
             return;
         }
 
@@ -112,16 +121,13 @@ public class Cooking_UI : MonoBehaviour
         GH_GameManager.instance.uiManager.ActiveHotbarUI();
         cooking.CookingSystem(foodData.ingredients[0].icon, SelectItem);
 
-        Debug.Log("리턴직전");
+        
         ////실패시 리턴
         if (!cookingMinigame.isCookingSuccess)
         {
             cookingMinigame.isCookingSuccess = false; // 초기화
             return;
         }
-
-        Debug.Log("리턴 넘어감");
-
 
         foodData.freshPoint = ingredientFreshPointTotal / ingredientCount;
         Debug.Log($"완성된 음식 신선도 평균 : {foodData.freshPoint}");

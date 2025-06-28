@@ -31,6 +31,10 @@ public class Inventory
             {
                 return deployData.deployPrefab;
             }
+            else if (itemData is StuffData stuffData)
+            {
+                return stuffData.stuffPrefab;
+            }
 
             return null;
         }
