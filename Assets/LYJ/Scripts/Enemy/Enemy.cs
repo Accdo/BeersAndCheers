@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
             if (currentHealth <= 0)
             {
                 stateMachine.ChangeState(stateDic[EnemyStates.Die]);
-                // EventManager.Instance.TriggerEvent(EnemyEvents.DIED, data.EnemyName);
+                EventManager.Instance.TriggerEvent(EnemyEvents.DIED);
             }
         }
     }
