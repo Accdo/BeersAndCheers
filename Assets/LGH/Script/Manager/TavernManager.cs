@@ -44,6 +44,9 @@ public class TavernManager : MonoBehaviour
     [SerializeField] private int defaultGold = 1000; // 만족도 기본 골드
     private bool isPluseGold = false;
 
+    [Header("초당 체력 감소")]
+    [SerializeField] private float playerHealthDecreaseRate = 1f; // 플레이어가 취침시간에 초당 감소하는 체력
+
     private void Start()
     {
         // 게임 시작 시 페이드 인
@@ -71,7 +74,7 @@ public class TavernManager : MonoBehaviour
             }
 
             // 취침 상태일 때는 플레이어 Hp 감소
-            GH_GameManager.instance.player.Damage(1 * Time.deltaTime); // 초당 1씩 감소
+            GH_GameManager.instance.player.Damage(playerHealthDecreaseRate * Time.deltaTime); // 초당 1씩 감소
         }
         else if (gameTime.Timer > gameTime.nightTime) // 밤 시간
         {
