@@ -1,0 +1,133 @@
+using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
+
+enum GameTimeState
+{
+    Day, // 낮
+    Night, // 밤
+    Sleep // 취침
+}
+
+public class TravernManager : MonoBehaviour
+{
+    public static TravernManager instance;
+
+    private void Awake()
+
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
+    [Header("게임 시간 UI")]
+    public GameTimeUI gameTime;
+
+    [Header("게임 시간 상태")]
+    [SerializeField] private GameTimeState gameTimeState = GameTimeState.Day;
+
+    [Header("플레이어 리스폰 위치")]
+    [SerializeField] private GameObject RespawnPoint; // 플레이어가 취침 후 리스폰할 위치
+
+    [Header("페이드 인 아웃")]
+    [SerializeField] private Image fadeImage; // 전체화면 Image (검정색)
+    public float fadeDuration = 1f;
+
+
+    [Header("만족도 보너스 골드 관련")]
+    [SerializeField] private int defaultGold = 1000; // 만족도 기본 골드
+    private bool isPluseGold = false;
+
+    private void Start()
+    {
+        // 게임 시작 시 페이드 인
+        FadeIn();
+    }
+
+    private void Update()
+    {
+        // 시간에 따른 낮 밤 수면 상태
+        if (gameTime.Timer > gameTime.sleepTime) // 취침 시간
+        {
+            gameTimeState = GameTimeState.Sleep;
+
+            // 선술집 정산
+            if (isPluseGold)
+            {
+                int bonusGold = defaultGold * PlateManager.instance.Satisfaction; // 만족도 보너스 골드
+                GH_GameManager.instance.goldManager.AddMoney(bonusGold);
+                Debug.Log($"만족도 보너스 골드: {bonusGold} G");
+
+                isPluseGold = false;
+            }
+
+            // 취침 상태일 때는 플레이어 Hp 감소
+            GH_GameManager.instance.player.Damage(1f * Time.deltaTime); // 초당 0.1씩 감소
+        }
+        else if (gameTime.Timer > gameTime.nightTime) // 밤 시간
+        {
+            gameTimeState = GameTimeState.Night;
+
+            isPluseGold = true;
+        }
+        else // 낮 시간
+        {
+            gameTimeState = GameTimeState.Day;
+        }
+    }
+
+    // 플레이어 피 0일때 호출
+    // 플레이어가 침대 상호작용 시 호출
+    public void Sleeping()
+    {
+        // 페이드 인 페이드 아웃
+        FadeIn();
+
+        // 플레이어 위치 이동
+        GH_GameManager.instance.player.transform.position = RespawnPoint.transform.position;
+
+        // 피가 100
+        // Player_LYJ 스크립트에 HP 100으로 초기화 함수 추가 예정 ~~~
+
+        // 시간이 08:00으로 초기화
+        gameTime.Timer = 0f; // 시간을 초기화
+
+        FadeOut();
+    }
+
+
+
+    // 가게 열 닫을 시간인가? 에 대한 bool 함수
+    public bool OpenTavernTime()
+    {
+        // 게임 시간이 밤이 되면 true
+        return gameTimeState == GameTimeState.Night;
+    }
+    // 위 함수를 조건문으로 걸고 true면, 손님들이 선술집에 들어옴
+
+    
+
+    // 가게 문 닫을 시간인가? 에 대한 bool 함수
+    public bool CloseTavernTime()
+    {
+        // 게임 시간이 취침 시간이면 true
+        return gameTimeState == GameTimeState.Sleep;
+    }
+    // 위 함수를 조건문으로 걸고 true면, 손님들이 선술집을 나감
+
+    public void FadeIn()
+    {
+        fadeImage.DOFade(0f, fadeDuration);
+    }
+
+    public void FadeOut()
+    {
+        fadeImage.DOFade(1f, fadeDuration);
+    }
+}
