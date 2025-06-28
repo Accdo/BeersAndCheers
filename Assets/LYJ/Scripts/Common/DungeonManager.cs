@@ -135,6 +135,6 @@ public class DungeonManager : MonoBehaviour // 프리팹화, 층마다 배치
 
     private void CreatePortal()
     {
-        Instantiate(inDungeonPortal, PlaceXYZ.DUNGEON_XYZ, Quaternion.identity, null);
+        Instantiate(inDungeonPortal, PlaceXYZ.DUNGEON_CLEAR_XYZ, Quaternion.identity, null);
     }
 }

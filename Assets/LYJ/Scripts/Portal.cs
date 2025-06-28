@@ -4,6 +4,7 @@ public enum PortalDestination { Dungeon, Hometown, Farm }
 public static class PlaceXYZ
 {
     public static readonly Vector3 DUNGEON_XYZ = new Vector3(0, 0, 0);
+    public static readonly Vector3 DUNGEON_CLEAR_XYZ = new Vector3(0, 0, 0);
     public static readonly Vector3 HOMETOWN_XYZ = new Vector3(0, 0, 0);
     public static readonly Vector3 FARM_XYZ = new Vector3(0, 0, 0);
 }
