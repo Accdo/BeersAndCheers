@@ -3,18 +3,19 @@ using UnityEngine;
 
 public class WoodenSign : MonoBehaviour,IInteractable
 {
+    public string GetCursorType() => cursorType;
+    public string GetInteractionID() => interactionID;
+    public InteractionType GetInteractionType() => InteractionType.MiniGame;
+
     [Header("상호작용 쿨타임")]
     [SerializeField] private float coolTime = 30f;
 
+    [Header("자동 할당")]
     [SerializeField] private WoodenSignController woodenSignController;
 
     private string cursorType = "Close"; // 동적 커서 타입
     private string interactionID = "Close"; // 동적 인터랙션 ID
     private int interactionCount = 0; // 상호작용 횟수
-
-    public string GetCursorType() => cursorType;
-    public string GetInteractionID() => interactionID;
-    public InteractionType GetInteractionType() => InteractionType.MiniGame;
 
     private void Awake()
     {
@@ -31,8 +32,7 @@ public class WoodenSign : MonoBehaviour,IInteractable
 
         // 표지판 회전
         woodenSignController.RotateWoodenSign();
-
-
+        
         // 레이어를 "Default"로 변경
         gameObject.layer = LayerMask.NameToLayer("Default");
 
