@@ -125,7 +125,7 @@ public class QuestObjective
             case ObjectiveType.CollectItem:
                 if (requiredItem != null)
                 {
-                    description = $"{requiredItem.itemName} {requiredAmount}개 수집";
+                    description = $"{requiredItem.itemName} \n{requiredAmount}개 수집";
                 }
                 else
                 {
@@ -136,7 +136,7 @@ public class QuestObjective
             case ObjectiveType.KillMonster:
                 if (enemyData != null)
                 {
-                    description = $"{enemyData.EnemyName} {killCount}마리 처치";
+                    description = $"{enemyData.EnemyName} \n{killCount}마리 처치";
                 }
                 else
                 {
@@ -147,7 +147,7 @@ public class QuestObjective
             case ObjectiveType.CookFood:
                 if (requiredFood != null)
                 {
-                    description = $"{requiredFood.itemName} {foodCount}개 제작";
+                    description = $"{requiredFood.itemName} \n{foodCount}개 제작";
                 }
                 else
                 {
