@@ -18687,6 +18687,7 @@ MonoBehaviour:
   cooking: {fileID: 0}
   cookingMinigame: {fileID: 0}
   fermentingUI: {fileID: 0}
+  fermentingUIs: []
 --- !u!1001 &1403053354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28851,7 +28852,7 @@ SceneRoots:
   - {fileID: 1044888843}
   - {fileID: 811220022}
   - {fileID: 1584639352}
-  - {fileID: 1977244066}
   - {fileID: 1623826206}
   - {fileID: 1176713033}
   - {fileID: 503435812}
+  - {fileID: 1977244066}

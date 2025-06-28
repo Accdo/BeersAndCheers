@@ -68,7 +68,7 @@ public class TravernManager : MonoBehaviour
             }
 
             // 취침 상태일 때는 플레이어 Hp 감소
-            GH_GameManager.instance.player.Damage(0.1f * Time.deltaTime); // 초당 0.1씩 감소
+            GH_GameManager.instance.player.Damage(1f * Time.deltaTime); // 초당 0.1씩 감소
         }
         else if (gameTime.Timer > gameTime.nightTime) // 밤 시간
         {
@@ -111,7 +111,7 @@ public class TravernManager : MonoBehaviour
     }
     // 위 함수를 조건문으로 걸고 true면, 손님들이 선술집에 들어옴
 
-
+    
 
     // 가게 문 닫을 시간인가? 에 대한 bool 함수
     public bool CloseTavernTime()
