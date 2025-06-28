@@ -10,5 +10,6 @@ public class Bed : MonoBehaviour, IInteractable
     public void Interact()
     {
         //잠에 든다.
+
     }
 }

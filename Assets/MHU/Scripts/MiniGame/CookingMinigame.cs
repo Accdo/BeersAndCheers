@@ -224,7 +224,7 @@ public class CookingMinigame : MonoBehaviour
         interactionUI.ResetUI();
 
         isCookingSuccess = true; // 요리 성공 플래그 설정
-        cooking_ui.Cook(); // 요리 완료 처리
+        //cooking_ui.Cook(); // 요리 완료 처리
         GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
         // 인벤토리 완성된 음식 추가
         GH_GameManager.instance.player.inventory.Add("Backpack", selectItem);
