@@ -1,10 +1,14 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
     [SerializeField] private Player_LYJ player; // temp
+    [SerializeField, Tooltip("단순 무기 외형")] private List<GameObject> allWeapons;
+    [SerializeField, Tooltip("손 데이터")] private List<Hand> allHands;
     [SerializeField] private Hand currentHand;
+    private int currentHandIndex;
     [SerializeField] private LayerMask hitTarget;
     private bool isAttacking;
     private Animator anim;
@@ -12,6 +16,7 @@ public class HandController : MonoBehaviour
     void Awake()
     {
         anim = GetComponentInChildren<Animator>();
+        currentHandIndex = 0;
     }
 
 
@@ -19,12 +24,13 @@ public class HandController : MonoBehaviour
     {
         // 나중에 애니메이터 교체를 이벤트로 작성 (anim.runtime... = currenthand.anim)
         TryAttack();
+        TryChangeHand();
         ControlAnim();
     }
 
     private void TryAttack()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !player.DoingOtherWork)
         {
             if (!isAttacking)
             {
@@ -52,6 +58,24 @@ public class HandController : MonoBehaviour
 
         isAttacking = false;
     }
+
+    private void TryChangeHand()
+    {
+        if (Input.GetKeyDown(KeyCode.V) && !player.DoingOtherWork)
+        {
+            allWeapons[currentHandIndex].SetActive(false);
+            currentHandIndex++;
+            if (currentHandIndex >= allHands.Count)
+            {
+                currentHandIndex = 0;
+            }
+            currentHand = allHands[currentHandIndex];
+            allWeapons[currentHandIndex].SetActive(true);
+        }
+    }
+
+
+
 
     private void ControlAnim()
     {

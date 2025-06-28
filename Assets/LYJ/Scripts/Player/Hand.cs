@@ -13,6 +13,7 @@ public class Hand : ScriptableObject
     [SerializeField] private float radius;
     [SerializeField] private RuntimeAnimatorController anim;
     [SerializeField] private Sprite icon;
+    [SerializeField] private GameObject prefab;
 
     public string HandName => handName;
     public AttackType AttackType => attackType;
@@ -21,4 +22,5 @@ public class Hand : ScriptableObject
     public float Distance => distance;
     public float Radius => radius;
     public RuntimeAnimatorController Anim => anim;
+    public GameObject Prefab => prefab;
 }
