@@ -45,6 +45,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (isInDialogue) return;
 
+        GH_GameManager.instance.uiManager.ActiveHotbarUI();
         lines = dialogueScript.lines;
         currentLine = 0;
         isInDialogue = true;
@@ -88,6 +89,8 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
+        GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
+
         dialoguePanel.SetActive(false);
         isInDialogue = false;
         currentLine = 0;

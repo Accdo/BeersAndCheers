@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e34fc9ec9a56b40bf29d81b564c0b1, type: 3}
   m_Name: Fist
   m_EditorClassIdentifier: 
-  handName: "\uC8FC\uBA39"
+  handName: Fist
   attackType: 2
   attackSpeed: 0.9
-  damage: 1
+  damage: 50
   distance: 1.2
   radius: 0.75
   anim: {fileID: 9100000, guid: 4a8c054d14aab0e46bfa5ea7844d600f, type: 2}

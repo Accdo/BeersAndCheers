@@ -48,42 +48,33 @@ public class QuestManager : MonoBehaviour
     // 랜덤 퀘스트 선택
     public QuestData GetRandomQuest()
     {
-        if (this.availableQuests == null || this.availableQuests.Count == 0)
-        {
-            Debug.LogWarning("사용 가능한 퀘스트가 없습니다!");
-            return null;
-        }
-        // 이미 진행 중인 퀘스트의 ID 목록을 가져옴
         var activeQuestIDs = activeQuests.Select(q => q.questData.questID).ToList();
+        var completedQuestIDs = completedQuests.Select(q => q.questData.questID).ToList();
 
-        // 사용 가능한 퀘스트 목록에서 이미 진행 중인 퀘스트를 제외
-        var questPool = this.availableQuests.Where(q => !activeQuestIDs.Contains(q.questID)).ToList();
+        var questPool = this.availableQuests.Where(q =>
+            !activeQuestIDs.Contains(q.questID) &&
+            (q.isRepeatable || !completedQuestIDs.Contains(q.questID))
+        ).ToList();
 
         if (questPool.Count == 0)
-        {
-            Debug.LogWarning("모든 퀘스트가 이미 진행 중입니다!");
             return null;
-        }
 
-        // 랜덤 선택
         int randomIndex = UnityEngine.Random.Range(0, questPool.Count);
         return questPool[randomIndex];
     }
     public bool HasAvailableQuest()
     {
         if (this.availableQuests == null || this.availableQuests.Count == 0)
-        {
-            Debug.LogError("[QuestManager] 퀘스트 생성 실패: 'Available Quests' 리스트가 비어있습니다! 인스펙터에서 퀘스트 데이터를 할당해주세요.");
             return false;
-        }
 
         var activeQuestIDs = activeQuests.Select(q => q.questData.questID).ToList();
-        bool hasQuest = this.availableQuests.Any(q => !activeQuestIDs.Contains(q.questID));
+        var completedQuestIDs = completedQuests.Select(q => q.questData.questID).ToList();
 
-        if (!hasQuest)
-        {
-            Debug.LogWarning($"[QuestManager] 퀘스트 생성 실패: 모든 퀘스트가 이미 진행 중입니다. (진행중인 퀘스트 수: {activeQuests.Count})");
-        }
+        // 반복 불가 퀘스트는 완료된 경우 제외
+        bool hasQuest = this.availableQuests.Any(q =>
+            !activeQuestIDs.Contains(q.questID) &&
+            (q.isRepeatable || !completedQuestIDs.Contains(q.questID))
+        );
 
         return hasQuest;
     }
@@ -209,28 +200,28 @@ public class QuestManager : MonoBehaviour
                 // 이미 완료된 퀘스트는 다시 처리하지 않음
                 if (!completedQuests.Any(q => q.questData.questID == quest.questData.questID))
                 {
-                    CompleteQuest(quest.questData.questID);
+                    CompleteQuest(quest.questData);
                 }
             }
         }
     }
 
     // 퀘스트 완료 시 호출
-    public void CompleteQuest(string questID)
+    public void CompleteQuest(QuestData quest)
     {
-        var quest = GetActiveQuest(questID);
-        if (quest == null) return; // 이미 완료된 퀘스트는 무시
-        if (!IsQuestComplete(quest)) return;
+        var questToComplete = GetActiveQuest(quest.questID);
+        if (questToComplete == null) return; // 이미 완료된 퀘스트는 무시
+        if (!IsQuestComplete(questToComplete)) return;
 
-        activeQuests.Remove(quest);
+        activeQuests.Remove(questToComplete);
 
-        RemoveQuestRequirements(quest);
-        GiveRewards(quest.questData.rewards);
+        RemoveQuestRequirements(questToComplete);
+        GiveRewards(quest.rewards);
 
         completedQuests.Add(new CompletedQuest
         {
-            questData = quest.questData,
-            customer = quest.customer,
+            questData = quest,
+            customer = questToComplete.customer,
             completionTime = Time.time
         });
 
@@ -241,6 +232,7 @@ public class QuestManager : MonoBehaviour
         {
             GH_GameManager.instance.uiManager.RefreshAll();
         }
+      
     }
 
     // 퀘스트 완료 시 요구사항 아이템을 인벤토리에서 안전하게 제거
@@ -270,7 +262,7 @@ public class QuestManager : MonoBehaviour
 
                 Debug.Log($"퀘스트 완료: {def.requiredItem.itemName} {actuallyRemoved}/{amountToRemove}개 제거됨");
 
-                // 🔥 아이템이 부족하면 퀘스트 완료 중단!
+                //아이템이 부족하면 퀘스트 완료 중단!
                 if (actuallyRemoved < amountToRemove)
                 {
                     // 목표 미달성 처리
@@ -473,22 +465,30 @@ public class QuestManager : MonoBehaviour
                     }
                     break;
                 case RewardType.Money:
-                    // if (GH_GameManager.instance != null && GH_GameManager.instance.goldManager != null)
-                    // {
-                    //     GH_GameManager.instance.goldManager.AddMoney(reward.moneyAmount);
-                    // }
-                    // else
-                    // {
-                        // JSW의 MoneyManager를 백업으로 사용
-                        MoneyManager.instance?.AddMoney(reward.moneyAmount);
-                    // }
+                    if (GH_GameManager.instance != null && GH_GameManager.instance.goldManager != null)
+                    {
+                        GH_GameManager.instance.goldManager.AddMoney(reward.moneyAmount);
+                    }
                     break;
-                    // 필요시 만족도, 경험치 등 추가
+                case RewardType.Satisfaction:
+                    break;
+                case RewardType.UnlockFood:
+                    if (reward.unlockFood != null)
+                    {
+                        UnlockFoodAndRecipe(reward.unlockFood);
+                    }
+                    break;
             }
         }
     }
 
+    private void UnlockFoodAndRecipe(FoodData foodData)
+    {
+        FoodManager.Instance.UnlockFood(foodData);
 
+        string recipeName = foodData.itemName; 
+        GH_GameManager.instance.recipeManager.UnlockRecipe(recipeName);
+    }
 }
 
 // ======= 퀘스트 진행/완료 데이터 구조 =======

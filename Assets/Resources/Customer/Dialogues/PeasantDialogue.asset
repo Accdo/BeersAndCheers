@@ -14,15 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - speakerName: "\uB18D\uBD80"
-    text: "\uC800\uB294 \uB18D\uBD80\uC778\uB370\uC694"
-    recommendedFood: {fileID: 11400000, guid: 1ce6909772c4eb947b98cc23782e25fd, type: 2}
+    text: "\uC800\uB294 \uC774 \uADFC\uBC29\uC5D0\uC11C \uB18D\uC0AC\uB97C \uC9D3\uACE0\uC788\uB294
+      \uB18D\uBD80\uC785\uB2C8\uB2E4."
+    recommendedFood: {fileID: 11400000, guid: 6bbe04dec2ee8b64db68ca70ecc38476, type: 2}
   - speakerName: "\uD50C\uB808\uC774\uC5B4"
-    text: "\uC5B4\uC11C\uC624\uC138\uC694"
+    text: "\uC5B4\uC11C\uC624\uC138\uC694. \uBB34\uC5C7\uC744 \uB4DC\uB9B4\uAE4C\uC694?"
     recommendedFood: {fileID: 0}
   - speakerName: "\uB18D\uBD80"
-    text: "\uBC30\uAC00 \uB108\uBB34 \uACE0\uD30C\uC694"
+    text: "\uC624\uB298 \uD558\uB8E8\uC758 \uD53C\uACE4\uD568\uC744 \uD758\uB824\uBCF4\uB0BC
+      \uC218 \uC788\uACE0"
     recommendedFood: {fileID: 0}
   - speakerName: "\uB18D\uBD80"
-    text: "\uBC30\uB97C \uBC30\uBD88\uB9AC \uCC44\uC6B8 \uC218 \uC788\uB294 \uADF8\uB7F0\uAC8C
-      \uBA39\uACE0 \uC2F6\uC5B4\uC694"
+    text: "\uB2E4\uB978 \uC0AC\uB78C\uACFC \uC0AC\uC774\uAC00 \uC88B\uC544 \uC9C8
+      \uC218 \uC788\uB294"
+    recommendedFood: {fileID: 0}
+  - speakerName: "\uB18D\uBD80"
+    text: "\uC2DC\uC6D0\uD55C \uB9C8\uC2E4 \uAC83\uC73C\uB85C \uBD80\uD0C1\uD574\uC694"
+    recommendedFood: {fileID: 0}
+  - speakerName: "\uD50C\uB808\uC774\uC5B4"
+    text: "\uBC14\uB85C \uAC00\uC838\uB2E4 \uB4DC\uB9B4\uAC8C\uC694"
     recommendedFood: {fileID: 0}

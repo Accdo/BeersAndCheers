@@ -2878,6 +2878,8 @@ MonoBehaviour:
     cursorSprite: {fileID: 21300000, guid: 0abf8e3e7c1e5344baea4d4d6b629e5a, type: 3}
   - cursorType: Fish
     cursorSprite: {fileID: 21300000, guid: 280f5273b0083924d896a94404639b48, type: 3}
+  - cursorType: Farm
+    cursorSprite: {fileID: 21300000, guid: 148217a520aa3224c8aa465b695b6cb5, type: 3}
   gaugeImage: {fileID: 8732882571350650771}
   gaugeUnfilledImage: {fileID: 2649762559291703836}
   fishingUI: {fileID: 233570555200695069}
@@ -3573,6 +3575,7 @@ MonoBehaviour:
   targetZone: {fileID: 6426628704968003620}
   barSpeed: 300
   isHorizontal: 1
+  requiredSuccesses: 5
 --- !u!1 &7549342293128570169
 GameObject:
   m_ObjectHideFlags: 0

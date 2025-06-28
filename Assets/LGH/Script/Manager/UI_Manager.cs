@@ -9,7 +9,6 @@ public class UI_Manager : MonoBehaviour
 
     public GameObject inventoryPanel;
     public GameObject hotbarPanel;
-    public Interaction interaction;
 
     [Header("인벤토리 모음")]
     public List<Inventory_UI> inventoryUIs;
@@ -86,6 +85,11 @@ public class UI_Manager : MonoBehaviour
             // 냉동 상자 패널 생성
             ToggleFreezeBoxUI();
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            GH_GameManager.instance.recipeManager.UnlockRecipe("Sandwich");
+        }
     }
 
     public void ToggleBeerUI()
@@ -104,8 +108,6 @@ public class UI_Manager : MonoBehaviour
                 GH_GameManager.instance.player.MouseVisible(false);
                 DeployPanel.SetActive(false);
                 CookingPanel.SetActive(false);
-                interaction.isBusy = false;
-
 
             }
         }
@@ -118,13 +120,11 @@ public class UI_Manager : MonoBehaviour
         {
             if (!ShopPanel.activeSelf)
             {
-                GH_GameManager.instance.player.StartOtherWork();
                 GH_GameManager.instance.player.MouseVisible(true);
                 ShopPanel.SetActive(true);
             }
             else
             {
-                GH_GameManager.instance.player.EndOtherWork();
                 GH_GameManager.instance.player.MouseVisible(false);
                 ShopPanel.SetActive(false);
             }
@@ -137,23 +137,18 @@ public class UI_Manager : MonoBehaviour
         {
             if (!RecipePanel.activeSelf)
             {
-                GH_GameManager.instance.player.StartOtherWork(); // 못움직이게
+                GH_GameManager.instance.player.StartOtherWork();
                 GH_GameManager.instance.player.MouseVisible(true);
                 RecipePanel.SetActive(true);
             }
             else
-            {          
+            {
+                GH_GameManager.instance.player.EndOtherWork();
                 GH_GameManager.instance.player.MouseVisible(false);
                 RecipePanel.SetActive(false);
                 CookingPanel.SetActive(false);
-                interaction.isBusy = false;
             }
         }
-    }
-
-    public void playerMovingStart()
-    {
-        GH_GameManager.instance.player.EndOtherWork(); // 움직이게
     }
 
     public void ToggleCookingUI()
@@ -182,17 +177,14 @@ public class UI_Manager : MonoBehaviour
         {
             if (!storageboxPanel.activeSelf)
             {
-                GH_GameManager.instance.player.StartOtherWork(); // 못움직이게
                 GH_GameManager.instance.player.MouseVisible(true);
                 storageboxPanel.SetActive(true);
                 RefreshInventory("StorageBox");
             }
             else
             {
-                GH_GameManager.instance.player.EndOtherWork(); // 움직이게
                 GH_GameManager.instance.player.MouseVisible(false);
                 storageboxPanel.SetActive(false);
-                interaction.isBusy = false;
             }
         }
     }
@@ -203,17 +195,14 @@ public class UI_Manager : MonoBehaviour
         {
             if (!freezeboxPanel.activeSelf)
             {
-                GH_GameManager.instance.player.StartOtherWork(); // 못움직이게
                 GH_GameManager.instance.player.MouseVisible(true);
                 freezeboxPanel.SetActive(true);
                 RefreshInventory("FreezeBox");
             }
             else
             {
-                GH_GameManager.instance.player.EndOtherWork(); // 움직이게
                 GH_GameManager.instance.player.MouseVisible(false);
                 freezeboxPanel.SetActive(false);
-                interaction.isBusy = false;
             }
         }
     }
