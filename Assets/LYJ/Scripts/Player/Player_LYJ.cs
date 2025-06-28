@@ -36,6 +36,7 @@ public class Player_LYJ : MonoBehaviour
     private bool isRun;
     private bool isWalk;
     private bool doingOtherWork;
+    public bool DoingOtherWork => doingOtherWork;
     Coroutine currentOtherWork;
     [HideInInspector] public bool IsRun => isRun;
     [HideInInspector] public bool IsWalk => isWalk;

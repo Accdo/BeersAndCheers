@@ -24,7 +24,7 @@ public class HandController : MonoBehaviour
 
     private void TryAttack()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !player.DoingOtherWork)
         {
             if (!isAttacking)
             {
