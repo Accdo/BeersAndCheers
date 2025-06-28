@@ -9,9 +9,9 @@ enum GameTimeState
     Sleep // 취침
 }
 
-public class TravernManager : MonoBehaviour
+public class TavernManager : MonoBehaviour
 {
-    public static TravernManager instance;
+    public static TavernManager instance;
 
     private void Awake()
 
@@ -44,10 +44,16 @@ public class TravernManager : MonoBehaviour
     [SerializeField] private int defaultGold = 1000; // 만족도 기본 골드
     private bool isPluseGold = false;
 
+    [Header("초당 체력 감소")]
+    [SerializeField] private float playerHealthDecreaseRate = 1f; // 플레이어가 취침시간에 초당 감소하는 체력
+
     private void Start()
     {
         // 게임 시작 시 페이드 인
         FadeIn();
+
+
+        EventManager.Instance.AddListener(PlayerEvents.DIED, Sleeping);
     }
 
     private void Update()
@@ -68,7 +74,7 @@ public class TravernManager : MonoBehaviour
             }
 
             // 취침 상태일 때는 플레이어 Hp 감소
-            GH_GameManager.instance.player.Damage(1f * Time.deltaTime); // 초당 0.1씩 감소
+            GH_GameManager.instance.player.Damage(playerHealthDecreaseRate * Time.deltaTime); // 초당 1씩 감소
         }
         else if (gameTime.Timer > gameTime.nightTime) // 밤 시간
         {
@@ -84,7 +90,7 @@ public class TravernManager : MonoBehaviour
 
     // 플레이어 피 0일때 호출
     // 플레이어가 침대 상호작용 시 호출
-    public void Sleeping()
+    public void Sleeping(object data = null)
     {
         // 페이드 인 페이드 아웃
         FadeIn();
@@ -94,6 +100,9 @@ public class TravernManager : MonoBehaviour
 
         // 피가 100
         // Player_LYJ 스크립트에 HP 100으로 초기화 함수 추가 예정 ~~~
+
+        // 다음날로 넘어감
+        //
 
         // 시간이 08:00으로 초기화
         gameTime.Timer = 0f; // 시간을 초기화
@@ -111,7 +120,7 @@ public class TravernManager : MonoBehaviour
     }
     // 위 함수를 조건문으로 걸고 true면, 손님들이 선술집에 들어옴
 
-    
+
 
     // 가게 문 닫을 시간인가? 에 대한 bool 함수
     public bool CloseTavernTime()
