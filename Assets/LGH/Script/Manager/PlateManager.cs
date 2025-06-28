@@ -42,6 +42,8 @@ public class PlateManager : MonoBehaviour
         {
             PopPlateStack();
         }
+
+        
     }
 
     // 손님이 음식을 먹고 나가면 Push

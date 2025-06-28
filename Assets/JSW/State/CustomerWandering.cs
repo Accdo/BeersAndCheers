@@ -37,7 +37,7 @@ public class CustomerWandering : CustomerState
         {
             // 1. 문이 열려있는지 확인
             bool isDoorOpen = (CustomerSpawnManager.Instance.door == null || CustomerSpawnManager.Instance.door.GetDoorState());
-            bool isNightTime = TravernManager.instance.OpenTavernTime();
+            bool isNightTime = TavernManager.instance.OpenTavernTime();
             if (isDoorOpen && isNightTime)
             {
                 // 2. 문이 열려있으면, SeatManager에 자리가 있는지 확인
