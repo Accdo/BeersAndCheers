@@ -5,15 +5,39 @@ using UnityEngine.AI;
 
 public class DungeonManager : MonoBehaviour // 프리팹화, 층마다 배치
 {
+    public const int MAX_FLOOR = 5;
     [SerializeField] private List<GameObject> allEnemies;
     [SerializeField] private int currentFloor;
+    public int CurrentFloor => currentFloor;
     [SerializeField] private List<EnemySpawner> spawnZones;
     private List<GameObject> spawnable;
+    public bool IsInDungeon;
+    private int remainEnemy;
+    [SerializeField] private GameObject inDungeonPortal;
+
+    private static DungeonManager instance;
+    public static DungeonManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                GameObject obj = new GameObject("DungeonManager");
+                instance = obj.AddComponent<DungeonManager>();
+                DontDestroyOnLoad(obj);
+            }
+            return instance;
+        }
+    }
 
     void Awake()
     {
-        FilterSpawnable();
-        SpawnEnemies();
+        IsInDungeon = false;
+    }
+
+    void Start()
+    {
+        EventManager.Instance.AddListener(EnemyEvents.DIED, CheckRemainEnemy);
     }
 
 
@@ -65,8 +89,8 @@ public class DungeonManager : MonoBehaviour // 프리팹화, 층마다 배치
                 else
                 {
                     Debug.Log("Enemy component is null");
-                        Destroy(enemyObj);
-                        continue;
+                    Destroy(enemyObj);
+                    continue;
                 }
             }
         }
@@ -85,4 +109,32 @@ public class DungeonManager : MonoBehaviour // 프리팹화, 층마다 배치
         return spawnable[randomIndex];
     }
 
+    public void ChangeFloor(int floor) // 몹 스폰 포함
+    {
+        if (floor > 0 && floor <= MAX_FLOOR)
+        {
+            currentFloor = floor;
+            remainEnemy = spawnZones.Count;
+        }
+        else
+        {
+            Debug.Log("올바르지 않은 층수");
+        }
+        FilterSpawnable();
+        SpawnEnemies();
+    }
+
+    private void CheckRemainEnemy(object data)
+    {
+        remainEnemy--;
+        if (remainEnemy <= 0)
+        {
+            CreatePortal();
+        }
+    }
+
+    private void CreatePortal()
+    {
+        Instantiate(inDungeonPortal, PlaceXYZ.DUNGEON_XYZ, Quaternion.identity, null);
+    }
 }
