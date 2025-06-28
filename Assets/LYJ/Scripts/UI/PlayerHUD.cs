@@ -20,15 +20,15 @@ public class PlayerHUD : MonoBehaviour
     {
         if (data is float fData)
         {
-            float hp = fData;
-            text.text = string.Format($"{hp:D3}");
+            int hp = Mathf.FloorToInt(fData);
+            text.text = string.Format("{0:D3}", hp);
         }
     }
 
     private void OnPlayerDiedUI(object data)
     {
         Debug.Log("플레이어 사망");
-        
+
     }
 
 }
