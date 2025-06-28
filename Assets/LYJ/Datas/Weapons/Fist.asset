@@ -20,3 +20,4 @@ MonoBehaviour:
   radius: 0.75
   anim: {fileID: 9100000, guid: 4a8c054d14aab0e46bfa5ea7844d600f, type: 2}
   icon: {fileID: 0}
+  prefab: {fileID: 7987534588671078454, guid: 25749e6ae2754c14ca09953a0aba57f6, type: 3}

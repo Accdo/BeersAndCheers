@@ -21,7 +21,7 @@ public class PlayerHUD : MonoBehaviour
         if (data is float fData)
         {
             float hp = fData;
-            text.text = string.Format($"{hp:D3}");
+            text.text = $"{hp}";
         }
     }
 

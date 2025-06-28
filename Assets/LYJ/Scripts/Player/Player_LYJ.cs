@@ -167,6 +167,11 @@ public class Player_LYJ : MonoBehaviour
         CurrentHealth -= damageAmount;
     }
 
+    public void Heal()
+    {
+        CurrentHealth = maxHealth;
+    }
+
 
     #region 다른일 컨트롤 (움직임 제어)
 
