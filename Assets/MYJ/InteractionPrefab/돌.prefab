@@ -265,5 +265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064d2095693aadc4cb63e5496cb17953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RockItem: {fileID: -644197608044816406, guid: 7b1739c716ab0a34d9b787411e1f3cd1, type: 3}
   respawnDelay: 5
   prefabReference: {fileID: 6965956484264118601}

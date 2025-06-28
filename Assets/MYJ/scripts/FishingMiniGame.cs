@@ -89,7 +89,6 @@ public class FishingMiniGame : MonoBehaviour
                 Debug.LogError($"{fishImage.name}에 Animator가 없습니다!");
                 yield break;
             }
-
             bool caught = false;
 
             // 클릭 리스너 초기화 및 등록
@@ -108,6 +107,7 @@ public class FishingMiniGame : MonoBehaviour
             fishImage.gameObject.SetActive(true);
             anim.ResetTrigger("Pop");
             anim.SetTrigger("Pop");
+            SoundManager.Instance.Play("FishingSFX");
 
             float visibleTime = UnityEngine.Random.Range(minVisibleTime, maxVisibleTime);
             float timer = 0f;

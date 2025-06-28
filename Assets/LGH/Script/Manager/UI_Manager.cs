@@ -152,6 +152,10 @@ public class UI_Manager : MonoBehaviour
             }
         }
     }
+    public void UIStartOtherWork()
+    {
+        GH_GameManager.instance.player.StartOtherWork();
+    }
     public void UIEndOtherWork()
     {
         interaction.isBusy = false;
