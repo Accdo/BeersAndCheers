@@ -22,7 +22,7 @@ MonoBehaviour:
   questType: 2
   objectives:
   - objectiveID: 
-    description: "Burger 1\uAC1C \uC81C\uC791"
+    description: "Burger \n1\uAC1C \uC81C\uC791"
     type: 2
     requiredItem: {fileID: 0}
     requiredAmount: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
     requiredFood: {fileID: 11400000, guid: 1ce6909772c4eb947b98cc23782e25fd, type: 2}
     foodCount: 1
   rewards: []
-  isRepeatable: 0
+  isRepeatable: 1
   timeLimit: 0
   requiredLevel: 0
   questStartDialogue: {fileID: 0}

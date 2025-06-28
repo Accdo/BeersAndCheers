@@ -18,6 +18,8 @@ public class CraftManager : MonoBehaviour
     private Camera mainCamera;
     private Material originalMaterial;
 
+    public Interaction interaction;
+
     void Start()
     {
         mainCamera = Camera.main;
@@ -144,6 +146,7 @@ public class CraftManager : MonoBehaviour
         currentFurniture.transform.rotation = playerYRotation * furniturePrefab.transform.rotation * rotationOffset;
         currentFurniture = null;
         isPlacing = false;
+        interaction.isBusy = false;
     }
 
     void CancelPlacement()
@@ -153,6 +156,7 @@ public class CraftManager : MonoBehaviour
             Destroy(currentFurniture);
             currentFurniture = null;
             isPlacing = false;
+            interaction.isBusy = false;
         }
     }
 
