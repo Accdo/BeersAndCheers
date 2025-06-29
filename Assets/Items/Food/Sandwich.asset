@@ -19,9 +19,9 @@ MonoBehaviour:
   foodPrefab: {fileID: 1206450212880271688, guid: 230065616d2f0504a9225a2a08acda7f, type: 3}
   ingredients:
   - {fileID: 11400000, guid: ae4d2f7c150d32442ae8d70dc3ab60eb, type: 2}
-  - {fileID: 11400000, guid: 397fb4b47740899418243680bcaa1d0b, type: 2}
+  - {fileID: 11400000, guid: f0b4cb51a16a30749a55a5f5ac362fb7, type: 2}
   - {fileID: 11400000, guid: ae488b9cdb18bff44896922f11ad1c65, type: 2}
+  - {fileID: 11400000, guid: 397fb4b47740899418243680bcaa1d0b, type: 2}
   - {fileID: 11400000, guid: fc4b077bfee2f394cb9317071c255f69, type: 2}
   - {fileID: 11400000, guid: 89f99e6b0ea23d34b989e0a1dcefe800, type: 2}
-  - {fileID: 11400000, guid: f0b4cb51a16a30749a55a5f5ac362fb7, type: 2}
-  ingredientCounts: 010000000200000001000000010000000100000001000000
+  ingredientCounts: 020000000200000002000000010000000100000001000000

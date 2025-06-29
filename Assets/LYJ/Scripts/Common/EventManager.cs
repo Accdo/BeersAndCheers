@@ -19,6 +19,18 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
     private Dictionary<string, Action<object>> eventDic = new();
 
     public void AddListener(string eventName, Action<object> newListener)

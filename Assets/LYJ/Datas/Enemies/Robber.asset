@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Robber
   m_EditorClassIdentifier: 
   enemyName: Robber
-  health: 100
-  moveSpeed: 3.5
+  health: 150
+  moveSpeed: 4.5
   attackFirstDelay: 0.7
   attackTotalDelay: 2.3
-  attackPower: 1
-  attackRange: 0.75
+  attackPower: 5
+  attackRange: 1
   attackHeight: 1
   fleshType: 1
   dropItems: []

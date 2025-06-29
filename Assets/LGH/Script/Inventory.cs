@@ -320,6 +320,11 @@ public class Inventory
         }
     }
 
+    public void MoveToBox(int toIndex)
+    {
+
+    }
+
     public void SelectSlot(int index)
     {
         if (slots != null && slots.Count > 0)
