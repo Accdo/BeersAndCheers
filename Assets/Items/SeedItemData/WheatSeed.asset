@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: WheatSeed
   icon: {fileID: 21300000, guid: d80878a174f872c488d1107ec77d83df, type: 3}
-  price: 0
+  price: 100
   plantedPrefab: {fileID: 919132149155446097, guid: abfe213d6069c7d4b84c428a905c8a08, type: 3}
   wateredPrefab: {fileID: 6662174415517180126, guid: 81dad7d5552c9a341b390c79338fe0a4, type: 3}
   grownPrefab: {fileID: 6948871811262559466, guid: addb25388235c524595ad99e6931052e, type: 3}

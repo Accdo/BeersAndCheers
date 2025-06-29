@@ -10,8 +10,10 @@ public class Refrigerator : MonoBehaviour, IInteractable
     public Interaction interaction;
     public InteractionUI interactionUI;
 
+  
     public void Interact()
     {
+        SoundManager.Instance.Play("WoodBoxSFX");
         ui_Manager.ToggleFreezeBoxUI();
 
         interaction.isBusy = true;

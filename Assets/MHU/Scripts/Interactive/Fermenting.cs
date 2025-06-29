@@ -43,6 +43,7 @@ public class Fermenting : MonoBehaviour, IInteractable
                 fermentingUI.fermentingBeer = 0;
                 // 텍스트 없애기
                 fermentingUI.successText.text = "";
+                fermentingUI.gaugeBar.gameObject.SetActive(false);
             }
 
         }

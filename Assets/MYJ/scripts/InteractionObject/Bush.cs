@@ -9,6 +9,8 @@ public class Bush : MonoBehaviour,IInteractable
     public float respawnDelay = 5f;
     public GameObject prefabReference;
 
+    public string gatherSoundName = "BushSFX";
+
     public string GetCursorType() => "Hand";
     public string GetInteractionID() => "Bush";
     public InteractionType GetInteractionType() => InteractionType.GaugeThenTiming;
@@ -33,7 +35,5 @@ public class Bush : MonoBehaviour,IInteractable
     public void Respawn()
     {   
         objectSpawner.Instance.RespawnObject(prefabReference);
-    }
-
-    
+    }    
 }

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public enum EnemyStates { Idle, Move, Attack, Stray, Die }
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IHittable
 {
     [SerializeField] private EnemyData data;
     public EnemyData Data => data;
@@ -128,4 +128,5 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(centerPoint, data.AttackRange);
     }
+
 }

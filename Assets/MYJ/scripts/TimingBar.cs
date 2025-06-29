@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TimingBar : MonoBehaviour
@@ -21,6 +22,15 @@ public class TimingBar : MonoBehaviour
     private int successCount = 0;
     private int failCount = 0;
 
+    public string timingBarSoundName;
+
+    private Dictionary<string, string> interactionSoundMap = new Dictionary<string, string>()
+    {
+        {"Bush", "BushSFX" },
+        {"Rock", "RockSFX" },
+        {"Mushroom", "BushSFX" },
+        {"Tree", "TreeSFX" }
+    };
     private void Update()
     {
         if (!barMoving) return;
@@ -50,7 +60,10 @@ public class TimingBar : MonoBehaviour
         player_LYJ = player;
         interactionUI = ui;
 
-        isTree = target is Tree;
+        string id = target.GetInteractionID();
+        timingBarSoundName = interactionSoundMap.ContainsKey(id) ? interactionSoundMap[id] : "DefaultSound";
+
+        isTree = target.GetInteractionID() == "Tree";
         successCount = 0;
         failCount = 0;
 
@@ -61,6 +74,8 @@ public class TimingBar : MonoBehaviour
         player_LYJ.StartOtherWork();
 
         RandomizeTargetZone();
+
+        SoundManager.Instance.PlayLoop(timingBarSoundName);
     }
     private void CheckResult()
     {
@@ -71,7 +86,7 @@ public class TimingBar : MonoBehaviour
         {
             Debug.Log("성공!");
             successCount++;
-
+            SoundManager.Instance.Play("SuccessSFX");
             if (isTree && successCount >= 5)
             {
                 currentTarget?.Interact();
@@ -94,7 +109,7 @@ public class TimingBar : MonoBehaviour
         {
             Debug.Log("실패!");
             failCount++;
-
+            SoundManager.Instance.Play("FailureSFX");
             if (isTree && failCount >= 3)
             {
                 Debug.Log("나무 베기 실패!");
@@ -137,5 +152,7 @@ public class TimingBar : MonoBehaviour
 
         interactionUI.ResetUI();
         player_LYJ.EndOtherWork();
+
+        SoundManager.Instance.Stop(timingBarSoundName);
     }
 }

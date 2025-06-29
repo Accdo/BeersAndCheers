@@ -3,14 +3,14 @@ using static Inventory;
 
 public class Washer : MonoBehaviour,IInteractable
 {
-    #region »óÈ£ÀÛ¿ë
+    #region ï¿½ï¿½È£ï¿½Û¿ï¿½
     public string GetCursorType() => "Washer";
     public string GetInteractionID() => "Washer";
     public InteractionType GetInteractionType() => InteractionType.MiniGame;
     #endregion
 
-    [SerializeField] private int useCount = 5; // »ç¿ë È½¼ö
-    // ¹° ÇÁ¸®ÆÕ
+    [SerializeField] private int useCount = 5; // ï¿½ï¿½ï¿½ È½ï¿½ï¿½
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     [SerializeField] private GameObject washerWater;
 
     public WashingMinigame washingMinigame;
@@ -31,16 +31,23 @@ public class Washer : MonoBehaviour,IInteractable
         {
             if (slot.itemName == "WaterPail")
             {
-                // ¹° »ý¼º
+                // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                SoundManager.Instance.Play("WaterSFX");
                 washerWater.SetActive(true);
                 useCount += 5;
-                GH_GameManager.instance.player.inventory.hotbar.CanRemove("WaterPail"); 
+                //GH_GameManager.instance.player.inventory.hotbar.CanRemove("WaterPail"); 
+                GH_GameManager.instance.player.inventory.RemoveItem("WaterPail");
             }
         }
         else
         {
             useCount--;
             washingMinigame.WashingMiniGameStart();
+            if(useCount == 0)
+            {
+                // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                washerWater.SetActive(false);
+            }
         }
         
     }

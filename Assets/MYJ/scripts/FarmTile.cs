@@ -46,7 +46,7 @@ public class FarmTile : MonoBehaviour, IInteractable
             Destroy(cropInstance);
 
         cropInstance = Instantiate(currentSeed.plantedPrefab, transform.position + Vector3.up * 0.1f, currentSeed.plantedPrefab.transform.rotation);
-
+        SoundManager.Instance.Play("FarmSFX");
         waterIcon?.SetActive(false);
         harvestIcon?.SetActive(false);
         return true;
@@ -85,7 +85,7 @@ public class FarmTile : MonoBehaviour, IInteractable
             waterIcon?.SetActive(true);
             Debug.Log("물을 주세요!");
         }
-
+        
         if (state == TileState.Watered && growTimer >= currentSeed.growTime)
         {
             if (growTimer >= currentSeed.growTime)
@@ -108,7 +108,7 @@ public class FarmTile : MonoBehaviour, IInteractable
         if (state == TileState.Grown)
         {
             Debug.Log($"{currentSeed.itemName} 수확 완료! 수확량: {currentSeed.yieldAmount}");
-
+            
             if (cropInstance != null)
                 Destroy(cropInstance);
 
@@ -116,6 +116,7 @@ public class FarmTile : MonoBehaviour, IInteractable
             for (int i = 0; i< currentSeed.yieldAmount; i++)
             {
                 GH_GameManager.instance.player.inventory.Add("Backpack", currentSeed.harvestItem);
+                SoundManager.Instance.Play("SuccessSFX");
             }
 
             currentSeed = null;

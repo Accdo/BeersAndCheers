@@ -26,6 +26,7 @@ public class CuttingMinigame : MonoBehaviour
     public void StartCuttingMinigame()
     {
         InitSet();
+        GH_GameManager.instance.player.StartOtherWork();
     }
 
     void Update()
@@ -40,9 +41,10 @@ public class CuttingMinigame : MonoBehaviour
             // Cut Image 활성화
             if (currentCutIndex < cutImages.Length)
             {
+                SoundManager.Instance.Play("CuttingSFX");
                 cutImages[currentCutIndex].gameObject.SetActive(true);
                 currentCutIndex++;
-
+                
                 if(currentCutIndex == cutImages.Length)
                 {
                     resultText.text = "성공!";
@@ -71,6 +73,7 @@ public class CuttingMinigame : MonoBehaviour
 
     public void InitSet()
     {
+        
         resultText.text = "";
         currentCutIndex = 0;
 

@@ -49,6 +49,7 @@ public class CookingMinigame : MonoBehaviour
     // 요리 미니게임 시작 함수
     public void StartCookingMinigame()
     {
+        SoundManager.Instance.Play("BoilingSFX");
         // 기존 색상 변경 코루틴 중지
         StopColorChange();
 
@@ -213,6 +214,9 @@ public class CookingMinigame : MonoBehaviour
         GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
         GH_GameManager.instance.player.EndOtherWork();
         GH_GameManager.instance.player.MouseVisible(false);
+        interaction.isBusy = false;
+
+        SoundManager.Instance.Stop("BoilingSFX");
     }
 
     // 게임 성공 후 종료 처리 코루틴
@@ -223,7 +227,7 @@ public class CookingMinigame : MonoBehaviour
         interactionUI.ResetUI();
 
         isCookingSuccess = true; // 요리 성공 플래그 설정
-        cooking_ui.Cook(); // 요리 완료 처리
+        //cooking_ui.Cook(); // 요리 완료 처리
         GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
         // 인벤토리 완성된 음식 추가
         GH_GameManager.instance.player.inventory.Add("Backpack", selectItem);
@@ -232,6 +236,9 @@ public class CookingMinigame : MonoBehaviour
 
         GH_GameManager.instance.player.EndOtherWork();
         GH_GameManager.instance.player.MouseVisible(false);
+        interaction.isBusy = false;
+
+        SoundManager.Instance.Stop("BoilingSFX");
 
     }
 

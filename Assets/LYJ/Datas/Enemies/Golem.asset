@@ -21,6 +21,5 @@ MonoBehaviour:
   attackRange: 1.4
   attackHeight: 1.5
   fleshType: 0
-  dropItems:
-  - {fileID: 7987534588671078454, guid: 25749e6ae2754c14ca09953a0aba57f6, type: 3}
-  spawnZone: {x: 1, y: 3}
+  dropItems: []
+  spawnZone: {x: 3, y: 5}

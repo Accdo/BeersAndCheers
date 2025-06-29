@@ -37,7 +37,7 @@ public class Hotbar_UI : MonoBehaviour
 
             GH_GameManager.instance.player.inventory.hotbar.SelectSlot(index);
 
-            GH_GameManager.instance.player.EquipWeapon();
+            GH_GameManager.instance.player.EquipItem();
 
         }
     }

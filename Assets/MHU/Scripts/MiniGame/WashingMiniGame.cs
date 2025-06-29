@@ -5,10 +5,12 @@ using System.Collections;
 
 public class WashingMinigame : MonoBehaviour
 {
+    [Header("설정")]
+    [SerializeField] private float MAX_PRESS_TIME = 1.5f; // 목표 누름 시간 (10초)
     [SerializeField] private Image spacebarImage; // 스페이스바 이미지
     [SerializeField] private Image plateImage; // 접시 이미지
     [SerializeField] private Image plateImageSuccess; // 성공 접시 이미지
-    [SerializeField] private Image waterImage; // 물 이미지
+    [SerializeField] public Image waterImage; // 물 이미지
 
     [SerializeField] private Slider progressBar; // 진행률 바
     [SerializeField] private TextMeshProUGUI resultText; // 결과 텍스트
@@ -17,7 +19,7 @@ public class WashingMinigame : MonoBehaviour
     private float pressTime; // 현재 스페이스바 누르고 있는 시간
     private float totalPressTime; // 누적 누름 시간
     private bool isPressing; // 스페이스바 누르는 중 여부
-    private const float MAX_PRESS_TIME = 2f; // 목표 누름 시간 (10초)
+
     private float shakeAngle = 10f; // 흔들기 각도
     private float shakeSpeed = 10f; // 흔들기 속도
 
@@ -35,6 +37,7 @@ public class WashingMinigame : MonoBehaviour
         // 스페이스바 입력 처리
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            SoundManager.Instance.Play("WashingSFX");
             isPressing = true;
             pressTime = 0f;
             StartCoroutine(MoveSpacebarImage());
@@ -66,8 +69,10 @@ public class WashingMinigame : MonoBehaviour
         spacebarImage.rectTransform.anchoredPosition = spacebarOriginalPos;
     }
 
+    // 설거지 미니게임 시작
     public void WashingMiniGameStart()
     {
+        isPressing = false;
         gameObject.SetActive(true);
 
         spacebarOriginalPos = spacebarImage.rectTransform.anchoredPosition;
@@ -84,21 +89,26 @@ public class WashingMinigame : MonoBehaviour
         waterImage.gameObject.SetActive(true); // 물 활성화
     }
 
+    // 종료
     private void GameComplete()
     {
         resultText.text = "성공!";
         plateImage.rectTransform.rotation = Quaternion.identity; // 완료 시 회전 초기화
         plateImageSuccess.gameObject.SetActive(true); // 성공 접시 활성화
         waterImage.gameObject.SetActive(false); // 물 비활성화
+        SoundManager.Instance.Stop("WashingSFX");
         StartCoroutine(WaitEnd()); // 1초 후 비활성화
     }
 
     private IEnumerator WaitEnd()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         gameObject.SetActive(false);
         GH_GameManager.instance.player.EndOtherWork();
         GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
+        //접시 제거
+        PlateManager.instance.PopPlateStack();
+        SoundManager.Instance.Play("DishSFX");
 
     }
 }

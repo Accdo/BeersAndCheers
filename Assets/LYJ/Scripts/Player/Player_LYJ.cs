@@ -8,7 +8,7 @@ public class Player_LYJ : MonoBehaviour
     private const float DEFAULT_HEALTH = 100f;
     #endregion
     [SerializeField, Tooltip("기본값 100")] private float maxHealth;
-    private float currentHealth;
+    [SerializeField] private float currentHealth;
     public float CurrentHealth
     {
         get => currentHealth;
@@ -35,7 +35,9 @@ public class Player_LYJ : MonoBehaviour
     private bool isGrounded;
     private bool isRun;
     private bool isWalk;
+    private bool isMujeok;
     private bool doingOtherWork;
+    public bool DoingOtherWork => doingOtherWork;
     Coroutine currentOtherWork;
     [HideInInspector] public bool IsRun => isRun;
     [HideInInspector] public bool IsWalk => isWalk;
@@ -163,7 +165,22 @@ public class Player_LYJ : MonoBehaviour
 
     public void Damage(float damageAmount)
     {
+        if (isMujeok) { return; }
         CurrentHealth -= damageAmount;
+    }
+
+    public void Heal()
+    {
+        CurrentHealth = maxHealth;
+    }
+    public void TempHeal()
+    {
+        currentHealth = maxHealth;
+    }
+
+    public void Mujeok(bool value)
+    {
+        isMujeok = value;
     }
 
 
@@ -220,12 +237,10 @@ public class Player_LYJ : MonoBehaviour
         }
     }
 
-    public void EquipWeapon()
+    public void EquipItem()
     {
-        if (currentEquipment != null)
-        {
-            Destroy(currentEquipment); // animator = null;
-        }
+        UnequipItem();
+
         if (inventory.hotbar.selectedSlot.UseItem() == null)
         {
             Debug.LogWarning("선택된 슬롯에 아이템이 없습니다.");
@@ -236,5 +251,14 @@ public class Player_LYJ : MonoBehaviour
         // animator 로 변경
         currentEquipment = Instantiate(inventory.hotbar.selectedSlot.UseItem(), weaponHoldPoint.position, inventory.hotbar.selectedSlot.UseItem().transform.rotation);
         currentEquipment.transform.SetParent(transform);
+    }
+
+    // 장착한 아이템를 제거
+    public void UnequipItem()
+    {
+        if (inventory.hotbar.selectedSlot.count <= 0)
+        {
+            Destroy(currentEquipment); // animator = null;
+        }
     }
 }
