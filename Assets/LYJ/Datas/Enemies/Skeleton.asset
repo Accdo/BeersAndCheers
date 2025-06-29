@@ -21,9 +21,5 @@ MonoBehaviour:
   attackRange: 1
   attackHeight: 1
   fleshType: 0
-  dropItems: []
+  dropItem: {fileID: 6347789596015580267, guid: beadfcf087ef4f0409f5c0cdb1ce1690, type: 3}
   spawnZone: {x: 1, y: 3}
-  idleAudio: 
-  walkAudio: SkeletonWalk
-  attackAudio: SkeletonHit
-  dieAudio: SkeletonDie
