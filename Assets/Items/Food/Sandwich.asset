@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Sandwich
   icon: {fileID: 21300000, guid: 793498d97c3967648bc91c08ddf89a85, type: 3}
-  price: 500
+  price: 1000
   freshPoint: 100
   foodPrefab: {fileID: 1206450212880271688, guid: 230065616d2f0504a9225a2a08acda7f, type: 3}
   ingredients:

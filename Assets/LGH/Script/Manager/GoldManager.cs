@@ -11,19 +11,17 @@ public class GoldManager : MonoBehaviour
         money += amount;
         UpdateGoldText();
     }
-    public bool RemoveMoney(int amount)
+    public void RemoveMoney(int amount)
     {
         if (money >= amount)
         {
             money -= amount;
             UpdateGoldText();
-            return true;
         }
-        else
-        {
-            Debug.Log("돈이 부족합니다");
-            return false;
-        }
+    }
+    public bool HasMoney(int amount)
+    {
+        return money >= amount;
     }
     private void UpdateGoldText()
     {

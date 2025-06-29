@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: PotatoSeed
   icon: {fileID: 21300000, guid: 90696eba69edc5a4b91293eddcf0cefb, type: 3}
-  price: 0
+  price: 100
   plantedPrefab: {fileID: 919132149155446097, guid: abfe213d6069c7d4b84c428a905c8a08, type: 3}
   wateredPrefab: {fileID: 6662174415517180126, guid: 81dad7d5552c9a341b390c79338fe0a4, type: 3}
   grownPrefab: {fileID: 1006168753311389134, guid: 6852445534890604e826fdbc397a5faa, type: 3}
