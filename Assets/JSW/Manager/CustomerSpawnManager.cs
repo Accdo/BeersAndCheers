@@ -80,9 +80,7 @@ public class CustomerSpawnManager : MonoBehaviour
     // 일반 또는 퀘스트 손님 생성 시도
     void AttemptToSpawnNormalOrQuestCustomer()
     {
-        bool questCustomerExists = FindObjectsOfType<CustomerAI>().Any(customer => customer.isQuestCustomer);
-        
-        bool willTryToSpawnQuestGiver = !questCustomerExists && Random.value < questCustomerSpawnChance;
+        bool willTryToSpawnQuestGiver = !isQuestCustomerSpawned && Random.value < questCustomerSpawnChance;
 
         if (willTryToSpawnQuestGiver)
         {
