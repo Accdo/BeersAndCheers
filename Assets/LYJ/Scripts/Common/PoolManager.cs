@@ -18,6 +18,18 @@ public class PoolManager : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
     private Dictionary<string, ObjectPool> pools = new();
 
     public void CreatePool(GameObject prefab, int initialSize)
@@ -34,7 +46,7 @@ public class PoolManager : MonoBehaviour
         string key = prefab.name;
         if (!pools.ContainsKey(key))
         {
-            CreatePool(prefab, 10);
+            CreatePool(prefab, 2);
         }
         return pools[key].GetObject();
     }

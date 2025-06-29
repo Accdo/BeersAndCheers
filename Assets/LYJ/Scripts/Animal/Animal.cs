@@ -50,7 +50,7 @@ public class Animal : MonoBehaviour, IHittable
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    public void Start() // 나중에 init으로 변경
+    public void Init()
     {
         hud = GetComponentInChildren<EnemyHUD>();
         anim = GetComponent<Animator>();
@@ -98,6 +98,7 @@ public class Animal : MonoBehaviour, IHittable
 
     public void DestroyThis()
     {
-        Destroy(this);
+        AnimalSpawner.Instance.AnimalReturned(data.IndexOnPool);
+        Destroy(gameObject);
     }
 }
