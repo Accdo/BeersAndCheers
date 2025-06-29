@@ -25,6 +25,9 @@ public class Cooking_UI : MonoBehaviour
     // 요리 재료의 총 갯수
     private int ingredientCount = 0;
 
+    // 재료가 충분한가에 bool
+    public bool isIngredientEnough = false;
+
     public void SetCurrentFermentingUI(int id)
     {
         fermentingUI = fermentingUIs[id];
@@ -88,6 +91,10 @@ public class Cooking_UI : MonoBehaviour
                 Debug.Log($"Not enough ingredients to cook {SelectItem.data.itemName}. Required: {cookItemCount}, Available: {playerItemCount}");
                 return;
             }
+
+            // 재료가 부족한 상태에 cook 눌렀을 때, 다시움직이기 방지
+            GH_GameManager.instance.uiManager.interaction.isBusy = false;
+            GH_GameManager.instance.player.EndOtherWork();
         }
         for (int i = 0; i < currentCookSlotCount; i++)
         {

@@ -47,7 +47,7 @@ public class Player_LYJ : MonoBehaviour
     [SerializeField, Tooltip("기본값 2")] private float camSensitivityVertical;
     [SerializeField, Tooltip("기본값 3")] private float camSensitivityHorizontal;
     [SerializeField, Tooltip("기본값 45")] private float camRotationLimit;
-    private float currentCamRotationX;
+    public float currentCamRotationX;
 
     #region 컴포넌트
     private Rigidbody rb;
@@ -57,8 +57,6 @@ public class Player_LYJ : MonoBehaviour
 
     // 인벤토라 관련
     public InventoryManager inventory;
-    public Item swordItem;
-    public Item exeItem;
     // 현재 착용 장비
     public GameObject currentEquipment;
     public Transform weaponHoldPoint; // 무기를 장착할 위치
@@ -239,7 +237,7 @@ public class Player_LYJ : MonoBehaviour
 
     public void EquipItem()
     {
-        UnequipItem();
+        Destroy(currentEquipment);
 
         if (inventory.hotbar.selectedSlot.UseItem() == null)
         {
@@ -258,7 +256,7 @@ public class Player_LYJ : MonoBehaviour
     {
         if (inventory.hotbar.selectedSlot.count <= 0)
         {
-            Destroy(currentEquipment); // animator = null;
+            Destroy(currentEquipment);
         }
     }
 }

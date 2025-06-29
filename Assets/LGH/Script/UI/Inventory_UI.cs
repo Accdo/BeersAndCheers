@@ -111,6 +111,28 @@ public class Inventory_UI : MonoBehaviour
         GH_GameManager.instance.uiManager.RefreshAll();
     }
 
+    public void MoveToBox(Slot_UI slot)
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            // 보관함 열려 있을 때
+            if (GH_GameManager.instance.uiManager.storageboxPanel.activeSelf)
+            {
+                Debug.Log("storageboxPanel");
+
+                
+            }
+            // 냉장 보관함 열려 있을 떄
+            if (GH_GameManager.instance.uiManager.freezeboxPanel.activeSelf)
+            {
+                Debug.Log("freezeboxPanel");
+
+            }
+        }
+
+        GH_GameManager.instance.uiManager.RefreshAll();
+    }
+
     private void MoveToMousePosition(GameObject toMove)
     {
         if (canvas != null)
