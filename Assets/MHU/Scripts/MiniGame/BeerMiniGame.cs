@@ -47,6 +47,11 @@ public class BeerMiniGame : MonoBehaviour
     {
         if (isGameEnded) return;
 
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            SoundManager.Instance.Play("BeerSFX");
+        }
+
         // 스페이스바 입력 처리
         if (Input.GetKey(KeyCode.Space))
         {
@@ -64,7 +69,6 @@ public class BeerMiniGame : MonoBehaviour
         // 스페이스바 애니메이션
         StartCoroutine(MoveSpacebarImage());
 
-        spacebarImage.color = new Color(1f, 1f, 1f, 1f); // 알파값 복원
         isFilling = true;
 
         // 액체 채우기

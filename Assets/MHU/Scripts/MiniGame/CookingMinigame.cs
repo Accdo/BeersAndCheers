@@ -49,6 +49,7 @@ public class CookingMinigame : MonoBehaviour
     // 요리 미니게임 시작 함수
     public void StartCookingMinigame()
     {
+        SoundManager.Instance.Play("BoilingSFX");
         // 기존 색상 변경 코루틴 중지
         StopColorChange();
 
@@ -214,6 +215,8 @@ public class CookingMinigame : MonoBehaviour
         GH_GameManager.instance.player.EndOtherWork();
         GH_GameManager.instance.player.MouseVisible(false);
         interaction.isBusy = false;
+
+        SoundManager.Instance.Stop("BoilingSFX");
     }
 
     // 게임 성공 후 종료 처리 코루틴
@@ -234,6 +237,8 @@ public class CookingMinigame : MonoBehaviour
         GH_GameManager.instance.player.EndOtherWork();
         GH_GameManager.instance.player.MouseVisible(false);
         interaction.isBusy = false;
+
+        SoundManager.Instance.Stop("BoilingSFX");
 
     }
 

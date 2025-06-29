@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Beer
   icon: {fileID: 21300000, guid: 4ae517329e1335f4984b82c967891e2c, type: 3}
-  price: 0
+  price: 1000
   freshPoint: 100
   foodPrefab: {fileID: 2295552480941103910, guid: 7649f5840e13abb479c3692e05189ac6, type: 3}
   ingredients:

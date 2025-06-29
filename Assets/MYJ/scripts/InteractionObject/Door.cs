@@ -11,6 +11,8 @@ public class Door : MonoBehaviour, IInteractable
     private Quaternion startRotation;
     private Quaternion targetRotation;
 
+    public WoodenSignController woodenSignController;
+
     public string GetCursorType() => "Door";
     public string GetInteractionID() => "Door";
     public InteractionType GetInteractionType() => InteractionType.Instant;

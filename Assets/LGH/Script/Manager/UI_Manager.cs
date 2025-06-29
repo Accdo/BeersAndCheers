@@ -121,11 +121,13 @@ public class UI_Manager : MonoBehaviour
         {
             if (!ShopPanel.activeSelf)
             {
+                GH_GameManager.instance.player.StartOtherWork();
                 GH_GameManager.instance.player.MouseVisible(true);
                 ShopPanel.SetActive(true);
             }
             else
             {
+                GH_GameManager.instance.player.EndOtherWork();
                 GH_GameManager.instance.player.MouseVisible(false);
                 ShopPanel.SetActive(false);
             }

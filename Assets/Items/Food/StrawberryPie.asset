@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: StrawberryPie
   icon: {fileID: 21300000, guid: 74a2cee5aaa988c44b1cb962baa87c91, type: 3}
-  price: 0
+  price: 1000
   freshPoint: 100
   foodPrefab: {fileID: 2776601802351777021, guid: 2df29ba1dceed02478c8b45f1351a26c, type: 3}
   ingredients:

@@ -66,6 +66,14 @@ public class InventoryManager : MonoBehaviour
     {
         if (inventoryByName.ContainsKey(inventoryName))
         {
+            // 인벤토리가 꽉 찼는지 확인
+            if (GH_GameManager.instance.player.inventory.IsFull(inventoryName, item.data.itemName))
+            {
+                Debug.Log("인벤토리가 꽉 찼습니다 : IsFull");
+                // 인벤토리 꽉 찼을 떄 UI 띄우기
+                // GH_GameManager.instance.uiManager.ShowInventoryFullUI(inventoryName);
+                return;
+            }
             inventoryByName[inventoryName].Add(item);
         }
     }
@@ -82,12 +90,14 @@ public class InventoryManager : MonoBehaviour
 
     public void RemoveItem(string itemName)
     {
+        // 백팩은 아이템을 제거할 수 있는지 확인
         if (backpack.CanRemove(itemName))
         {
             GH_GameManager.instance.uiManager.RefreshAll();
             return;
         }
 
+        // 핫바는 아이템을 제거
         hotbar.Remove(itemName);
         GH_GameManager.instance.uiManager.RefreshAll();
     }

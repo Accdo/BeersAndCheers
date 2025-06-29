@@ -50,11 +50,22 @@ public class TavernManager : MonoBehaviour
 
     private void Start()
     {
+        // 게임 시작 세팅
+        FadeImageSet();
         // 게임 시작 시 페이드 인
         FadeIn();
 
 
         EventManager.Instance.AddListener(PlayerEvents.DIED, Sleeping);
+    }
+
+    private void FadeImageSet() // 활성화
+    {
+        fadeImage.gameObject.SetActive(true);
+    }
+    private void FadeImageClear() // 비활성화
+    {
+        fadeImage.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -118,12 +129,22 @@ public class TavernManager : MonoBehaviour
 
     public void FadeIn()
     {
-        fadeImage.DOFade(0f, fadeDuration);
+        //fadeImage.DOFade(0f, fadeDuration);
+        FadeImageSet(); // 활성화
+        fadeImage.DOFade(0f, fadeDuration).OnComplete(() =>
+        {
+            FadeImageClear(); // 완료 후 비활성화
+        });
     }
 
     public void FadeOut()
     {
-        fadeImage.DOFade(1f, fadeDuration);
+        //fadeImage.DOFade(1f, fadeDuration);
+        FadeImageSet(); // 활성화
+        fadeImage.DOFade(1f, fadeDuration).OnComplete(() =>
+        {
+            FadeImageClear(); // 완료 후 비활성화
+        });
     }
     IEnumerator Sleeping()
     {

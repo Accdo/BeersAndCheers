@@ -194,6 +194,7 @@ public class Inventory
     }
 
     // 아이템 이름을 통해 슬롯 리스트를 탐색하고 찾아서 <아이템 삭제>
+    // 핫바 전용인가?
     public void Remove(string itemName)
     {
         for (int i = 0; i < slots.Count; i++)
@@ -201,6 +202,10 @@ public class Inventory
             if (slots[i].itemName == itemName)
             {
                 slots[i].RemoveItem();
+                if (selectedSlot == slots[i] && slots[i].IsEmpty) // 선택된 슬롯이고, 그 슬롯이 비어있다면
+                {
+                    GH_GameManager.instance.player.UnequipItem(); // 현재 장착 아이템이 장착 해제
+                }
                 return;
             }
         }

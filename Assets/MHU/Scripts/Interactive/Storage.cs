@@ -12,6 +12,7 @@ public class Storage : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        SoundManager.Instance.Play("WoodBoxSFX");
         ui_Manager.ToggleStorageBoxUI();
 
         interaction.isBusy = true;
