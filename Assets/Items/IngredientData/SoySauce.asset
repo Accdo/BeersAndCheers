@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: SoySauce
   icon: {fileID: 21300000, guid: 34ec0863ca953a940b73fc132633c800, type: 3}
-  price: 500
+  price: 400
   freshPoint: 100

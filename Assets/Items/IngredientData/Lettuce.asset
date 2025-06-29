@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Lettuce
   icon: {fileID: 2058808909, guid: 7389cd916d704fd4397f3b028dda42be, type: 3}
-  price: 350
+  price: 300
   freshPoint: 100

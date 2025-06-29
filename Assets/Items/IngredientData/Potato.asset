@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Potato
   icon: {fileID: 21300000, guid: 9259d0593c4f1dc4dace4c67ce000473, type: 3}
-  price: 500
+  price: 400
   freshPoint: 100
