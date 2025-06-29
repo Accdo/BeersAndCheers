@@ -19,7 +19,13 @@ public class EnemyIdleState : State_LYJ<Enemy>
         owner.Anim.SetBool("Idle", true);
         idleTime = Random.Range(3f, 5f);
         idleStartTime = Time.time;
-
+        // if (owner.Data.IdleAudio.Length > 2)
+        // {
+        //     Debug.Log("idle 오디오실행");
+        //     SoundManager.Instance.Play(owner.Data.IdleAudio);
+        // }
+        Debug.Log("idle 오디오실행");
+        owner.PlayAudio(EnemyStates.Idle);
     }
 
     public override void Run()

@@ -36,7 +36,14 @@ public class EnemyAttackState : State_LYJ<Enemy>
     {
         owner.CanAttack = false;
         owner.Anim.SetTrigger("Attack");
+        // if (owner.Data.AttackAudio.Length > 2)
+        // {
+        //     Debug.Log("공격 오디오실행");
+        //     SoundManager.Instance.Play(owner.Data.AttackAudio);
+        // }
         yield return new WaitForSeconds(owner.Data.AttackFirstDelay);
+        Debug.Log("공격 오디오실행");
+        owner.PlayAudio(EnemyStates.Attack);
 
         Vector3 centerPoint = owner.transform.position + (owner.transform.forward * (owner.Data.AttackRange *1.5f)) + (owner.transform.up * owner.Data.AttackHeight);
         Collider[] hitTargets = Physics.OverlapSphere(centerPoint, owner.Data.AttackRange, owner.HitTarget);

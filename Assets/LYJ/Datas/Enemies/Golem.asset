@@ -23,3 +23,7 @@ MonoBehaviour:
   fleshType: 0
   dropItems: []
   spawnZone: {x: 3, y: 5}
+  idleAudio: GolemBreath
+  walkAudio: GolemWalk
+  attackAudio: GolemHit
+  dieAudio: GolemDie

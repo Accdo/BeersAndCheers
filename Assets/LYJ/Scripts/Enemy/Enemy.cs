@@ -41,6 +41,8 @@ public class Enemy : MonoBehaviour, IHittable
     [HideInInspector] public bool IsDead = false;
     #endregion
 
+    [SerializeField, Tooltip("idle, walk, attack, die")] private List<AudioSource> audios;
+
     private Player_LYJ chaseTarget;
     public Player_LYJ ChaseTarget => chaseTarget;
     [SerializeField] private LayerMask hitTarget;
@@ -126,7 +128,41 @@ public class Enemy : MonoBehaviour, IHittable
     {
         chaseTarget = null;
     }
-    
+
+    public void PlayAudio(EnemyStates state)
+    {
+        switch (state)
+        {
+            case EnemyStates.Idle:
+                if (audios[0] != null)
+                {
+                    audios[0].Play();
+                }
+                break;
+            case EnemyStates.Move:
+            case EnemyStates.Stray:
+                if (audios[1] != null)
+                {
+                    audios[1].Play();
+                }
+                break;
+            case EnemyStates.Attack:
+                if (audios[2] != null)
+                {
+                    audios[2].Play();
+                }
+                break;
+            case EnemyStates.Die:
+                if (audios[3] != null)
+                {
+                    audios[3].Play();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Vector3 centerPoint = transform.position + (transform.forward * (Data.AttackRange * 1.5f)) + (transform.up * Data.AttackHeight);
@@ -134,5 +170,7 @@ public class Enemy : MonoBehaviour, IHittable
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(centerPoint, data.AttackRange);
     }
+
+
 
 }
