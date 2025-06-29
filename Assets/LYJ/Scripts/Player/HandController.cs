@@ -10,6 +10,7 @@ public class HandController : MonoBehaviour
     private int currentHandIndex;
     [SerializeField] private LayerMask hitTarget;
     private bool isAttacking;
+    [SerializeField] private AudioSource swingSound;
     private Animator anim;
 
     void Awake()
@@ -52,8 +53,11 @@ public class HandController : MonoBehaviour
             var hittable = target.GetComponent<IHittable>();
             hittable?.Damage(currentHand.Damage);
         }
+        yield return new WaitForSeconds(0.1f);
+        
+        swingSound.Play();
 
-        yield return new WaitForSeconds(1 / currentHand.AttackSpeed);
+        yield return new WaitForSeconds((1 / currentHand.AttackSpeed)- 0.1f);
 
         isAttacking = false;
     }

@@ -51,12 +51,20 @@ public class EnemyDieState : State_LYJ<Enemy>
 
     private void DropItem()
     {
-        if (owner.Data.DropItems.Count == 0)
+        if (owner.Data.DropItem != null)
         {
-            Debug.Log("아이템 미존재");
-            return;
+            GH_GameManager.instance.player.inventory.Add("Backpack", owner.Data.DropItem);
         }
-        GameObject dropedItem = Instantiate(owner.Data.DropItems[0], owner.transform); // 수정필요
-        dropedItem.transform.parent = null;
+        else
+        {
+            Debug.Log("아이템 없음");
+        }
+        // if (owner.Data.DropItems.Count == 0)
+        // {
+        //     Debug.Log("아이템 미존재");
+        //     return;
+        // }
+        // GameObject dropedItem = Instantiate(owner.Data.DropItems[0], owner.transform); // 수정필요
+        // dropedItem.transform.parent = null;
     }
 }
