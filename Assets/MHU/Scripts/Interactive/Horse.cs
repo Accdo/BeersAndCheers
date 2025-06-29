@@ -14,6 +14,10 @@ public class Horse : MonoBehaviour, IInteractable
     [SerializeField] private float camRotationLimit = 80f;
     [SerializeField] private float soundInterval = 0.5f; // 뛰는 사운드 간격
 
+    [Header("떨어짐 방지")]
+    [SerializeField] private float fallY = -10;
+    [SerializeField] private float upY = 20;
+
     private Player_LYJ ridingPlayer;
     private bool isRiding;
     private float currentCamRotationX;
@@ -75,10 +79,25 @@ public class Horse : MonoBehaviour, IInteractable
             HandleMovement();
             RotateCam();
             RotatePlayer();
+            RestrictYPosition();
         }
 
         // 애니메이션 상태 업데이트
         UpdateAnimation();
+    }
+
+    private void RestrictYPosition()
+    {
+        float minY = fallY; // Y값의 최소 임계값
+        float liftAmount = upY; // 올릴 Y값
+
+        // 게임오브젝트의 Y값이 minY보다 낮으면 liftAmount만큼 올림
+        if (transform.position.y < minY)
+        {
+            Vector3 newPosition = transform.position;
+            newPosition.y = minY + liftAmount;
+            transform.position = newPosition;
+        }
     }
 
     private void HandleMovement()

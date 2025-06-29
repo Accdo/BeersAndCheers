@@ -78,6 +78,7 @@ public class TavernManager : MonoBehaviour
             // 선술집 정산
             if (isPluseGold)
             {
+                SoundManager.Instance.Play("MoneySFX");
                 int bonusGold = defaultGold * PlateManager.instance.Satisfaction; // 만족도 보너스 골드
                 GH_GameManager.instance.goldManager.AddMoney(bonusGold);
                 Debug.Log($"만족도 보너스 골드: {bonusGold} G");
