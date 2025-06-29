@@ -394,7 +394,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 5
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4785195020209866366
 MonoBehaviour:
@@ -923,6 +923,7 @@ MonoBehaviour:
   currentHealth: 100
   maxHealth: 100
   CanAttack: 1
+  IsDead: 0
   hitTarget:
     serializedVersion: 2
     m_Bits: 8388608

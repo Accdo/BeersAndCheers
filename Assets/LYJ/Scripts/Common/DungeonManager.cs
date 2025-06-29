@@ -12,8 +12,11 @@ public class DungeonManager : MonoBehaviour // 프리팹화, 층마다 배치
     [SerializeField] private List<EnemySpawner> spawnZones;
     private List<GameObject> spawnable;
     public bool IsInDungeon;
-    private int remainEnemy;
+    [SerializeField] private int remainEnemy;
     [SerializeField] private GameObject inDungeonPortal;
+    [SerializeField] private GameObject hometownPortal;
+    private GameObject instanceDungeonPortal;
+    private GameObject instanceDungeonPortal2;
 
     private static DungeonManager instance;
     public static DungeonManager Instance
@@ -32,8 +35,15 @@ public class DungeonManager : MonoBehaviour // 프리팹화, 층마다 배치
 
     void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
         IsInDungeon = false;
-        ChangeFloor(1);
     }
 
     void Start()
@@ -112,17 +122,26 @@ public class DungeonManager : MonoBehaviour // 프리팹화, 층마다 배치
 
     public void ChangeFloor(int floor) // 몹 스폰 포함
     {
+        EventManager.Instance.TriggerEvent(EnemyEvents.CHANGE_FLOOR);
+        if (IsInDungeon)
+        {
+            Destroy(instanceDungeonPortal);
+            if (instanceDungeonPortal2 != null)
+            {
+                Destroy(instanceDungeonPortal2);
+            }
+        }
         if (floor > 0 && floor <= MAX_FLOOR)
-        {
-            currentFloor = floor;
-            remainEnemy = spawnZones.Count;
-        }
-        else
-        {
-            Debug.Log("올바르지 않은 층수");
-        }
-        FilterSpawnable();
-        SpawnEnemies();
+            {
+                currentFloor = floor;
+                remainEnemy = spawnZones.Count;
+            }
+            else
+            {
+                Debug.Log("올바르지 않은 층수");
+            }
+            FilterSpawnable();
+            SpawnEnemies();
     }
 
     private void CheckRemainEnemy(object data)
@@ -130,12 +149,25 @@ public class DungeonManager : MonoBehaviour // 프리팹화, 층마다 배치
         remainEnemy--;
         if (remainEnemy <= 0)
         {
-            CreateNextFloorPortal();
+            if (currentFloor < MAX_FLOOR)
+            {
+                CreateNextFloorPortal();
+            }
+            if (currentFloor == MAX_FLOOR)
+            {
+                CreateHomePortal();
+            }
         }
     }
 
     private void CreateNextFloorPortal()
     {
-        Instantiate(inDungeonPortal, PlaceXYZ.DUNGEON_CLEAR_XYZ, Quaternion.identity, null); // 생성 위치 나중에 조정할 필요가 있을듯
+        instanceDungeonPortal = Instantiate(inDungeonPortal, PlaceXYZ.DUNGEON_TO_DUNGEON_XYZ, Quaternion.identity, null);
+        instanceDungeonPortal2 = Instantiate(hometownPortal, PlaceXYZ.DUNGEON_TO_HOME_XYZ, Quaternion.identity, null);
+    }
+
+    private void CreateHomePortal()
+    {
+        instanceDungeonPortal = Instantiate(hometownPortal, PlaceXYZ.DUNGEON_TO_HOME_XYZ, Quaternion.identity, null);
     }
 }
