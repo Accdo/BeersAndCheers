@@ -374,6 +374,9 @@ public class CustomerAI : MonoBehaviour
                     DialogueManager.Instance.ShowInteractableText(false, this, 0f);
                 }
 
+                //사운드
+                SoundManager.Instance.Play("CustomerReaction");
+
                 // --- 신선도에 따른 만족도 추가 계산 (0-100 기준) ---
                 float freshness = deliveredFood.freshPoint; // FoodData에서 신선도 가져오기 (0 ~ 100)
                 float freshnessBonus = 0f;
