@@ -248,7 +248,7 @@ public class Player_LYJ : MonoBehaviour
         // 무기 생성 또는 갈아끼기
         // animator 로 변경
         currentEquipment = Instantiate(inventory.hotbar.selectedSlot.UseItem(), weaponHoldPoint.position, inventory.hotbar.selectedSlot.UseItem().transform.rotation);
-        currentEquipment.transform.SetParent(transform);
+        currentEquipment.transform.SetParent(weaponHoldPoint);
     }
 
     // 장착한 아이템를 제거

@@ -17,8 +17,6 @@ public class UI_Manager : MonoBehaviour
     public static Image draggedIcon;
     public static bool dragSingle;
 
-    
-
     [Header("레시피 패널")]
     public GameObject RecipePanel;
     [Header("쿠킹 패널")]
@@ -124,12 +122,14 @@ public class UI_Manager : MonoBehaviour
             {
                 GH_GameManager.instance.player.StartOtherWork();
                 GH_GameManager.instance.player.MouseVisible(true);
+                inventoryPanel.SetActive(true);
                 ShopPanel.SetActive(true);
             }
             else
             {
                 GH_GameManager.instance.player.EndOtherWork();
                 GH_GameManager.instance.player.MouseVisible(false);
+                inventoryPanel.SetActive(false);
                 ShopPanel.SetActive(false);
             }
         }
