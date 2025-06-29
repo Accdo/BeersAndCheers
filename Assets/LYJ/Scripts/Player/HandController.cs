@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
-    [SerializeField] private Player_LYJ player; // temp
     [SerializeField, Tooltip("단순 무기 외형")] private List<GameObject> allWeapons;
     [SerializeField, Tooltip("손 데이터")] private List<Hand> allHands;
     [SerializeField] private Hand currentHand;
@@ -30,7 +29,7 @@ public class HandController : MonoBehaviour
 
     private void TryAttack()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !player.DoingOtherWork)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !GH_GameManager.instance.player.DoingOtherWork)
         {
             if (!isAttacking)
             {
@@ -61,7 +60,8 @@ public class HandController : MonoBehaviour
 
     private void TryChangeHand()
     {
-        if (Input.GetKeyDown(KeyCode.V) && !player.DoingOtherWork)
+        if (isAttacking) { return; }
+        if (Input.GetKeyDown(KeyCode.V) && !GH_GameManager.instance.player.DoingOtherWork)
         {
             allWeapons[currentHandIndex].SetActive(false);
             currentHandIndex++;
@@ -74,13 +74,10 @@ public class HandController : MonoBehaviour
         }
     }
 
-
-
-
     private void ControlAnim()
     {
-        anim.SetBool("Walk", player.IsWalk);
-        anim.SetBool("Run", player.IsRun);
+        anim.SetBool("Walk", GH_GameManager.instance.player.IsWalk);
+        anim.SetBool("Run", GH_GameManager.instance.player.IsRun);
     }
 
     private void OnDrawGizmosSelected()

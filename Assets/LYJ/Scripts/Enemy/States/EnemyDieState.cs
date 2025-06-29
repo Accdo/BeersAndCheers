@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class EnemyDieState : State_LYJ<Enemy>
 {
-    private const float DIE_TO_DESTROY_TIME = 15f; // 시체가 유지될 시간
     private Enemy owner;
-    private float dieStartTime;
 
     public override void Enter(Enemy owner)
     {
@@ -20,7 +18,6 @@ public class EnemyDieState : State_LYJ<Enemy>
         owner.Anim.SetTrigger("Die");
         owner.Anim.SetBool("Idle", false);
         owner.Anim.SetBool("Walk", false);
-        dieStartTime = Time.time;
 
         DeactiveComponents();
         DropItem();
@@ -29,10 +26,6 @@ public class EnemyDieState : State_LYJ<Enemy>
     public override void Run()
     {
         base.Run();
-        if (Time.time - dieStartTime >= DIE_TO_DESTROY_TIME)
-        {
-            owner.DestroyThis();
-        }
     }
 
     public override void Exit()
