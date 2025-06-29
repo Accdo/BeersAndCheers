@@ -13,22 +13,22 @@ MonoBehaviour:
   m_Name: QUEST_638865590013635849
   m_EditorClassIdentifier: 
   questID: QUEST_638865590013635849
-  questTitle: "\uB9DB\uC788\uB294 \uC0CC\uB4DC\uC704\uCE58!"
-  questDescription: "\uB9DB\uC788\uB294 \uC0CC\uB4DC\uC704\uCE58\uB97C \uC190\uB2D8\uC5D0\uAC8C
+  questTitle: "\uC2DC\uC6D0\uD55C \uB9E5\uC8FC!"
+  questDescription: "\uC2DC\uC6D0\uD55C \uB9E5\uC8FC\uB97C \uC190\uB2D8\uC5D0\uAC8C
     \uB300\uC811\uD574\uC57C \uD569\uB2C8\uB2E4.\n(* \uC774 \uD018\uC2A4\uD2B8\uB294
     \uC74C\uC2DD \uD310\uB9E4\uAC00\uC758 1.5\uBC30\uB97C \uBCF4\uC0C1\uC73C\uB85C
     \uC81C\uACF5\uD569\uB2C8\uB2E4)"
-  questIcon: {fileID: 21300000, guid: 793498d97c3967648bc91c08ddf89a85, type: 3}
+  questIcon: {fileID: 21300000, guid: 4ae517329e1335f4984b82c967891e2c, type: 3}
   questType: 2
   objectives:
   - objectiveID: 
-    description: "Sandwich \n1\uAC1C \uC81C\uC791"
+    description: "Beer \n1\uAC1C \uC81C\uC791"
     type: 2
     requiredItem: {fileID: 0}
     requiredAmount: 0
     enemyData: {fileID: 0}
     killCount: 0
-    requiredFood: {fileID: 11400000, guid: 2bdfe6fdb259dd547ae52eb87329f893, type: 2}
+    requiredFood: {fileID: 11400000, guid: 6bbe04dec2ee8b64db68ca70ecc38476, type: 2}
     foodCount: 1
   rewards: []
   isRepeatable: 1
