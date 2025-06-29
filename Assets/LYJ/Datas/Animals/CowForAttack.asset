@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d585b1681c8e48429b75fb799452cf2, type: 3}
+  m_Name: CowForAttack
+  m_EditorClassIdentifier: 
+  animalName: Cow
+  health: 80
+  moveSpeed: 3
+  dropItem: {fileID: 7867906771709120731, guid: eea17312c3b57564ead50ffd13dd394b, type: 3}
+  indexOnPool: 0

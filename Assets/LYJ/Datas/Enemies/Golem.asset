@@ -21,9 +21,5 @@ MonoBehaviour:
   attackRange: 1.4
   attackHeight: 1.5
   fleshType: 0
-  dropItems: []
+  dropItem: {fileID: 2298351355352021619, guid: 949366f6f3e56414f8f688037466c8d6, type: 3}
   spawnZone: {x: 3, y: 5}
-  idleAudio: GolemBreath
-  walkAudio: GolemWalk
-  attackAudio: GolemHit
-  dieAudio: GolemDie
