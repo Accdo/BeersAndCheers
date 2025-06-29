@@ -22,4 +22,4 @@ MonoBehaviour:
   attackHeight: 1
   fleshType: 1
   dropItems: []
-  spawnZone: {x: 1, y: 3}
+  spawnZone: {x: 2, y: 4}

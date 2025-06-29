@@ -19,7 +19,7 @@ public class EnemyStrayState : State_LYJ<Enemy>
             }
         }
         owner.Anim.SetBool("Walk", true);
-        strayingTime = Random.Range(4, 6);
+        strayingTime = Random.Range(4f, 6f);
         strayStartTime = Time.time;
         SetDestination();
     }
