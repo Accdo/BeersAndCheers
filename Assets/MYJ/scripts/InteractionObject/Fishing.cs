@@ -27,6 +27,7 @@ public class Fishing : MonoBehaviour, IInteractable
 
     private bool isFishing = false;
     private bool canCatch = false;
+    private bool isFishVisible = true;
     private Coroutine fishingRoutine;
     public Item[] FishItem;
     public void Interact()

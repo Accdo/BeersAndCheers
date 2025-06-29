@@ -26,7 +26,13 @@ public class Door : MonoBehaviour, IInteractable
         float targetAngle = isOpen ? -angleAmount : angleAmount;
         targetRotation = startRotation * Quaternion.Euler(0, targetAngle, 0);
 
+        if (isOpen)
+            SoundManager.Instance.Play("DoorClose");
+        else
+            SoundManager.Instance.Play("DoorOpen");
+
         isOpen = !isOpen;
+
         StartCoroutine(RotateDoor());
     }
 
@@ -48,6 +54,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public bool GetDoorState()
     {
+       
         return isOpen;
     }
 }
