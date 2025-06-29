@@ -51,7 +51,7 @@ public class Player_LYJ : MonoBehaviour
 
     #region 컴포넌트
     private Rigidbody rb;
-    private CapsuleCollider coll;
+    private Collider coll;
     private Camera cam;
     #endregion
 
@@ -64,7 +64,7 @@ public class Player_LYJ : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        coll = GetComponent<CapsuleCollider>();
+        coll = GetComponent<Collider>();
         cam = GetComponentInChildren<Camera>();
 
         currentCamRotationX = 0f;

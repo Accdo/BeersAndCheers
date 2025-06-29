@@ -6,7 +6,6 @@ public class AnimalSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> allAnimals;
     [SerializeField] private Collider area;
-    [SerializeField] private List<int> remainAnimals;
 
     private static AnimalSpawner instance;
     public static AnimalSpawner Instance
@@ -57,7 +56,7 @@ public class AnimalSpawner : MonoBehaviour
 
         if (animalObj != null)
         {
-            Animal animalComponent = animalObj.GetComponent<Animal>();
+            Animal animalComponent = animalObj.GetComponentInChildren<Animal>();
 
             if (animalComponent != null)
             {
