@@ -3,7 +3,6 @@ using DG.Tweening;
 
 public class WoodenSignController : MonoBehaviour
 {
-    public bool isOpen { get; private set; } = false; // Close
     public void RotateWoodenSign()
     {
         // DOTween 시퀀스 생성
@@ -21,7 +20,5 @@ public class WoodenSignController : MonoBehaviour
 
         // 4. x값 원래로 이동
         sequence.Append(transform.DOMoveX(transform.localPosition.x, 0.5f).SetEase(Ease.InOutQuad));
-
-        isOpen = !isOpen;
     }
 }

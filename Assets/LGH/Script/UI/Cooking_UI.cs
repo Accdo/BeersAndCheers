@@ -55,7 +55,7 @@ public class Cooking_UI : MonoBehaviour
 
     public void Cook()
     {
-        if(fermentingUI.isFermenting) return;
+        //if(fermentingUI.isFermenting) return;
 
         var foodData = SelectItem.data as FoodData;
         if (foodData == null)

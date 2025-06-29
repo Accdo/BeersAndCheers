@@ -16,6 +16,7 @@ public class Cow : MonoBehaviour,IInteractable
     {
         //우유를 얻는다
         GH_GameManager.instance.player.inventory.Add("Backpack", milk);
+        SoundManager.Instance.Play("CowSFX");
 
         // 레이어를 "notInter"로 변경
         gameObject.layer = LayerMask.NameToLayer("Default");

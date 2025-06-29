@@ -16,6 +16,7 @@ public class Chicken : MonoBehaviour,IInteractable
     {
         //달걀를 얻는다
         GH_GameManager.instance.player.inventory.Add("Backpack", egg);
+        SoundManager.Instance.Play("ChickenSFX");
 
         // 레이어를 "notInter"로 변경
         gameObject.layer = LayerMask.NameToLayer("Default");

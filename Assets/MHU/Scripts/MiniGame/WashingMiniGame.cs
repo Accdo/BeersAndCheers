@@ -37,6 +37,7 @@ public class WashingMinigame : MonoBehaviour
         // 스페이스바 입력 처리
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            SoundManager.Instance.Play("WashingSFX");
             isPressing = true;
             pressTime = 0f;
             StartCoroutine(MoveSpacebarImage());
@@ -95,15 +96,19 @@ public class WashingMinigame : MonoBehaviour
         plateImage.rectTransform.rotation = Quaternion.identity; // 완료 시 회전 초기화
         plateImageSuccess.gameObject.SetActive(true); // 성공 접시 활성화
         waterImage.gameObject.SetActive(false); // 물 비활성화
+        SoundManager.Instance.Stop("WashingSFX");
         StartCoroutine(WaitEnd()); // 1초 후 비활성화
     }
 
     private IEnumerator WaitEnd()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         gameObject.SetActive(false);
         GH_GameManager.instance.player.EndOtherWork();
         GH_GameManager.instance.uiManager.ActiveHotbarUI(true);
+        //접시 제거
+        PlateManager.instance.PopPlateStack();
+        SoundManager.Instance.Play("DishSFX");
 
     }
 }

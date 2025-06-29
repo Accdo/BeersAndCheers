@@ -19,7 +19,6 @@ public class Door : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (!woodenSignController.isOpen) return;
         if (isAnimating) return;
 
         startRotation = doorHinge.rotation;

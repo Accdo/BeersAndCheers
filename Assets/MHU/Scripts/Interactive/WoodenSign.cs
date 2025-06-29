@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class WoodenSign : MonoBehaviour,IInteractable
+public class WoodenSign : MonoBehaviour, IInteractable
 {
     public string GetCursorType() => cursorType;
     public string GetInteractionID() => interactionID;
@@ -13,9 +13,9 @@ public class WoodenSign : MonoBehaviour,IInteractable
     [Header("자동 할당")]
     [SerializeField] private WoodenSignController woodenSignController;
 
-    private string cursorType = "Close"; // 동적 커서 타입
-    private string interactionID = "Close"; // 동적 인터랙션 ID
-    private int interactionCount = 0; // 상호작용 횟수
+    private string cursorType = "Open"; // 동적 커서 타입
+    private string interactionID = "Open"; // 동적 인터랙션 ID
+    public bool isOpen { get; private set; } = false; // Close
 
     private void Awake()
     {
@@ -24,15 +24,26 @@ public class WoodenSign : MonoBehaviour,IInteractable
 
     public void Interact()
     {
-        // 상호작용 횟수 증가
-        interactionCount++;
-        // "Open"과 "Closed" 번갈아 설정
-        cursorType = (interactionCount % 2 == 1) ? "Open" : "Close";
-        interactionID = (interactionCount % 2 == 1) ? "Open" : "Close";
+        SoundManager.Instance.Play("WoodSFX");
+        isOpen = !isOpen;
+
+        // Close로 바꾸면 실행할 것
+        if (!isOpen) // Close
+        {
+            // ex) 밤 12시 되기
+
+            cursorType = "Open"; // 상호작용 시 오픈으로 바꾼다는 커서 표시
+            interactionID = "Open";
+        }
+        else
+        {
+            cursorType = "Close";
+            interactionID = "Close";
+        }
 
         // 표지판 회전
         woodenSignController.RotateWoodenSign();
-        
+
         // 레이어를 "Default"로 변경
         gameObject.layer = LayerMask.NameToLayer("Default");
 
@@ -44,9 +55,5 @@ public class WoodenSign : MonoBehaviour,IInteractable
     {
         yield return new WaitForSeconds(coolTime);
         gameObject.layer = LayerMask.NameToLayer("Interactable");
-        
-        // 원래 cursorType과 interactionID로 복구
-        //cursorType = "Close";
-        //interactionID = "Close";
     }
 }
