@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Burger
   icon: {fileID: 21300000, guid: 0e2f7df6ce7299940a251d1eb0f33124, type: 3}
-  price: 500
+  price: 1000
   freshPoint: 100
   foodPrefab: {fileID: 6423498706921957513, guid: ef101dbf313dfe546beac3845c19e9fc, type: 3}
   ingredients: []

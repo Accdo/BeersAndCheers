@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: TomatoSoup
   icon: {fileID: 21300000, guid: 5831a7fbae263ee43beb1edefdd21c44, type: 3}
+  price: 1000
   freshPoint: 100
   foodPrefab: {fileID: 8344042950541548068, guid: 55472fa96f4725f4c87b3555aa7b599c, type: 3}
   ingredients:
@@ -22,4 +23,3 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 10cad14efb1983d4fb4e6d19260fc55f, type: 2}
   - {fileID: 11400000, guid: ae488b9cdb18bff44896922f11ad1c65, type: 2}
   ingredientCounts: 02000000010000000100000001000000
-  price: 0
