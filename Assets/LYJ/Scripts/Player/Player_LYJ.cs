@@ -237,12 +237,10 @@ public class Player_LYJ : MonoBehaviour
         }
     }
 
-    public void EquipWeapon()
+    public void EquipItem()
     {
-        if (currentEquipment != null)
-        {
-            Destroy(currentEquipment); // animator = null;
-        }
+        UnequipItem();
+
         if (inventory.hotbar.selectedSlot.UseItem() == null)
         {
             Debug.LogWarning("선택된 슬롯에 아이템이 없습니다.");
@@ -253,5 +251,14 @@ public class Player_LYJ : MonoBehaviour
         // animator 로 변경
         currentEquipment = Instantiate(inventory.hotbar.selectedSlot.UseItem(), weaponHoldPoint.position, inventory.hotbar.selectedSlot.UseItem().transform.rotation);
         currentEquipment.transform.SetParent(transform);
+    }
+
+    // 장착한 아이템를 제거
+    public void UnequipItem()
+    {
+        if (inventory.hotbar.selectedSlot.count <= 0)
+        {
+            Destroy(currentEquipment); // animator = null;
+        }
     }
 }
