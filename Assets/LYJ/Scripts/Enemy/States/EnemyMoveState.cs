@@ -1,8 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyMoveState : State_LYJ<Enemy>
 {
     private Enemy owner;
+    private bool playingAudio;
     public override void Enter(Enemy owner)
     {
         base.Enter(owner);
@@ -15,6 +17,7 @@ public class EnemyMoveState : State_LYJ<Enemy>
             }
         }
         owner.Anim.SetBool("Walk", true);
+        // playingAudio = false;
     }
 
     public override void Run()
@@ -34,11 +37,24 @@ public class EnemyMoveState : State_LYJ<Enemy>
             owner.ChangeState(EnemyStates.Stray);
             return;
         }
+        if (!playingAudio)
+        {
+            StartCoroutine(PlayWalkAudio());
+        }
     }
 
     public override void Exit()
     {
         owner.Anim.SetBool("Walk", false);
         base.Exit();
+    }
+
+    IEnumerator PlayWalkAudio()
+    {
+        playingAudio = true;
+        Debug.Log("추적 오디오 실행");
+        owner.PlayAudio(EnemyStates.Move);
+        yield return new WaitForSeconds(0.8f);
+        playingAudio = false;
     }
 }
