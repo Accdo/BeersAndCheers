@@ -119,14 +119,40 @@ public class Inventory_UI : MonoBehaviour
             if (GH_GameManager.instance.uiManager.storageboxPanel.activeSelf)
             {
                 Debug.Log("storageboxPanel");
-
-                
+                // 선택한 슬롯의 아이템(인벤토리) 
+                GH_GameManager.instance.player.inventory.backpack.MoveToBox(slot.slotID, GH_GameManager.instance.player.inventory.storagebox,
+                    GH_GameManager.instance.player.inventory.backpack.slots[slot.slotID].count);
             }
             // 냉장 보관함 열려 있을 떄
             if (GH_GameManager.instance.uiManager.freezeboxPanel.activeSelf)
             {
                 Debug.Log("freezeboxPanel");
+                GH_GameManager.instance.player.inventory.backpack.MoveToBox(slot.slotID, GH_GameManager.instance.player.inventory.freezeBox,
+                    GH_GameManager.instance.player.inventory.backpack.slots[slot.slotID].count);
+            }
+        }
 
+        GH_GameManager.instance.uiManager.RefreshAll();
+    }
+
+    public void MoveToInven(Slot_UI slot)
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            // 보관함 열려 있을 때
+            if (GH_GameManager.instance.uiManager.storageboxPanel.activeSelf)
+            {
+                Debug.Log("storageboxPanel");
+                // 선택한 슬롯의 아이템(인벤토리) 
+                GH_GameManager.instance.player.inventory.storagebox.MoveToBox(slot.slotID, GH_GameManager.instance.player.inventory.backpack,
+                    GH_GameManager.instance.player.inventory.storagebox.slots[slot.slotID].count);
+            }
+            // 냉장 보관함 열려 있을 떄
+            if (GH_GameManager.instance.uiManager.freezeboxPanel.activeSelf)
+            {
+                Debug.Log("freezeboxPanel");
+                GH_GameManager.instance.player.inventory.freezeBox.MoveToBox(slot.slotID, GH_GameManager.instance.player.inventory.backpack,
+                    GH_GameManager.instance.player.inventory.freezeBox.slots[slot.slotID].count);
             }
         }
 
