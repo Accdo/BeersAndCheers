@@ -374,6 +374,9 @@ public class CustomerAI : MonoBehaviour
                     DialogueManager.Instance.ShowInteractableText(false, this, 0f);
                 }
 
+                //사운드
+                SoundManager.Instance.Play("CustomerReaction");
+
                 // --- 신선도에 따른 만족도 추가 계산 (0-100 기준) ---
                 float freshness = deliveredFood.freshPoint; // FoodData에서 신선도 가져오기 (0 ~ 100)
                 float freshnessBonus = 0f;
@@ -392,6 +395,11 @@ public class CustomerAI : MonoBehaviour
                 {
                     freshnessBonus = -15f; // 신선하지 않음
                     Debug.Log($"<color=red>신선하지 않은 음식 (신선도: {freshness:F0}). 만족도 {freshnessBonus}</color>");
+                }
+                else if (freshness <= 0) 
+                {
+                    freshnessBonus = -100f; // 음식이 상했을 때
+                    Debug.Log($"<color=red>음식이 상했습니다! (신선도: {freshness:F0}). 만족도 {freshnessBonus}</color>");
                 }
                 SatisfactionScoreUpDown(freshnessBonus);
                 // ------------------------------------
@@ -690,7 +698,6 @@ public class CustomerAI : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        // 일반 주문만 처리 (특별주문은 CustomerSeat에서 처리)
         FoodData order = FoodManager.Instance.GetRandomFood();
         if (order != null)
         {
@@ -811,7 +818,7 @@ public class CustomerAI : MonoBehaviour
             if (line.recommendedFood != null)
             {
                 // 첫 번째 추천 메뉴와 일치하는지 확인
-                if (line.recommendedFood.itemName == deliveredFood.itemName)
+                if (line.recommendedFood.itemName == deliveredFood.itemName && deliveredFood.freshPoint > 0)
                 {
                     // 특별주문이고 추측 성공한 경우 추가 만족도
                     if (hasSpecialRequest && hasTalkedAboutSpecialRequest)

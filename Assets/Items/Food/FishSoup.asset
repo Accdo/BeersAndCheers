@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: FishSoup
   icon: {fileID: 21300000, guid: fcbc557c2385abf449145feab9a69da3, type: 3}
-  price: 0
+  price: 1000
   freshPoint: 100
   foodPrefab: {fileID: 3172135161692759211, guid: c417d7e22925ec045b1b8053a9b5c5e3, type: 3}
   ingredients:
@@ -22,4 +22,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61548145c32f65f4290a12f24eb9f588, type: 2}
   - {fileID: 11400000, guid: d6279f29ea5f66043b375ed00ffa8296, type: 2}
   - {fileID: 11400000, guid: 20067980ce3e03c44acfd8d9b5a80cee, type: 2}
-  ingredientCounts: 02000000020000000200000001000000
+  ingredientCounts: 01000000020000000200000001000000

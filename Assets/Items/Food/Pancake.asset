@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Pancake
   icon: {fileID: 21300000, guid: 84297724e21b77441acf4b902aa1bf7f, type: 3}
-  price: 0
+  price: 1000
   freshPoint: 100
   foodPrefab: {fileID: 6679247326922523865, guid: 2cd61d3d28179854cb150c4c086fb1e0, type: 3}
   ingredients:
@@ -22,4 +22,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6e1073061f9fc024d8002f10bcfd05d2, type: 2}
   - {fileID: 11400000, guid: 397fb4b47740899418243680bcaa1d0b, type: 2}
   - {fileID: 11400000, guid: 9bc3f56748e079840873d32570e7f719, type: 2}
-  ingredientCounts: 02000000010000000300000002000000
+  ingredientCounts: 02000000020000000200000002000000

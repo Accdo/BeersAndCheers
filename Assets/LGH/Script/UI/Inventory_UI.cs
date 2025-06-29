@@ -38,6 +38,7 @@ public class Inventory_UI : MonoBehaviour
         }
     }
 
+    // 아이템 제거하는데 돈이 들어오게 하자
     public void Remove()
     {
         Item itemToDrop = GH_GameManager.instance.itemManager.GetItemByName(
@@ -47,10 +48,22 @@ public class Inventory_UI : MonoBehaviour
         {
             if (UI_Manager.dragSingle)
             {
+                // 아이템 판매 금액 들어오기
+                Debug.Log($"itemToDrop.data.price: {itemToDrop.data.price}");
+                int sellMoney = itemToDrop.data.price / 2;
+                Debug.Log($"아이템 판매: {itemToDrop.data.itemName}, 가격: {sellMoney}");
+                GH_GameManager.instance.goldManager.AddMoney(sellMoney);
+
                 inventory.Remove(UI_Manager.draggedSlot.slotID);
             }
             else
             {
+                // 아이템 판매 금액 들어오기
+                Debug.Log($"itemToDrop.data.price: {itemToDrop.data.price}");
+                int sellMoney = itemToDrop.data.price * inventory.slots[UI_Manager.draggedSlot.slotID].count / 2;
+                Debug.Log($"아이템 판매: {itemToDrop.data.itemName}, 가격: {sellMoney}");
+                GH_GameManager.instance.goldManager.AddMoney(sellMoney);
+
                 inventory.Remove(UI_Manager.draggedSlot.slotID, inventory.slots[UI_Manager.draggedSlot.slotID].count);
             }
             Refresh();
@@ -93,6 +106,28 @@ public class Inventory_UI : MonoBehaviour
         {
             UI_Manager.draggedSlot.inventory.MoveSlot(UI_Manager.draggedSlot.slotID, slot.slotID, slot.inventory,
                 UI_Manager.draggedSlot.inventory.slots[UI_Manager.draggedSlot.slotID].count);
+        }
+
+        GH_GameManager.instance.uiManager.RefreshAll();
+    }
+
+    public void MoveToBox(Slot_UI slot)
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            // 보관함 열려 있을 때
+            if (GH_GameManager.instance.uiManager.storageboxPanel.activeSelf)
+            {
+                Debug.Log("storageboxPanel");
+
+                
+            }
+            // 냉장 보관함 열려 있을 떄
+            if (GH_GameManager.instance.uiManager.freezeboxPanel.activeSelf)
+            {
+                Debug.Log("freezeboxPanel");
+
+            }
         }
 
         GH_GameManager.instance.uiManager.RefreshAll();

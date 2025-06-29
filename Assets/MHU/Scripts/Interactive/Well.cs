@@ -12,6 +12,7 @@ public class Well : MonoBehaviour, IInteractable
     public void Interact()
     {
         GH_GameManager.instance.player.inventory.Add("Hotbar", waterPail);
+        GH_GameManager.instance.uiManager.RefreshAll();
         SoundManager.Instance.Play("WaterSFX");
 
     }

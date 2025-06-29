@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: BeefSoup
   icon: {fileID: 21300000, guid: 147e796e3c035f841ba97be1aa154014, type: 3}
-  price: 0
+  price: 1000
   freshPoint: 100
   foodPrefab: {fileID: 1686053235572166775, guid: 4a06fc82fd4a4ba48a4584af0001b519, type: 3}
   ingredients:
@@ -23,4 +23,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f31ef4792b3efcf4dbbda02426de98d3, type: 2}
   - {fileID: 11400000, guid: 1f6f20e94bf49b94b82ef612a817572d, type: 2}
   - {fileID: 11400000, guid: d6279f29ea5f66043b375ed00ffa8296, type: 2}
-  ingredientCounts: 0200000002000000020000000200000001000000
+  ingredientCounts: 0100000001000000010000000100000002000000

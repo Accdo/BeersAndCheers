@@ -8,6 +8,8 @@ public class Hotbar_UI : MonoBehaviour
     // 현재 선택한 슬롯
     private Slot_UI selectedSlot;
 
+    private int selectedSlotNumber = -1;
+
     private void Start()
     {
         SelectSlot(0);
@@ -37,8 +39,11 @@ public class Hotbar_UI : MonoBehaviour
 
             GH_GameManager.instance.player.inventory.hotbar.SelectSlot(index);
 
-            GH_GameManager.instance.player.EquipWeapon();
+            // 선택한 슬롯이 기존 슬롯과 다를경우 아이템 생성 X
+            //if (selectedSlotNumber != index)
+                GH_GameManager.instance.player.EquipItem();
 
+            //selectedSlotNumber = index;
         }
     }
 
