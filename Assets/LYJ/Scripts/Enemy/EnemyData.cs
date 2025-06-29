@@ -18,6 +18,11 @@ public class EnemyData : ScriptableObject
     [SerializeField, Tooltip("육질")] private FleshType fleshType;
     [SerializeField] private List<GameObject> dropItems;
     [SerializeField, Tooltip("등장 층수(난이도)")] private Vector2 spawnZone;
+    // [Header ("오디오 클립 이름 (in sound manager)")]
+    // [SerializeField] private string idleAudio;
+    // [SerializeField] private string walkAudio;
+    // [SerializeField] private string attackAudio;
+    // [SerializeField] private string dieAudio;
 
     public string EnemyName => enemyName;
     public float Health => health;
@@ -30,4 +35,8 @@ public class EnemyData : ScriptableObject
     public FleshType FleshType => fleshType;
     public List<GameObject> DropItems => dropItems;
     public Vector2 SpawnZone => spawnZone;
+    // public string IdleAudio => idleAudio;
+    // public string WalkAudio => walkAudio;
+    // public string AttackAudio => attackAudio;
+    // public string DieAudio => dieAudio;
 }
