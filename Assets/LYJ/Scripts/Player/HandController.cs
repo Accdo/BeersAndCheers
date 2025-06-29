@@ -50,8 +50,8 @@ public class HandController : MonoBehaviour
 
         foreach (var target in hitTargets)
         {
-            var enemy = target.GetComponent<Enemy>();
-            enemy?.Damage(currentHand.Damage);
+            var hittable = target.GetComponent<IHittable>();
+            hittable?.Damage(currentHand.Damage);
         }
 
         yield return new WaitForSeconds(1 / currentHand.AttackSpeed);

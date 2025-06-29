@@ -12,6 +12,7 @@ public class Store : MonoBehaviour,IInteractable
 
     public void Interact()
     {
+        SoundManager.Instance.Play("StoreSFX");
         ui_Manager.ToggleShopUI();
 
         interaction.isBusy = true;

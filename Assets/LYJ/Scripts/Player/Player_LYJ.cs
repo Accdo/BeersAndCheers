@@ -8,7 +8,7 @@ public class Player_LYJ : MonoBehaviour
     private const float DEFAULT_HEALTH = 100f;
     #endregion
     [SerializeField, Tooltip("기본값 100")] private float maxHealth;
-    private float currentHealth;
+    [SerializeField] private float currentHealth;
     public float CurrentHealth
     {
         get => currentHealth;
@@ -35,12 +35,12 @@ public class Player_LYJ : MonoBehaviour
     private bool isGrounded;
     private bool isRun;
     private bool isWalk;
+    private bool isMujeok;
     private bool doingOtherWork;
     public bool DoingOtherWork => doingOtherWork;
     Coroutine currentOtherWork;
     [HideInInspector] public bool IsRun => isRun;
     [HideInInspector] public bool IsWalk => isWalk;
-    private bool isMujeok;
     #endregion
 
     [Header("카메라")]
@@ -165,8 +165,7 @@ public class Player_LYJ : MonoBehaviour
 
     public void Damage(float damageAmount)
     {
-        if (isMujeok) return; // 무적 상태면 데미지 받지 않음
-
+        if (isMujeok) { return; }
         CurrentHealth -= damageAmount;
     }
 
@@ -174,15 +173,16 @@ public class Player_LYJ : MonoBehaviour
     {
         CurrentHealth = maxHealth;
     }
-
     public void TempHeal()
     {
         currentHealth = maxHealth;
     }
+
     public void Mujeok(bool value)
     {
         isMujeok = value;
     }
+
 
     #region 다른일 컨트롤 (움직임 제어)
 
