@@ -7,6 +7,7 @@ public class Horse : MonoBehaviour, IInteractable
     public InteractionType GetInteractionType() => InteractionType.MiniGame;
 
     [SerializeField] private float ridingSpeed = 2f;
+    [SerializeField] private float speedMultiplier = 1.5f; // Shift 키 이동 속도 배수
     [SerializeField] private Transform ridingPoint;
     [SerializeField] private float camSensitivityVertical = 2f;
     [SerializeField] private float camSensitivityHorizontal = 2f;
@@ -87,7 +88,9 @@ public class Horse : MonoBehaviour, IInteractable
         bool isMoving = Mathf.Abs(moveDirX) > 0 || Mathf.Abs(moveDirZ) > 0;
 
         Vector3 moveDirection = new Vector3(moveDirX, 0f, moveDirZ).normalized;
-        Vector3 moveVelocity = transform.TransformDirection(moveDirection) * ridingSpeed;
+        // Shift 키 입력에 따라 속도 조정
+        float currentSpeed = ridingSpeed * (Input.GetKey(KeyCode.LeftShift) ? speedMultiplier : 1f);
+        Vector3 moveVelocity = transform.TransformDirection(moveDirection) * currentSpeed;
 
         rb.MovePosition(rb.position + moveVelocity * Time.deltaTime);
 
