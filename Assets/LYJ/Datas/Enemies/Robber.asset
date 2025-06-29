@@ -23,3 +23,7 @@ MonoBehaviour:
   fleshType: 1
   dropItems: []
   spawnZone: {x: 2, y: 4}
+  idleAudio: 
+  walkAudio: 
+  attackAudio: ThiefHit
+  dieAudio: 

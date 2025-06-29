@@ -18,7 +18,13 @@ public class EnemyDieState : State_LYJ<Enemy>
         owner.Anim.SetTrigger("Die");
         owner.Anim.SetBool("Idle", false);
         owner.Anim.SetBool("Walk", false);
-
+        // if (owner.Data.DieAudio.Length > 2)
+        // {
+        //     Debug.Log("죽는 오디오실행");
+        //     SoundManager.Instance.Play(owner.Data.DieAudio);
+        // }
+        Debug.Log("die 오디오실행");
+        owner.PlayAudio(EnemyStates.Die);
         DeactiveComponents();
         DropItem();
     }

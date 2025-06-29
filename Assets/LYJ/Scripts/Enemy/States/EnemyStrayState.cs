@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,7 @@ public class EnemyStrayState : State_LYJ<Enemy>
     private Enemy owner;
     private float strayStartTime;
     private float strayingTime;
+    private bool playingAudio;
     public override void Enter(Enemy owner)
     {
         base.Enter(owner);
@@ -22,6 +24,7 @@ public class EnemyStrayState : State_LYJ<Enemy>
         strayingTime = Random.Range(4f, 6f);
         strayStartTime = Time.time;
         SetDestination();
+        // playingAudio = false;
     }
 
     public override void Run()
@@ -43,6 +46,10 @@ public class EnemyStrayState : State_LYJ<Enemy>
         if (!owner.NavMeshAgent.pathPending && owner.NavMeshAgent.remainingDistance < 0.5f)
         {
             SetDestination();
+        }
+        if (!playingAudio)
+        {
+            StartCoroutine(PlayWalkAudio());
         }
     }
 
@@ -66,5 +73,13 @@ public class EnemyStrayState : State_LYJ<Enemy>
         {
             SetDestination();
         }
+    }
+    IEnumerator PlayWalkAudio()
+    {
+        playingAudio = true;
+        Debug.Log("추적 오디오 실행");
+        owner.PlayAudio(EnemyStates.Stray);
+        yield return new WaitForSeconds(0.8f);
+        playingAudio = false;
     }
 }
