@@ -73,6 +73,10 @@ public class Horse : MonoBehaviour, IInteractable
 
     private void Update()
     {
+        if (GH_GameManager.instance.player.IsMujeok)
+        {
+            StopRiding();
+        }
         if (isRiding && ridingPlayer != null)
         {
             ridingPlayer.transform.position = ridingPoint.position;

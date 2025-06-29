@@ -41,8 +41,12 @@ public class Washer : MonoBehaviour,IInteractable
         }
         else
         {
-            useCount--;
-            washingMinigame.WashingMiniGameStart();
+            if (PlateManager.instance.currentPlateCount > 0)
+            {
+                useCount--;
+                washingMinigame.WashingMiniGameStart();
+            }
+           
             if(useCount == 0)
             {
                 // �� ����

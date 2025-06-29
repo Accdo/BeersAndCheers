@@ -41,6 +41,7 @@ public class Player_LYJ : MonoBehaviour
     Coroutine currentOtherWork;
     [HideInInspector] public bool IsRun => isRun;
     [HideInInspector] public bool IsWalk => isWalk;
+    [HideInInspector] public bool IsMujeok => isMujeok;
     #endregion
 
     [Header("카메라")]
