@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Cream
   icon: {fileID: 21300000, guid: d967214fe25f2f245b59c69e5af73f5e, type: 3}
-  price: 550
+  price: 500
   freshPoint: 100
