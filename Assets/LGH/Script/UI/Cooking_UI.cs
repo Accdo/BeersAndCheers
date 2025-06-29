@@ -111,6 +111,7 @@ public class Cooking_UI : MonoBehaviour
         {
             fermentingUI.StartFermentation();
             GH_GameManager.instance.uiManager.ToggleBeerUI();
+            SoundManager.Instance.Play("FermentSFX");
             return;
         }
 
