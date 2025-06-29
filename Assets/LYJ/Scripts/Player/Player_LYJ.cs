@@ -47,7 +47,7 @@ public class Player_LYJ : MonoBehaviour
     [SerializeField, Tooltip("기본값 2")] private float camSensitivityVertical;
     [SerializeField, Tooltip("기본값 3")] private float camSensitivityHorizontal;
     [SerializeField, Tooltip("기본값 45")] private float camRotationLimit;
-    private float currentCamRotationX;
+    public float currentCamRotationX;
 
     #region 컴포넌트
     private Rigidbody rb;
