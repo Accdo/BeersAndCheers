@@ -27,6 +27,8 @@ public class Player_StartItem : MonoBehaviour
             for (int i = 0; i < item.count; i++)
             {
                 inventory.Add(item.inventoryName, GH_GameManager.instance.itemManager.GetItemByName(item.itemName));
+
+                GH_GameManager.instance.uiManager.RefreshAll();
             }
         }
 

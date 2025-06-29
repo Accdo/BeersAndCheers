@@ -20,7 +20,7 @@ MonoBehaviour:
   ingredients:
   - {fileID: 11400000, guid: e3c348f5ef35b2a4d892f738e32cccc7, type: 2}
   - {fileID: 11400000, guid: 89f99e6b0ea23d34b989e0a1dcefe800, type: 2}
-  - {fileID: 11400000, guid: b6db1e80d063e824097052e1a3decacb, type: 2}
   - {fileID: 11400000, guid: 397fb4b47740899418243680bcaa1d0b, type: 2}
+  - {fileID: 11400000, guid: b6db1e80d063e824097052e1a3decacb, type: 2}
   - {fileID: 11400000, guid: 579043bcc9d8418479cdc6fd5446c302, type: 2}
-  ingredientCounts: 0100000003000000020000000300000001000000
+  ingredientCounts: 0200000002000000020000000200000002000000
