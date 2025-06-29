@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Golem
   m_EditorClassIdentifier: 
   enemyName: Golem
-  health: 100
+  health: 250
   moveSpeed: 3.5
   attackFirstDelay: 1
   attackTotalDelay: 3.2
-  attackPower: 1
+  attackPower: 10
   attackRange: 1.4
   attackHeight: 1.5
   fleshType: 0
