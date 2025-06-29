@@ -98,6 +98,9 @@ public class Inventory
                     itemName = "";
                     itemData = null;
                     freshPoint = 0; // 신선도 초기화
+
+                    if (GH_GameManager.instance.player.inventory.hotbar.selectedSlot == this)
+                        GH_GameManager.instance.player.UnequipItem();
                 }
             }
         }
@@ -245,11 +248,6 @@ public class Inventory
             Debug.LogWarning($"Ingredient number {ingredientNum} is out of range for item {item.data.itemName}.");
             return -1;
         }
-        if (item.data is DeployData deploData && ingredientNum >= deploData.ingredients.Length)
-        {
-            Debug.LogWarning($"Ingredient number {ingredientNum} is out of range for item {item.data.itemName}.");
-            return -1;
-        }
 
         foreach (Slot slot in slots)
         {
@@ -257,13 +255,6 @@ public class Inventory
             if (item.data is FoodData foodData)
             {
                 if (slot.itemName == foodData.ingredients[ingredientNum].itemName)
-                {
-                    return slot.count;
-                }
-            }
-            if (item.data is DeployData deployData)
-            {
-                if (slot.itemName == deployData.ingredients[ingredientNum].itemName)
                 {
                     return slot.count;
                 }
@@ -320,9 +311,24 @@ public class Inventory
         }
     }
 
-    public void MoveToBox(int toIndex)
+    public void MoveToBox(int fromIndex, Inventory toInventory, int numToMove)
     {
+        Slot fromSlot = slots[fromIndex];
+        Debug.Log("아이템 갯수" + numToMove);
+        foreach (Slot emptySlot in toInventory.slots)
+        {
+            if (emptySlot.IsEmpty)
+            {
+                for (int i = 0; i < numToMove; i++)
+                {
+                    Debug.Log("상자에 추가되는 아이템 이름" + fromSlot.itemName);
+                    emptySlot.AddItem(fromSlot.itemName, fromSlot.icon, fromSlot.maxAllowed);
 
+                    fromSlot.RemoveItem();
+                }
+                return;
+            }
+        }
     }
 
     public void SelectSlot(int index)
