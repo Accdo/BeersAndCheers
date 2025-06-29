@@ -17,6 +17,7 @@ public class UI_Manager : MonoBehaviour
     public static Image draggedIcon;
     public static bool dragSingle;
 
+    
 
     [Header("레시피 패널")]
     public GameObject RecipePanel;
@@ -164,21 +165,30 @@ public class UI_Manager : MonoBehaviour
         GH_GameManager.instance.player.EndOtherWork();
     }
 
+    private string tempItem;
+
     public void ToggleCookingUI()
     {
         if (CookingPanel != null)
         {
-            Debug.Log("요리 패널 토글");
             if (!CookingPanel.activeSelf)
             {
                 CookingPanel.SetActive(true);
                 // 레시피 선택했다는 사실을 저장
+                tempItem = cookingUI.SelectItem.data.itemName;
 
                 // 요리 패널 Refresh
                 cookingUI.Refresh();
             }
             else
             {
+                // 요리 선택 예외처리
+                if (tempItem != cookingUI.SelectItem.data.itemName)
+                {
+                    cookingUI.Refresh();
+                    return;
+                }
+
                 CookingPanel.SetActive(false);
             }
         }
@@ -193,6 +203,7 @@ public class UI_Manager : MonoBehaviour
                 GH_GameManager.instance.player.StartOtherWork();
                 GH_GameManager.instance.player.MouseVisible(true);
                 storageboxPanel.SetActive(true);
+                inventoryPanel.SetActive(true);
                 RefreshInventory("StorageBox");
             }
             else
@@ -200,6 +211,7 @@ public class UI_Manager : MonoBehaviour
                 GH_GameManager.instance.player.EndOtherWork();
                 GH_GameManager.instance.player.MouseVisible(false);
                 storageboxPanel.SetActive(false);
+                inventoryPanel.SetActive(false);
             }
         }
     }
@@ -213,6 +225,7 @@ public class UI_Manager : MonoBehaviour
                 GH_GameManager.instance.player.StartOtherWork();
                 GH_GameManager.instance.player.MouseVisible(true);
                 freezeboxPanel.SetActive(true);
+                inventoryPanel.SetActive(true);
                 RefreshInventory("FreezeBox");
                 interaction.isBusy = false;
             }
@@ -221,6 +234,7 @@ public class UI_Manager : MonoBehaviour
                 GH_GameManager.instance.player.EndOtherWork();
                 GH_GameManager.instance.player.MouseVisible(false);
                 freezeboxPanel.SetActive(false);
+                inventoryPanel.SetActive(false);
                 interaction.isBusy = false;
             }
         }
