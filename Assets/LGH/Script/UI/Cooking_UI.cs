@@ -8,7 +8,7 @@ public class Cooking_UI : MonoBehaviour
 
     public Item SelectItem;
 
-    public Cooking cooking;
+    public Stove cooking;
     public CookingMinigame cookingMinigame;
     public FermentingUI fermentingUI;
     [SerializeField] public FermentingUI[] fermentingUIs;
@@ -55,7 +55,7 @@ public class Cooking_UI : MonoBehaviour
 
     public void Cook()
     {
-        if(fermentingUI.isFermenting) return;
+        //if(fermentingUI.isFermenting) return;
 
         var foodData = SelectItem.data as FoodData;
         if (foodData == null)
@@ -111,6 +111,7 @@ public class Cooking_UI : MonoBehaviour
         {
             fermentingUI.StartFermentation();
             GH_GameManager.instance.uiManager.ToggleBeerUI();
+            SoundManager.Instance.Play("FermentSFX");
             return;
         }
 

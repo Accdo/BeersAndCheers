@@ -32,6 +32,7 @@ public class Washer : MonoBehaviour,IInteractable
             if (slot.itemName == "WaterPail")
             {
                 // 물 생성
+                SoundManager.Instance.Play("WaterSFX");
                 washerWater.SetActive(true);
                 useCount += 5;
                 GH_GameManager.instance.player.inventory.hotbar.CanRemove("WaterPail"); 
@@ -41,6 +42,11 @@ public class Washer : MonoBehaviour,IInteractable
         {
             useCount--;
             washingMinigame.WashingMiniGameStart();
+            if(useCount == 0)
+            {
+                // 물 삭제
+                washerWater.SetActive(false);
+            }
         }
         
     }

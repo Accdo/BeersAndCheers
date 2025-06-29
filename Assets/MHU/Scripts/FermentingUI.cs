@@ -5,41 +5,30 @@ using UnityEngine.UI;
 public class FermentingUI : MonoBehaviour
 {
     [SerializeField] private Image backBar; // 게이지바 배경 이미지
-    [SerializeField] private Image gaugeBar; // 게이지바 이미지
+    [SerializeField] public Image gaugeBar; // 게이지바 이미지
     [SerializeField] private float fermentationTime = 30f; // 발효 시간 (초)
-    //[SerializeField] private Transform playerTransform; // 플레이어 Transform 참조
     [SerializeField] private GameObject fermentingObject; // 레이어 복구를 위한 Fermenting 오브젝트 참조
     [SerializeField] public TextMeshProUGUI successText;
 
     private float currentTime = 0f;
     public bool isFermenting { get; private set; } = false;
     public int fermentingBeer { get; set; } = 0;
+    private Color originalGaugeColor; // 원본 게이지바 색상 저장
 
     private void Start()
     {
-        SetText();
+      
+        
+        // 원본 색상 저장
+        if (gaugeBar != null)
+        {
+            originalGaugeColor = gaugeBar.color;
+        }
+
         gaugeBar.gameObject.SetActive(false);
         backBar.gameObject.SetActive(false);
-        //// 플레이어 Transform이 지정되지 않은 경우 태그로 찾기
-        //if (playerTransform == null)
-        //{
-        //    GameObject player = GameObject.FindGameObjectWithTag("Player");
-        //    if (player != null)
-        //    {
-        //        playerTransform = player.transform;
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("Player Transform is not assigned and no GameObject with tag 'Player' found!");
-        //    }
-        //}
-    }
-    
-    public void SetText()
-    {
         successText.text = "";
     }
-
 
     private void Update()
     {
@@ -54,26 +43,18 @@ public class FermentingUI : MonoBehaviour
             {
                 isFermenting = false;
                 fermentingBeer++;
-                gaugeBar.gameObject.SetActive(false);
+
                 backBar.gameObject.SetActive(false);
                 fermentingObject.layer = LayerMask.NameToLayer("Interactable");
-                successText.text = "성공";
+                //successText.text = "성공";
+
+                // 발효 완료 시 게이지바 색상을 초록색으로 변경
+                gaugeBar.color = new Color(0f, 1f, 0f);
+                gaugeBar.fillAmount = 1;
+
+
             }
         }
-
-        //// 플레이어 방향을 향하도록 UI 회전 (Z축은 -90도 고정)
-        //if (playerTransform != null && gaugeBar.gameObject.activeInHierarchy)
-        //{
-        //    Vector3 directionToPlayer = playerTransform.position - gaugeBar.transform.position;
-        //    directionToPlayer.y = 0f; // Y축 회전은 무시 (X축 기준 회전)
-        //    if (directionToPlayer != Vector3.zero)
-        //    {
-        //        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
-        //        Quaternion finalRotation = Quaternion.Euler(0f, targetRotation.eulerAngles.y, -180f);
-        //        gaugeBar.transform.rotation = finalRotation;
-        //        backBar.transform.rotation = finalRotation;
-        //    }
-        //}
     }
 
     public void StartFermentation()
@@ -83,10 +64,16 @@ public class FermentingUI : MonoBehaviour
             Debug.LogError("GaugeBar or BackBar is not assigned in the Inspector!");
             return;
         }
+
         gaugeBar.gameObject.SetActive(true);
         backBar.gameObject.SetActive(true);
         gaugeBar.fillAmount = 1f;
         currentTime = 0f;
         isFermenting = true;
+        // 발효 시작 시 원본 색상으로 복원
+        if (gaugeBar != null)
+        {
+            gaugeBar.color = originalGaugeColor;
+        }
     }
 }

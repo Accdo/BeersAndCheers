@@ -41,9 +41,10 @@ public class CuttingMinigame : MonoBehaviour
             // Cut Image 활성화
             if (currentCutIndex < cutImages.Length)
             {
+                SoundManager.Instance.Play("CuttingSFX");
                 cutImages[currentCutIndex].gameObject.SetActive(true);
                 currentCutIndex++;
-
+                
                 if(currentCutIndex == cutImages.Length)
                 {
                     resultText.text = "성공!";
