@@ -59,6 +59,7 @@ public class Enemy : MonoBehaviour, IHittable
 
     public void Init()
     {
+        EventManager.Instance.AddListener(EnemyEvents.CHANGE_FLOOR, DestroyThis);
         hud = GetComponentInChildren<EnemyHUD>();
         anim = GetComponent<Animator>();
         coll = GetComponent<Collider>();
@@ -106,9 +107,14 @@ public class Enemy : MonoBehaviour, IHittable
         CurrentHealth -= damageAmount;
     }
 
-    public void DestroyThis()
+    public void DestroyThis(object data = null)
     {
-        Destroy(this);
+        Destroy(gameObject);
+    }
+
+    void OnDestroy()
+    {
+        EventManager.Instance.RemoveListener(EnemyEvents.CHANGE_FLOOR, DestroyThis);
     }
 
     public void SetTarget(Player_LYJ target)

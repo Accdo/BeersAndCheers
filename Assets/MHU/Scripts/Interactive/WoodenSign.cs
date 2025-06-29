@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 
 public class WoodenSign : MonoBehaviour, IInteractable
@@ -7,19 +7,29 @@ public class WoodenSign : MonoBehaviour, IInteractable
     public string GetInteractionID() => interactionID;
     public InteractionType GetInteractionType() => InteractionType.MiniGame;
 
-    [Header("»óÈ£ÀÛ¿ë ÄğÅ¸ÀÓ")]
+    [Header("ìƒí˜¸ì‘ìš© ì¿¨íƒ€ì„")]
     [SerializeField] private float coolTime = 30f;
 
-    [Header("ÀÚµ¿ ÇÒ´ç")]
+    [Header("ìë™ í• ë‹¹")]
     [SerializeField] private WoodenSignController woodenSignController;
 
-    private string cursorType = "Open"; // µ¿Àû Ä¿¼­ Å¸ÀÔ
-    private string interactionID = "Open"; // µ¿Àû ÀÎÅÍ·¢¼Ç ID
+    private string cursorType = "Open"; // ë™ì  ì»¤ì„œ íƒ€ì…
+    private string interactionID = "Open"; // ë™ì  ì¸í„°ë™ì…˜ ID
     public bool isOpen { get; private set; } = false; // Close
+
+    public static WoodenSign instance { get; private set; }
 
     private void Awake()
     {
         woodenSignController = GetComponentInParent<WoodenSignController>();
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Interact()
@@ -27,12 +37,12 @@ public class WoodenSign : MonoBehaviour, IInteractable
         SoundManager.Instance.Play("WoodSFX");
         isOpen = !isOpen;
 
-        // Close·Î ¹Ù²Ù¸é ½ÇÇàÇÒ °Í
+        // Closeë¡œ ë°”ê¾¸ë©´ ì‹¤í–‰í•  ê²ƒ
         if (!isOpen) // Close
         {
-            // ex) ¹ã 12½Ã µÇ±â
+            // ex) ë°¤ 12ì‹œ ë˜ê¸°
 
-            cursorType = "Open"; // »óÈ£ÀÛ¿ë ½Ã ¿ÀÇÂÀ¸·Î ¹Ù²Û´Ù´Â Ä¿¼­ Ç¥½Ã
+            cursorType = "Open"; // ìƒí˜¸ì‘ìš© ì‹œ ì˜¤í”ˆìœ¼ë¡œ ë°”ê¾¼ë‹¤ëŠ” ì»¤ì„œ í‘œì‹œ
             interactionID = "Open";
         }
         else
@@ -41,13 +51,13 @@ public class WoodenSign : MonoBehaviour, IInteractable
             interactionID = "Close";
         }
 
-        // Ç¥ÁöÆÇ È¸Àü
+        // í‘œì§€íŒ íšŒì „
         woodenSignController.RotateWoodenSign();
 
-        // ·¹ÀÌ¾î¸¦ "Default"·Î º¯°æ
+        // ë ˆì´ì–´ë¥¼ "Default"ë¡œ ë³€ê²½
         gameObject.layer = LayerMask.NameToLayer("Default");
 
-        // ÄğÅ¸ÀÓ ÈÄ ¿ø·¡ ·¹ÀÌ¾î¿Í °ª º¹±¸
+        // ì¿¨íƒ€ì„ í›„ ì›ë˜ ë ˆì´ì–´ì™€ ê°’ ë³µêµ¬
         StartCoroutine(RestoreLayerAfterDelay());
     }
 
@@ -56,4 +66,5 @@ public class WoodenSign : MonoBehaviour, IInteractable
         yield return new WaitForSeconds(coolTime);
         gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
+
 }

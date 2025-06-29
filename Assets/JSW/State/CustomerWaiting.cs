@@ -37,7 +37,8 @@ public class CustomerWaiting : CustomerState
     {
         // 좌석 배정은 SeatManager에서 AssignSeats 호출로 처리됨
         Door door = CustomerSpawnManager.Instance.door;
-        if (door != null && !door.GetDoorState())
+        WoodenSign woodenSign = WoodenSign.instance;
+        if (door != null && !door.GetDoorState() || !woodenSign.isOpen)
         {
             stateMachine.ChangeState(ai.exitState);
         }
