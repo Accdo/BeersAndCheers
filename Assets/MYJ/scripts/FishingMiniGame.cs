@@ -90,12 +90,12 @@ public class FishingMiniGame : MonoBehaviour
                 yield break;
             }
             bool caught = false;
-
+            bool isFishVisible = true;
             // 클릭 리스너 초기화 및 등록
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() =>
             {
-                if (!caught)
+                if (!caught&& isFishVisible)
                 {
                     caught = true;
                     catchCount++;
@@ -128,6 +128,7 @@ public class FishingMiniGame : MonoBehaviour
             }
 
             fishImage.gameObject.SetActive(false);
+            isFishVisible = false;
 
             if (elapsedTime >= totalTimeLimit)
                 break;
